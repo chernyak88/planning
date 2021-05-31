@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/tech-resource-statuses",
+      "handler": "tech-resource-status.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/tech-resource-statuses/count",
+      "handler": "tech-resource-status.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/tech-resource-statuses/:id",
+      "handler": "tech-resource-status.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/tech-resource-statuses",
+      "handler": "tech-resource-status.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/tech-resource-statuses/:id",
+      "handler": "tech-resource-status.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/tech-resource-statuses/:id",
+      "handler": "tech-resource-status.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

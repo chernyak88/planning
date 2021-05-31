@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/servicelogs",
+      "handler": "servicelog.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/servicelogs/count",
+      "handler": "servicelog.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/servicelogs/:id",
+      "handler": "servicelog.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/servicelogs",
+      "handler": "servicelog.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/servicelogs/:id",
+      "handler": "servicelog.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/servicelogs/:id",
+      "handler": "servicelog.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

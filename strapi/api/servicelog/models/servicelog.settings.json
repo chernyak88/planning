@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "servicelogs",
+  "info": {
+    "name": "servicelog",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "contentType": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "author": {
+      "type": "json"
+    },
+    "content": {
+      "type": "json"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}

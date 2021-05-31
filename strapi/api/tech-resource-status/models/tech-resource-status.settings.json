@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tech_resource_statuses",
+  "info": {
+    "name": "tech_resource_status",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/tech-resources",
+      "handler": "tech-resource.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/tech-resources/count",
+      "handler": "tech-resource.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/tech-resources/:id",
+      "handler": "tech-resource.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/tech-resources",
+      "handler": "tech-resource.create",
+      "config": {
+        "policies": ["global::servicelogs"]
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/tech-resources/:id",
+      "handler": "tech-resource.update",
+      "config": {
+        "policies": ["global::servicelogs"]
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/tech-resources/:id",
+      "handler": "tech-resource.delete",
+      "config": {
+        "policies": ["global::servicelogs"]
+      }
+    }
+  ]
+}

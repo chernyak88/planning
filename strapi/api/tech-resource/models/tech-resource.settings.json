@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tech_resources",
+  "info": {
+    "name": "tech_resource",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": false
+    },
+    "type": {
+      "type": "string",
+      "required": false
+    },
+    "location": {
+      "model": "location"
+    },
+    "status": {
+      "model": "tech-resource-status"
+    },
+    "comment": {
+      "type": "richtext"
+    }
+  }
+}
