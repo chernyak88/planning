@@ -23,11 +23,14 @@
       <div class="heading__left">
         <el-input
           class="search"
-          v-model="search"
           placeholder="Поиск"
           :clearable="true"
         >
-          <i slot="prefix" class="el-input__icon el-icon-search"></i>
+          <el-button
+            slot="append"
+            icon="el-icon-search"
+          >
+          </el-button>
         </el-input>
         <el-dropdown
           size="medium"
@@ -56,7 +59,7 @@
       </div>
     </div>
     <el-table
-      :data="filteredTechresources"
+      :data="techresources"
       style="width: 100%"
       border
       stripe
@@ -188,8 +191,6 @@ export default {
   data: () => ({
     loading: true,
     techresources: [],
-    page: 1,
-    search: '',
     createFormVisible: false,
     editFormVisible: false,
     currentTechresource: null,
@@ -202,17 +203,6 @@ export default {
   async mounted() {
     this.techresources = await this.$store.dispatch('fetchTechResources', {_limit: -1})
     this.loading = false
-  },
-  computed: {
-    filteredTechresources() {
-      return this.techresources.filter(
-        data => !this.search ||
-        data.name.toLowerCase().includes(this.search.toLowerCase()) ||
-        data.type.toLowerCase().includes(this.search.toLowerCase()) ||
-        data.status.name.toLowerCase().includes(this.search.toLowerCase()) ||
-        data.location.name.toLowerCase().includes(this.search.toLowerCase())
-      )
-    }
   },
   methods: {
     hideCreateForm() {
