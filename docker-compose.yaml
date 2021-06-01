@@ -5,9 +5,9 @@ services:
         cap_add:
             - SYS_NICE
         container_name: planning_mysql
-        command: mysqld --default-authentication-plugin=mysql_native_password
+        command: mysqld --default-authentication-plugin=mysql_native_password --lower-case-table-names=1
         volumes:
-            - ./mysql:/var/lib/mysql/
+            - ./db:/var/lib/mysql/
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: plandb
