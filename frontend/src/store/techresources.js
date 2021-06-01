@@ -14,9 +14,13 @@ export default {
         throw e
       }
     },
-    async fetchTechResourcesCount() {
+    async fetchTechResourcesCount({commit, dispatch}, params) {
       try {
-        const response = await axios.get(`${this.state.url}/tech-resources/count`)
+        const response = await axios({
+          method: 'get',
+          url: `${this.state.url}/tech-resources/count`,
+          params: params
+        })
         return response.data
       } catch (e) {
         throw e

@@ -22,7 +22,9 @@
       </div>
       <div class="heading__left">
         <el-input
+          size="medium"
           class="search"
+          v-model="search"
           placeholder="Поиск"
           :clearable="true"
         >
@@ -40,19 +42,19 @@
           <i class="el-icon-s-operation"></i>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <el-checkbox v-model="nameColumn">Название</el-checkbox>
+              <el-checkbox v-model="columnsFilter.nameColumn">Название</el-checkbox>
             </el-dropdown-item>
             <el-dropdown-item>
-              <el-checkbox v-model="typeColumn">Тип</el-checkbox>
+              <el-checkbox v-model="columnsFilter.typeColumn">Тип</el-checkbox>
             </el-dropdown-item>
             <el-dropdown-item>
-              <el-checkbox v-model="locationColumn">Локация</el-checkbox>
+              <el-checkbox v-model="columnsFilter.locationColumn">Локация</el-checkbox>
             </el-dropdown-item>
             <el-dropdown-item>
-              <el-checkbox v-model="statusColumn">Статус</el-checkbox>
+              <el-checkbox v-model="columnsFilter.statusColumn">Статус</el-checkbox>
             </el-dropdown-item>
             <el-dropdown-item>
-              <el-checkbox v-model="actionColumn">Действие</el-checkbox>
+              <el-checkbox v-model="columnsFilter.actionColumn">Действие</el-checkbox>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -63,6 +65,7 @@
       style="width: 100%"
       border
       stripe
+      @sort-change="sort"
     >
       <el-table-column
         type="expand"
@@ -75,40 +78,41 @@
       </el-table-column>
       <el-table-column
         label="ID"
-        type="index"
-        width="50"
+        prop="id"
+        width="60"
+        sortable="custom"
       >
       </el-table-column>
       <el-table-column
-        v-if="nameColumn"
+        v-if="columnsFilter.nameColumn"
         label="Название"
         prop="name"
         sortable
       >
       </el-table-column>
       <el-table-column
-        v-if="typeColumn"
+        v-if="columnsFilter.typeColumn"
         label="Тип"
         prop="type"
         sortable
       >
       </el-table-column>
       <el-table-column
-        v-if="locationColumn"
+        v-if="columnsFilter.locationColumn"
         label="Локация"
         prop="location.name"
         sortable
       >
       </el-table-column>
       <el-table-column
-        v-if="statusColumn"
+        v-if="columnsFilter.statusColumn"
         label="Статус"
         prop="status.name"
         sortable
       >
       </el-table-column>
       <el-table-column
-        v-if="actionColumn"
+        v-if="columnsFilter.actionColumn"
         label="Действие"
         width="90"
       >
@@ -156,12 +160,10 @@
 
     <el-pagination
       background
-      layout="total, sizes, prev, pager, next, jumper"
-      :current-page="page"
-      :page-size="limit"
-      :page-sizes="[3, 5, 10, 20]"
-      :total="total"
-      @size-change="handlePageSizeChange"
+      layout="total, prev, pager, next, jumper"
+      :current-page="pagination.page"
+      :page-size="pagination.limit"
+      :total="pagination.total"
       @current-change="handlerPageChange"
     >
     </el-pagination>
@@ -191,6 +193,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import CreateTechresource from '@/components/techresources/CreateTechresource'
 import EditTechresource from '@/components/techresources/EditTechresource'
 
@@ -200,31 +203,54 @@ export default {
     CreateTechresource,
     EditTechresource
   },
-  data: () => ({
-    loading: true,
-    techresources: [],
-    page: 1,
-    total: null,
-    start: 0,
-    limit: 5,
-    createFormVisible: false,
-    editFormVisible: false,
-    currentTechresource: null,
-    nameColumn: true,
-    typeColumn: true,
-    locationColumn: true,
-    statusColumn: true,
-    actionColumn: true,
-  }),
+  data() {
+    return {
+      loading: true,
+      techresources: [],
+      search: '',
+      createFormVisible: false,
+      editFormVisible: false,
+      currentTechresource: null,
+      pagination: {
+        page: +this.$route.query.page || 1,
+        total: 0,
+        limit: 5,
+        start: 0
+      },
+      columnsFilter: {
+        nameColumn: true,
+        typeColumn: true,
+        locationColumn: true,
+        statusColumn: true,
+        actionColumn: true
+      }
+    }
+  },
   async mounted() {
-    this.total = await this.$store.dispatch('fetchTechResourcesCount')
+    this.pagination.total = await this.$store.dispatch('fetchTechResourcesCount')
     this.techresources = await this.$store.dispatch('fetchTechResources', {
-      _start: this.start,
-      _limit: this.limit
+      _start: this.pagination.start,
+      _limit: this.pagination.limit
     })
     this.loading = false
   },
+  watch: { 
+    pagination: {
+      immediate: true,
+      deep: true,
+      handler() {
+        this.pagination.start = this.pagination.limit * this.pagination.page - this.pagination.limit || 0
+      }
+    }
+  },
   methods: {
+    async sort(e) {
+      this.techresources = await this.$store.dispatch('fetchTechResources', {
+        _sort: `${e.prop}:desc`,
+        _start: this.pagination.start,
+        _limit: this.pagination.limit
+      })
+    },
     hideCreateForm() {
       this.createFormVisible = false
     },
@@ -233,20 +259,11 @@ export default {
     },
     async handlerPageChange(page) {
       this.loading = true
-      this.start = this.limit * page - this.limit
+      this.$router.push(`${this.$route.path}?page=${page}`)
+      this.pagination.start = this.pagination.limit * page - this.pagination.limit
       this.techresources = await this.$store.dispatch('fetchTechResources', {
-        _start: this.start,
-        _limit: this.limit
-      })
-      this.loading = false
-    },
-    async handlePageSizeChange(size) {
-      this.loading = true
-      this.start = 0
-      this.limit = size
-      this.techresources = await this.$store.dispatch('fetchTechResources', {
-        _start: this.start,
-        _limit: this.limit
+        _start: this.pagination.start,
+        _limit: this.pagination.limit
       })
       this.loading = false
     },
