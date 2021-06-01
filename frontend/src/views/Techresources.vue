@@ -154,6 +154,18 @@
       </el-table-column>
     </el-table>
 
+    <el-pagination
+      background
+      layout="total, sizes, prev, pager, next, jumper"
+      :current-page="page"
+      :page-size="limit"
+      :page-sizes="[3, 5, 10, 20]"
+      :total="total"
+      @size-change="handlePageSizeChange"
+      @current-change="handlerPageChange"
+    >
+    </el-pagination>
+
     <el-dialog
       title="Добавление ресурса"
       :visible.sync="createFormVisible"
@@ -191,6 +203,10 @@ export default {
   data: () => ({
     loading: true,
     techresources: [],
+    page: 1,
+    total: null,
+    start: 0,
+    limit: 5,
     createFormVisible: false,
     editFormVisible: false,
     currentTechresource: null,
@@ -201,7 +217,11 @@ export default {
     actionColumn: true,
   }),
   async mounted() {
-    this.techresources = await this.$store.dispatch('fetchTechResources', {_limit: -1})
+    this.total = await this.$store.dispatch('fetchTechResourcesCount')
+    this.techresources = await this.$store.dispatch('fetchTechResources', {
+      _start: this.start,
+      _limit: this.limit
+    })
     this.loading = false
   },
   methods: {
@@ -210,6 +230,25 @@ export default {
     },
     hideEditForm() {
       this.editFormVisible = false
+    },
+    async handlerPageChange(page) {
+      this.loading = true
+      this.start = this.limit * page - this.limit
+      this.techresources = await this.$store.dispatch('fetchTechResources', {
+        _start: this.start,
+        _limit: this.limit
+      })
+      this.loading = false
+    },
+    async handlePageSizeChange(size) {
+      this.loading = true
+      this.start = 0
+      this.limit = size
+      this.techresources = await this.$store.dispatch('fetchTechResources', {
+        _start: this.start,
+        _limit: this.limit
+      })
+      this.loading = false
     },
     async addNewTechresource() {
       this.createFormVisible = false
