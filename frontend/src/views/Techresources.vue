@@ -27,10 +27,12 @@
           v-model="search"
           placeholder="Поиск"
           :clearable="true"
-        >
+          @clear="filterTable"
+        >11
           <el-button
             slot="append"
             icon="el-icon-search"
+            @click="filterTable"
           >
           </el-button>
         </el-input>
@@ -65,7 +67,7 @@
       style="width: 100%"
       border
       stripe
-      @sort-change="sort"
+      @sort-change="sortByColumn"
     >
       <el-table-column
         type="expand"
@@ -87,28 +89,28 @@
         v-if="columnsFilter.nameColumn"
         label="Название"
         prop="name"
-        sortable
+        sortable="custom"
       >
       </el-table-column>
       <el-table-column
         v-if="columnsFilter.typeColumn"
         label="Тип"
         prop="type"
-        sortable
+        sortable="custom"
       >
       </el-table-column>
       <el-table-column
         v-if="columnsFilter.locationColumn"
         label="Локация"
         prop="location.name"
-        sortable
+        sortable="custom"
       >
       </el-table-column>
       <el-table-column
         v-if="columnsFilter.statusColumn"
         label="Статус"
         prop="status.name"
-        sortable
+        sortable="custom"
       >
       </el-table-column>
       <el-table-column
@@ -162,7 +164,7 @@
       background
       layout="total, prev, pager, next, jumper"
       :current-page="pagination.page"
-      :page-size="pagination.limit"
+      :page-size="queries.limit"
       :total="pagination.total"
       @current-change="handlerPageChange"
     >
@@ -207,15 +209,19 @@ export default {
     return {
       loading: true,
       techresources: [],
-      search: '',
       createFormVisible: false,
       editFormVisible: false,
       currentTechresource: null,
+      search: '',
+      queries: {
+        start: 0,
+        limit: 5,
+        sort: 'id:asc',
+        filter: ''
+      },
       pagination: {
         page: +this.$route.query.page || 1,
-        total: 0,
-        limit: 5,
-        start: 0
+        total: 0
       },
       columnsFilter: {
         nameColumn: true,
@@ -229,43 +235,69 @@ export default {
   async mounted() {
     this.pagination.total = await this.$store.dispatch('fetchTechResourcesCount')
     this.techresources = await this.$store.dispatch('fetchTechResources', {
-      _start: this.pagination.start,
-      _limit: this.pagination.limit
+      _start: this.queries.start,
+      _limit: this.queries.limit
     })
     this.loading = false
   },
-  watch: { 
-    pagination: {
-      immediate: true,
+  watch: {
+    queries: {
       deep: true,
-      handler() {
-        this.pagination.start = this.pagination.limit * this.pagination.page - this.pagination.limit || 0
+      async handler() {
+        this.loading = true
+        // this.techresources = await this.$store.dispatch('fetchTechResources', {
+        //   _start: this.queries.start,
+        //   _limit: this.queries.limit,
+        //   _sort: this.queries.sort,
+        // })
+        const query = qs.stringify({ _where: {
+          _or: [
+              { 'id_contains': this.queries.filter },
+              { 'name_contains': this.queries.filter },
+              { 'type_contains': this.queries.filter },
+              { 'location.name_contains': this.queries.filter },
+              { 'status.name_contains': this.queries.filter }
+            ]
+          }
+        })
+        const total = await this.$http.get(`${this.$store.state.url}/tech-resources/count?${query}`)
+        this.pagination.total = total.data
+        const techresources = await this.$http({
+          method: 'get',
+          url: `${this.$store.state.url}/tech-resources?${query}`, 
+          params: {
+            _start: this.queries.start,
+            _limit: this.queries.limit,
+            _sort: this.queries.sort
+          }
+        })
+        this.techresources = techresources.data
+        this.loading = false
       }
     }
   },
   methods: {
-    async sort(e) {
-      this.techresources = await this.$store.dispatch('fetchTechResources', {
-        _sort: `${e.prop}:desc`,
-        _start: this.pagination.start,
-        _limit: this.pagination.limit
-      })
-    },
     hideCreateForm() {
       this.createFormVisible = false
     },
     hideEditForm() {
       this.editFormVisible = false
     },
-    async handlerPageChange(page) {
-      this.loading = true
+    handlerPageChange(page) {
       this.$router.push(`${this.$route.path}?page=${page}`)
-      this.pagination.start = this.pagination.limit * page - this.pagination.limit
-      this.techresources = await this.$store.dispatch('fetchTechResources', {
-        _start: this.pagination.start,
-        _limit: this.pagination.limit
-      })
-      this.loading = false
+      this.queries.start = this.queries.limit * page - this.queries.limit
+    },
+    sortByColumn(column) {
+      if (column.order === 'ascending') {
+        this.queries.sort = `${column.prop}:asc`
+      } else if (column.order === 'descending') {
+        this.queries.sort = `${column.prop}:desc`
+      } else {
+        this.queries.sort = 'id:asc'
+      }
+    },
+    async filterTable() {
+      this.queries.filter = this.search
     },
     async addNewTechresource() {
       this.createFormVisible = false
