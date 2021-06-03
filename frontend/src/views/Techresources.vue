@@ -217,7 +217,7 @@ export default {
       search: '',
       queries: {
         start: 0,
-        limit: 2,
+        limit: 5,
         sort: 'id:asc',
         filter: ''
       },
