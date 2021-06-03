@@ -75,7 +75,7 @@
         <template
           slot-scope="props"
         >
-          <p>{{ props.row.comment }}</p>
+          <div v-html="props.row.comment"></div>
         </template>
       </el-table-column>
       <el-table-column
@@ -239,30 +239,7 @@ export default {
       immediate: true,
       deep: true,
       async handler() {
-        this.queries.start = this.queries.limit * this.pagination.page - this.queries.limit || 0
-        const query = qs.stringify({ _where: {
-          _or: [
-              { 'id_contains': this.queries.filter },
-              { 'name_contains': this.queries.filter },
-              { 'type_contains': this.queries.filter },
-              { 'location.name_contains': this.queries.filter },
-              { 'status.name_contains': this.queries.filter }
-            ]
-          }
-        })
-        const total = await this.$http.get(`${this.$store.state.url}/tech-resources/count?${query}`)
-        this.pagination.total = total.data
-        const techresources = await this.$http({
-          method: 'get',
-          url: `${this.$store.state.url}/tech-resources?${query}`, 
-          params: {
-            _start: this.queries.start,
-            _limit: this.queries.limit,
-            _sort: this.queries.sort
-          }
-        })
-        this.techresources = techresources.data
-        this.loading = false
+        this.fetchTechResources()
       }
     }
   },
@@ -297,16 +274,42 @@ export default {
         this.queries.sort = 'id:asc'
       }
     },
-    async addNewTechresource() {
+    async fetchTechResources() {
+      this.queries.start = this.queries.limit * this.pagination.page - this.queries.limit || 0
+      const query = qs.stringify({ _where: {
+        _or: [
+            { 'id_contains': this.queries.filter },
+            { 'name_contains': this.queries.filter },
+            { 'type_contains': this.queries.filter },
+            { 'location.name_contains': this.queries.filter },
+            { 'status.name_contains': this.queries.filter }
+          ]
+        }
+      })
+      const total = await this.$http.get(`${this.$store.state.url}/tech-resources/count?${query}`)
+      this.pagination.total = total.data
+      const techresources = await this.$http({
+        method: 'get',
+        url: `${this.$store.state.url}/tech-resources?${query}`, 
+        params: {
+          _start: this.queries.start,
+          _limit: this.queries.limit,
+          _sort: this.queries.sort
+        }
+      })
+      this.techresources = techresources.data
+      this.loading = false
+    },
+    addNewTechresource() {
       this.createFormVisible = false
       this.loading = true
-      this.techresources = await this.$store.dispatch('fetchTechResources')
+      this.fetchTechResources()
       this.loading = false
     },
     async deleteTechresource(id) {
       try {
         await this.$store.dispatch('deleteTechresource', id)
-        this.techresources = await this.$store.dispatch('fetchTechResources')
+        this.fetchTechResources()
         this.$message.success('Тех. ресурс удален')
       } catch (e) {
         this.$message.error('Недостаточно прав для выполнения данной операции')
@@ -319,10 +322,10 @@ export default {
       this.loading = false
       this.editFormVisible = true
     },
-    async editTechresource() {
+    editTechresource() {
       this.editFormVisible = false
       this.loading = true
-      this.techresources = await this.$store.dispatch('fetchTechResources')
+      this.fetchTechResources()
       this.loading = false
     }
   }

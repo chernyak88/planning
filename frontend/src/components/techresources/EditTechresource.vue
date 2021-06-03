@@ -64,11 +64,11 @@
         prop="comment"
         :label-width="formLabelWidth"
       >
-        <el-input
-          type="textarea"
+        <vue-editor
           v-model="form.comment"
+          :editorToolbar="textEditorToolbar"
         >
-        </el-input>
+        </vue-editor>
       </el-form-item>
     </el-form>
     <span
@@ -91,8 +91,15 @@
 </template>
 
 <script>
+import { VueEditor } from "vue2-editor"
+import textEditorMixin from '@/mixins/texteditor.mixin.js'
+
 export default {
   name: 'edittechresource',
+  components: {
+    VueEditor
+  },
+  mixins: [textEditorMixin],
   props: {
     currentTechresource: {
       type: Object,
