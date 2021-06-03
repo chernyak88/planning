@@ -122,9 +122,9 @@ CREATE TABLE IF NOT EXISTS `servicelogs` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы plandb.servicelogs: ~14 rows (приблизительно)
+-- Дамп данных таблицы plandb.servicelogs: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `servicelogs` DISABLE KEYS */;
 INSERT INTO `servicelogs` (`id`, `contentType`, `action`, `author`, `content`, `name`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(37, 'techresource', 'create', '{"session":{},"_passport":{"instance":{"_key":"passport","_strategies":{"session":{"name":"session"},"local":{"_usernameField":"email","_passwordField":"password","name":"local"}},"_serializers":[],"_deserializers":[],"_infoTransformers":[],"_framework":{},"_userProperty":"user","_sm":{"_key":"passport"},"strategies":{}}},"user":{"id":1,"username":"user1@user1.ru","email":"user1@user1.ru","provider":"local","password":"$2a$10$znfFGmUKzh21ZyoBb29cceXRlo9nZVcH0BF7yLQqGlP2IwObc4L9S","resetPasswordToken":null,"confirmationToken":null,"confirmed":true,"blocked":false,"role":{"id":1,"name":"Authenticated","description":"Default role given to authenticated user.","type":"authenticated","created_by":null,"updated_by":null},"created_by":1,"updated_by":1,"created_at":"2021-06-01T08:13:28.000Z","updated_at":"2021-06-01T08:13:28.000Z"}}', '{"id":17,"name":"ТЖК 017","type":"стандартный комплект ТЖК","location":{"id":1,"name":"Москва","created_by":1,"updated_by":1,"created_at":"2021-06-01T08:14:50.000Z","updated_at":"2021-06-01T08:14:50.000Z"},"status":{"id":2,"name":"Ремонт","created_by":1,"updated_by":1,"created_at":"2021-06-01T08:15:28.000Z","updated_at":"2021-06-01T08:15:28.000Z"},"comment":"<p>Комментарий 17</p>","published_at":"2021-06-03T11:24:19.000Z","created_by":null,"updated_by":null,"created_at":"2021-06-03T11:24:19.000Z","updated_at":"2021-06-03T11:24:19.000Z"}', 'ТЖК 017', NULL, NULL, '2021-06-03 11:24:19', '2021-06-03 11:24:19');
@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS `strapi_permission` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=207 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Дамп данных таблицы plandb.strapi_permission: ~104 rows (приблизительно)
 /*!40000 ALTER TABLE `strapi_permission` DISABLE KEYS */;
@@ -269,12 +269,12 @@ INSERT INTO `strapi_permission` (`id`, `action`, `subject`, `properties`, `condi
 	(102, 'admin::roles.update', NULL, '{}', '[]', 1, '2021-06-01 07:58:46', '2021-06-01 07:58:46'),
 	(103, 'admin::roles.delete', NULL, '{}', '[]', 1, '2021-06-01 07:58:46', '2021-06-01 07:58:46'),
 	(104, 'admin::users.update', NULL, '{}', '[]', 1, '2021-06-01 07:58:46', '2021-06-01 07:58:46'),
-	(195, 'plugins::content-manager.explorer.delete', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-03 10:44:53', '2021-06-03 10:44:53'),
-	(196, 'plugins::content-manager.explorer.delete', 'application::tech-resource-status.tech-resource-status', '{}', '[]', 1, '2021-06-03 10:44:53', '2021-06-03 10:44:53'),
-	(197, 'plugins::content-manager.explorer.delete', 'application::servicelog.servicelog', '{}', '[]', 1, '2021-06-03 10:44:53', '2021-06-03 10:44:53'),
-	(198, 'plugins::content-manager.explorer.delete', 'application::location.location', '{}', '[]', 1, '2021-06-03 10:44:53', '2021-06-03 10:44:53'),
-	(199, 'plugins::content-manager.explorer.delete', 'plugins::users-permissions.user', '{}', '[]', 1, '2021-06-03 10:44:53', '2021-06-03 10:44:53'),
-	(200, 'plugins::content-manager.explorer.publish', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-03 10:44:53', '2021-06-03 10:44:53');
+	(201, 'plugins::content-manager.explorer.delete', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-03 11:32:53', '2021-06-03 11:32:53'),
+	(202, 'plugins::content-manager.explorer.delete', 'application::tech-resource-status.tech-resource-status', '{}', '[]', 1, '2021-06-03 11:32:53', '2021-06-03 11:32:53'),
+	(203, 'plugins::content-manager.explorer.delete', 'application::servicelog.servicelog', '{}', '[]', 1, '2021-06-03 11:32:53', '2021-06-03 11:32:53'),
+	(204, 'plugins::content-manager.explorer.delete', 'application::location.location', '{}', '[]', 1, '2021-06-03 11:32:53', '2021-06-03 11:32:53'),
+	(205, 'plugins::content-manager.explorer.delete', 'plugins::users-permissions.user', '{}', '[]', 1, '2021-06-03 11:32:53', '2021-06-03 11:32:53'),
+	(206, 'plugins::content-manager.explorer.publish', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-03 11:32:53', '2021-06-03 11:32:53');
 /*!40000 ALTER TABLE `strapi_permission` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.strapi_role
@@ -347,10 +347,10 @@ CREATE TABLE IF NOT EXISTS `tech_resources` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы plandb.tech_resources: ~11 rows (приблизительно)
+-- Дамп данных таблицы plandb.tech_resources: ~17 rows (приблизительно)
 /*!40000 ALTER TABLE `tech_resources` DISABLE KEYS */;
 INSERT INTO `tech_resources` (`id`, `name`, `type`, `location`, `status`, `comment`, `published_at`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-	(1, 'ТЖК 001', 'стандартный комплект ТЖК', 1, 1, '<p>Комментарий 1</p><p>тест</p><p><br></p><p><strong>Жирный</strong></p><p><em>Курсив</em></p><p><u>Подчеркнутый</u></p><p><s>Зачеркнутый</s></p><p><br></p><p class="ql-align-center">По центру</p><ol><li>Нумерованный</li><li>Список</li></ol><p><br></p><ul><li>Ненумерованный</li><li>Список</li></ul><p><br></p><p><span style="color: rgb(230, 0, 0);">Цвет шрифта</span></p><p><span style="color: rgb(255, 255, 255); background-color: rgb(0, 71, 178);">Фон и цвет шрифта</span></p>', '2021-06-01 08:16:30', NULL, NULL, '2021-06-01 08:16:30', '2021-06-03 11:13:24'),
+	(1, 'ТЖК 001', 'стандартный комплект ТЖК', 1, 1, '<p>Комментарий 1</p><p><br></p><p><strong>Жирный</strong></p><p><em>Курсив</em></p><p><u>Подчеркнутый</u></p><p><s>Зачеркнутый</s></p><p><br></p><ol><li>Нумерованный</li><li>Список</li></ol><p><br></p><ul><li>Ненумерованный</li><li>Список</li></ul><p><br></p><p><span style="color: rgb(230, 0, 0);">Цвет шрифта</span></p><p><span style="color: rgb(255, 255, 255); background-color: rgb(0, 71, 178);">Фон и цвет шрифта</span></p>', '2021-06-01 08:16:30', NULL, NULL, '2021-06-01 08:16:30', '2021-06-03 11:41:46'),
 	(2, 'ТЖК 002', 'стандартный комплект ТЖК', 2, 2, '<p>Комментарий 2</p>', '2021-06-01 08:53:58', NULL, NULL, '2021-06-01 08:53:58', '2021-06-03 11:13:39'),
 	(3, 'ТЖК 003', 'стандартный комплект ТЖК', 3, 3, '<p>Комментарий 3</p>', '2021-06-01 08:54:39', 1, 1, '2021-06-01 08:54:33', '2021-06-03 11:13:42'),
 	(4, 'ТЖК 004', 'стандартный комплект ТЖК', 4, 4, '<p>Комментарий 4</p>', '2021-06-01 08:55:17', NULL, NULL, '2021-06-01 08:55:17', '2021-06-03 11:13:46'),
