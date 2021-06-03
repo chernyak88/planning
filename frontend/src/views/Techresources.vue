@@ -23,12 +23,12 @@
       <div class="heading__left">
         <el-input
           size="medium"
-          class="search"
-          v-model="search"
+          class="search-field"
+          v-model="searchField"
           placeholder="Поиск"
           :clearable="true"
           @clear="filterTable"
-        >11
+        >
           <el-button
             slot="append"
             icon="el-icon-search"
@@ -214,12 +214,12 @@ export default {
       createFormVisible: false,
       editFormVisible: false,
       currentTechresource: null,
-      search: '',
+      searchField: null,
       queries: {
         start: 0,
         limit: 5,
         sort: 'id:asc',
-        filter: ''
+        filter: null
       },
       pagination: {
         page: +this.$route.query.page || 1,
@@ -234,20 +234,11 @@ export default {
       }
     }
   },
-  async mounted() {
-    this.pagination.total = await this.$store.dispatch('fetchTechResourcesCount')
-    this.techresources = await this.$store.dispatch('fetchTechResources', {
-      _start: this.queries.start,
-      _limit: this.queries.limit
-    })
-    this.loading = false
-  },
   watch: {
     queries: {
       immediate: true,
       deep: true,
       async handler() {
-        this.loading = true
         this.queries.start = this.queries.limit * this.pagination.page - this.queries.limit || 0
         const query = qs.stringify({ _where: {
           _or: [
@@ -295,7 +286,7 @@ export default {
         this.$router.push(`${this.$route.path}?page=1`)
         this.pagination.page = 1
       }
-      this.queries.filter = this.search
+      this.queries.filter = this.searchField
     },
     sortByColumn(column) {
       if (column.order === 'ascending') {
@@ -352,7 +343,7 @@ export default {
 .add {
   margin-left: 10px;
 }
-.search {
+.search-field {
   width: 320px;
   margin-right: 20px;
 }
