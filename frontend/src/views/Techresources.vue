@@ -162,10 +162,12 @@
 
     <el-pagination
       background
-      layout="total, prev, pager, next, jumper"
-      :current-page="pagination.page"
+      layout="total, sizes, prev, pager, next, jumper"
+      :current-page.sync="pagination.page"
+      :page-sizes="[2, 5, 10, 20]"
       :page-size="queries.limit"
       :total="pagination.total"
+      @size-change="handleSizeChange"
       @current-change="handlerPageChange"
     >
     </el-pagination>
@@ -215,7 +217,7 @@ export default {
       search: '',
       queries: {
         start: 0,
-        limit: 5,
+        limit: 2,
         sort: 'id:asc',
         filter: ''
       },
@@ -242,14 +244,11 @@ export default {
   },
   watch: {
     queries: {
+      immediate: true,
       deep: true,
       async handler() {
         this.loading = true
-        // this.techresources = await this.$store.dispatch('fetchTechResources', {
-        //   _start: this.queries.start,
-        //   _limit: this.queries.limit,
-        //   _sort: this.queries.sort,
-        // })
+        this.queries.start = this.queries.limit * this.pagination.page - this.queries.limit || 0
         const query = qs.stringify({ _where: {
           _or: [
               { 'id_contains': this.queries.filter },
@@ -285,7 +284,18 @@ export default {
     },
     handlerPageChange(page) {
       this.$router.push(`${this.$route.path}?page=${page}`)
+      this.pagination.page = page
       this.queries.start = this.queries.limit * page - this.queries.limit
+    },
+    handleSizeChange(size) {
+      this.queries.limit = size
+    },
+    async filterTable() {
+      if (this.$route.query.page && +this.$route.query.page !== 1) {
+        this.$router.push(`${this.$route.path}?page=1`)
+        this.pagination.page = 1
+      }
+      this.queries.filter = this.search
     },
     sortByColumn(column) {
       if (column.order === 'ascending') {
@@ -295,9 +305,6 @@ export default {
       } else {
         this.queries.sort = 'id:asc'
       }
-    },
-    async filterTable() {
-      this.queries.filter = this.search
     },
     async addNewTechresource() {
       this.createFormVisible = false
