@@ -276,16 +276,19 @@ export default {
     },
     async fetchTechResources() {
       this.queries.start = this.queries.limit * this.pagination.page - this.queries.limit || 0
-      const query = qs.stringify({ _where: {
-        _or: [
-            { 'id_contains': this.queries.filter },
-            { 'name_contains': this.queries.filter },
-            { 'type_contains': this.queries.filter },
-            { 'location.name_contains': this.queries.filter },
-            { 'status.name_contains': this.queries.filter }
-          ]
-        }
-      })
+      let query = ''
+      if (this.queries.filter) {
+        query = qs.stringify({ _where: {
+          _or: [
+              { 'id_contains': this.queries.filter },
+              { 'name_contains': this.queries.filter },
+              { 'type_contains': this.queries.filter },
+              { 'location.name_contains': this.queries.filter },
+              { 'status.name_contains': this.queries.filter }
+            ]
+          }
+        })
+      }
       const total = await this.$http.get(`${this.$store.state.url}/tech-resources/count?${query}`)
       this.pagination.total = total.data
       const techresources = await this.$http({
