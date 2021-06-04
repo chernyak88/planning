@@ -18,13 +18,13 @@
     "action": {
       "type": "string"
     },
-    "author": {
-      "type": "json"
-    },
     "content": {
       "type": "json"
     },
     "name": {
+      "type": "string"
+    },
+    "author": {
       "type": "string"
     }
   }
