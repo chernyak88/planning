@@ -3,15 +3,14 @@ module.exports = strapi => {
     initialize() {
       strapi.app.use(async (ctx, next) => {
         await next();
-        console.log(ctx);
-        if (ctx.req.user) {
-          strapi.services.servicelog.create({
+        if (ctx.request.method === 'GET' && !ctx.request.url.includes('/count') && ctx.req.user) {
+          strapi.services.syslog.create({
             contentType: 'request',
-            name: ctx.request.url,
+            name: decodeURIComponent(ctx.request.url),
             action: 'get',
             author: ctx.req.user.email || ctx.req.user.username
-          })
-        }
+          });
+        };
       });
     }
   };

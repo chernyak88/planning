@@ -8,29 +8,33 @@
 module.exports = {
   lifecycles: {
     afterCreate(result, data) {
-      strapi.services.servicelog.create({
-        contentType: 'techresource',
-        name: result.name || '',
-        action: 'create',
-        author: data._state || result.created_by,
-        content: result
-      })
+      if (data._state) {
+        strapi.services.syslog.create({
+          contentType: 'techresource',
+          name: result.name || '',
+          action: 'create',
+          author: data._state.user.email || data._state.user.username,
+          content: result
+        })
+      }
     },
     afterUpdate(result, params, data) {
-      strapi.services.servicelog.create({
-        contentType: 'techresource',
-        name: result.name || '',
-        action: 'update',
-        author: data._state || result.updated_by,
-        content: result
-      })
+      if (data._state) {
+        strapi.services.syslog.create({
+          contentType: 'techresource',
+          name: result.name || '',
+          action: 'update',
+          author: data._state.user.email || data._state.user.username,
+          content: result
+        })
+      }
     },
     afterDelete(result, params) {
-      strapi.services.servicelog.create({
+      strapi.services.syslog.create({
         contentType: 'techresource',
         name: result.name || '',
         action: 'delete',
-        author: strapi.currentUser || result.updated_by,
+        author: strapi.currentUser,
         content: result
       })
     }

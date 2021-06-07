@@ -29,7 +29,7 @@
       "path": "/tech-resources",
       "handler": "tech-resource.create",
       "config": {
-        "policies": ["global::servicelogs"]
+        "policies": ["global::syslogs"]
       }
     },
     {
@@ -37,7 +37,7 @@
       "path": "/tech-resources/:id",
       "handler": "tech-resource.update",
       "config": {
-        "policies": ["global::servicelogs"]
+        "policies": ["global::syslogs"]
       }
     },
     {
@@ -45,7 +45,7 @@
       "path": "/tech-resources/:id",
       "handler": "tech-resource.delete",
       "config": {
-        "policies": ["global::servicelogs"]
+        "policies": ["global::syslogs"]
       }
     }
   ]

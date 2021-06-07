@@ -27,7 +27,7 @@
           v-model="searchField"
           placeholder="Поиск"
           :clearable="true"
-          @clear="filterTable"
+          @clear="clearFilter"
         >
           <el-button
             slot="append"
@@ -234,6 +234,10 @@ export default {
       }
     }
   },
+  async mounted() {
+    const total = await this.$http.get(`${this.$store.state.url}/tech-resources/count`)
+    this.pagination.total = total.data
+  },
   watch: {
     queries: {
       immediate: true,
@@ -258,12 +262,18 @@ export default {
     handleSizeChange(size) {
       this.queries.limit = size
     },
-    async filterTable() {
+    filterTable() {
       if (this.$route.query.page && +this.$route.query.page !== 1) {
         this.$router.push(`${this.$route.path}?page=1`)
         this.pagination.page = 1
       }
       this.queries.filter = this.searchField
+    },
+    async clearFilter() {
+      this.searchField = null
+      this.queries.filter = null
+      const total = await this.$http.get(`${this.$store.state.url}/tech-resources/count`)
+      this.pagination.total = total.data
     },
     sortByColumn(column) {
       if (column.order === 'ascending') {
@@ -275,6 +285,7 @@ export default {
       }
     },
     async fetchTechResources() {
+      this.loading = true
       this.queries.start = this.queries.limit * this.pagination.page - this.queries.limit || 0
       let query = ''
       if (this.queries.filter) {
@@ -288,9 +299,9 @@ export default {
             ]
           }
         })
+        const total = await this.$http.get(`${this.$store.state.url}/tech-resources/count?${query}`)
+        this.pagination.total = total.data
       }
-      const total = await this.$http.get(`${this.$store.state.url}/tech-resources/count?${query}`)
-      this.pagination.total = total.data
       const techresources = await this.$http({
         method: 'get',
         url: `${this.$store.state.url}/tech-resources?${query}`, 

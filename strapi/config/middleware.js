@@ -1,10 +1,10 @@
 module.exports = {
   load: {
     before: ['responseTime', 'logger', 'cors', 'responses', 'gzip'],
-    after: ['parser', 'router', 'responselogs']
+    after: ['parser', 'router', 'syslogs']
   },
   settings: {
-    responselogs: {
+    syslogs: {
       enabled: true
     }
   }

@@ -30,13 +30,13 @@
 export default {
   computed: {
     name() {
-      let user = JSON.parse(sessionStorage.getItem("user"))
+      let user = JSON.parse(localStorage.getItem("user"))
       return user.email
     }
   },
   methods: {
-    logout() {
-      this.$store.dispatch('logout')
+    async logout() {
+      await this.$store.dispatch('logout')
       this.$router.go('/login')
     }
   }

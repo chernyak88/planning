@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "servicelogs",
+  "collectionName": "syslogs",
   "info": {
-    "name": "servicelog",
+    "name": "syslog",
     "description": ""
   },
   "options": {
@@ -22,7 +22,7 @@
       "type": "json"
     },
     "name": {
-      "type": "string"
+      "type": "text"
     },
     "author": {
       "type": "string"

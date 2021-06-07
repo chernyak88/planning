@@ -2,48 +2,48 @@
   "routes": [
     {
       "method": "GET",
-      "path": "/servicelogs",
-      "handler": "servicelog.find",
+      "path": "/syslogs",
+      "handler": "syslog.find",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/servicelogs/count",
-      "handler": "servicelog.count",
+      "path": "/syslogs/count",
+      "handler": "syslog.count",
       "config": {
         "policies": []
       }
     },
     {
       "method": "GET",
-      "path": "/servicelogs/:id",
-      "handler": "servicelog.findOne",
+      "path": "/syslogs/:id",
+      "handler": "syslog.findOne",
       "config": {
         "policies": []
       }
     },
     {
       "method": "POST",
-      "path": "/servicelogs",
-      "handler": "servicelog.create",
+      "path": "/syslogs",
+      "handler": "syslog.create",
       "config": {
         "policies": []
       }
     },
     {
       "method": "PUT",
-      "path": "/servicelogs/:id",
-      "handler": "servicelog.update",
+      "path": "/syslogs/:id",
+      "handler": "syslog.update",
       "config": {
         "policies": []
       }
     },
     {
       "method": "DELETE",
-      "path": "/servicelogs/:id",
-      "handler": "servicelog.delete",
+      "path": "/syslogs/:id",
+      "handler": "syslog.delete",
       "config": {
         "policies": []
       }
