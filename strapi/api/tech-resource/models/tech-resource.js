@@ -18,6 +18,10 @@ module.exports = {
         })
       }
     },
+    async beforeUpdate(params, data) {
+      let contentBeforeUpdate = await strapi.query('tech-resource').findOne({id: params.id});
+      data.contentBeforeUpdate = contentBeforeUpdate;
+    },
     afterUpdate(result, params, data) {
       if (data._state) {
         strapi.services.syslog.create({
@@ -25,7 +29,8 @@ module.exports = {
           name: result.name || '',
           action: 'update',
           author: data._state.user.email || data._state.user.username,
-          content: result
+          content: result,
+          contentBefore: data.contentBeforeUpdate
         })
       }
     },

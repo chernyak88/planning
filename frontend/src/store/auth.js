@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 
 export default {
@@ -12,7 +13,7 @@ export default {
           const token = response.data.jwt
           const user = JSON.stringify(response.data.user)
           const userEmail = response.data.user.email
-          localStorage.setItem('token', token)
+          Vue.cookie.set('token', token)
           localStorage.setItem('user', user)
           localStorage.setItem('userEmail', userEmail)
           axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
@@ -37,7 +38,7 @@ export default {
           author: user.email || user.username
         })
         .then(() => {
-          localStorage.removeItem('token')
+          Vue.cookie.delete('token')
           localStorage.removeItem('user')
         })
       } catch (e) {

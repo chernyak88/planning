@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const ifAuthenticated = (to, from, next) => {
-  if (localStorage.getItem('token')) {
+  if (Vue.cookie.get('token')) {
     next()
     return
   } else {
