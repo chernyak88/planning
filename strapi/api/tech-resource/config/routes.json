@@ -45,7 +45,7 @@
       "path": "/tech-resources/:id",
       "handler": "tech-resource.delete",
       "config": {
-        "policies": ["global::syslogs"]
+        "policies": []
       }
     }
   ]

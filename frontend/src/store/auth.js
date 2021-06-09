@@ -39,7 +39,6 @@ export default {
         })
         .then(() => {
           Vue.cookie.delete('token')
-          localStorage.removeItem('user')
         })
       } catch (e) {
         throw e
