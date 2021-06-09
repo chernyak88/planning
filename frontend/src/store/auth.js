@@ -43,6 +43,18 @@ export default {
       } catch (e) {
         throw e
       }
+    },
+    async forgotPassword({dispatch, commit}, { email }){
+      try {
+        await axios.post(`${this.state.url}/auth/forgot-password`, {
+          email: email
+        })
+        .then(response => {
+          console.log('success');
+        })
+      } catch (e) {
+        throw e
+      }
     }
   }
 }

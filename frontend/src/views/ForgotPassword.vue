@@ -1,44 +1,27 @@
 <template>
   <div class="login" v-loading="loading">
     <el-card>
-      <h1>Вход в систему</h1>
+      <h1>Сброс пароля</h1>
       <el-form
-        :model="loginForm"
+        :model="forgotPasswordForm"
         :rules="rules"
-        ref="loginForm"
+        ref="forgotPasswordForm"
       >
         <el-form-item
-          label="E-mail"
+          label="Введите e-mail"
           prop="email"
         >
           <el-input
-            v-model="loginForm.email"
+            v-model="forgotPasswordForm.email"
           >
           </el-input>
         </el-form-item>
-        <el-form-item
-          label="Пароль"
-          prop="password"
-        >
-          <el-input
-            type="password"
-            v-model="loginForm.password"
-            show-password
-          >
-          </el-input>
-        </el-form-item>
-        <router-link
-          to="/forgotpassword"
-          class="el-link el-link--primary is-underline"
-        >
-          Забыли пароль?
-        </router-link>
         <el-form-item>
           <el-button
             type="primary"
-            @click="handleSubmit('loginForm')"
+            @click="handleSubmit('forgotPasswordForm')"
           >
-            Войти
+            Сбросить пароль
           </el-button>
         </el-form-item>
       </el-form>
@@ -48,12 +31,11 @@
 
 <script>
 export default {
-  name: 'login',
+  name: 'forgotpassword',
   data: () => ({
     loading: false,
-    loginForm: {
-      email: localStorage.getItem('userEmail') || '',
-      password: ''
+    forgotPasswordForm: {
+      email: localStorage.getItem('userEmail') || ''
     },
     rules: {
       email: [
@@ -67,13 +49,6 @@ export default {
           message: 'Некорректный email',
           trigger: 'blur'
         }
-      ],
-      password: [
-        {
-          required: true,
-          message: 'Введите пароль',
-          trigger: 'blur'
-        }
       ]
     }
   }),
@@ -85,16 +60,15 @@ export default {
         } else {
           try {
             this.loading = true
-            let email = this.loginForm.email 
-            let password = this.loginForm.password
-            await this.$store.dispatch('login', { email, password })
+            let email = this.forgotPasswordForm.email 
+            await this.$store.dispatch('forgotPassword', { email })
             .then(() => {
               this.loading = false
-              this.$router.push('/')
+              this.$message.success('На Ваш email отправлена ссылка для сброса пароля')
             })
           } catch (e) {
             this.loading = false
-            this.$message.error('Ошибка входа')
+            this.$message.error('Некорректный email')
             console.log(e)
           }
         }
@@ -116,22 +90,11 @@ h1 {
   justify-content: center;
   align-items: center;
 }
-.login-button {
-  width: 100%;
-  margin-top: 40px;
-}
-.login-form {
-  width: 290px;
-}
 .el-card {
   width: 320px;
   display: flex;
   justify-content: center;
   padding-top: 0;
   padding-bottom: 30px;
-}
-.el-link {
-  font-size: 12px;
-  margin-bottom: 20px;
 }
 </style>

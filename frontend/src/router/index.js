@@ -20,6 +20,12 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '/forgotpassword',
+    name: 'forgotpassword',
+    meta: {layout: 'empty'},
+    component: () => import('../views/ForgotPassword.vue')
+  },
+  {
     path: '/',
     name: 'home',
     meta: {layout: 'main'},
