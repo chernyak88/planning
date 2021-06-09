@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `core_store` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы plandb.core_store: ~16 rows (приблизительно)
+-- Дамп данных таблицы plandb.core_store: ~7 rows (приблизительно)
 /*!40000 ALTER TABLE `core_store` DISABLE KEYS */;
 INSERT INTO `core_store` (`id`, `key`, `value`, `type`, `environment`, `tag`) VALUES
 	(1, 'model_def_strapi::core-store', '{"uid":"strapi::core-store","collectionName":"core_store","info":{"name":"core_store","description":""},"options":{"timestamps":false},"pluginOptions":{"content-manager":{"visible":false},"content-type-builder":{"visible":false}},"attributes":{"key":{"type":"string"},"value":{"type":"text"},"type":{"type":"string"},"environment":{"type":"string"},"tag":{"type":"string"}}}', 'object', NULL, NULL),
@@ -63,7 +63,7 @@ INSERT INTO `core_store` (`id`, `key`, `value`, `type`, `environment`, `tag`) VA
 	(31, 'plugin_users-permissions_advanced', '{"unique_email":true,"allow_register":true,"email_confirmation":false,"email_reset_password":null,"email_confirmation_redirection":null,"default_role":"authenticated"}', 'object', '', ''),
 	(32, 'core_admin_auth', '{"providers":{"autoRegister":false,"defaultRole":null}}', 'object', '', ''),
 	(33, 'model_def_application::syslog.syslog', '{"uid":"application::syslog.syslog","collectionName":"syslogs","kind":"collectionType","info":{"name":"syslog","description":""},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"contentType":{"type":"string"},"action":{"type":"string"},"content":{"type":"json"},"name":{"type":"text"},"author":{"type":"string"},"contentBefore":{"type":"json"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
-	(34, 'plugin_content_manager_configuration_content_types::application::syslog.syslog', '{"uid":"application::syslog.syslog","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":50,"mainField":"contentType","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"author":{"edit":{"label":"Author","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Author","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"contentType":{"edit":{"label":"ContentType","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ContentType","searchable":true,"sortable":true}},"action":{"edit":{"label":"Action","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Action","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}},"contentBefore":{"edit":{"label":"ContentBefore","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ContentBefore","searchable":false,"sortable":false}},"content":{"edit":{"label":"Content","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Content","searchable":false,"sortable":false}},"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"contentType","size":6},{"name":"action","size":6}],[{"name":"content","size":12}],[{"name":"name","size":6},{"name":"author","size":6}],[{"name":"contentBefore","size":12}]],"editRelations":[],"list":["id","contentType","action","name","author"]}}', 'object', '', '');
+	(34, 'plugin_content_manager_configuration_content_types::application::syslog.syslog', '{"uid":"application::syslog.syslog","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":50,"mainField":"contentType","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"author":{"edit":{"label":"Author","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Author","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"contentType":{"edit":{"label":"ContentType","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ContentType","searchable":true,"sortable":true}},"action":{"edit":{"label":"Action","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Action","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}},"contentBefore":{"edit":{"label":"ContentBefore","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ContentBefore","searchable":false,"sortable":false}},"content":{"edit":{"label":"Content","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Content","searchable":false,"sortable":false}},"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"contentType","size":6},{"name":"action","size":6}],[{"name":"name","size":6},{"name":"author","size":6}],[{"name":"content","size":12}],[{"name":"contentBefore","size":12}]],"editRelations":[],"list":["id","contentType","action","name","author"]}}', 'object', '', '');
 /*!40000 ALTER TABLE `core_store` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.i18n_locales
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `i18n_locales` (
   UNIQUE KEY `i18n_locales_code_unique` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы plandb.i18n_locales: ~0 rows (приблизительно)
+-- Дамп данных таблицы plandb.i18n_locales: ~2 rows (приблизительно)
 /*!40000 ALTER TABLE `i18n_locales` DISABLE KEYS */;
 INSERT INTO `i18n_locales` (`id`, `name`, `code`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 'English (en)', 'en', NULL, NULL, '2021-06-01 07:58:38', '2021-06-01 07:58:38'),
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `strapi_permission` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=222 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=228 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Дамп данных таблицы plandb.strapi_permission: ~96 rows (приблизительно)
 /*!40000 ALTER TABLE `strapi_permission` DISABLE KEYS */;
@@ -235,12 +235,12 @@ INSERT INTO `strapi_permission` (`id`, `action`, `subject`, `properties`, `condi
 	(207, 'plugins::content-manager.explorer.read', 'application::syslog.syslog', '{"fields":["contentType","action","content","name","author","contentBefore"]}', '[]', 1, '2021-06-09 09:58:08', '2021-06-09 09:58:08'),
 	(208, 'plugins::content-manager.explorer.create', 'application::syslog.syslog', '{"fields":["contentType","action","content","name","author","contentBefore"]}', '[]', 1, '2021-06-09 09:58:08', '2021-06-09 09:58:08'),
 	(209, 'plugins::content-manager.explorer.update', 'application::syslog.syslog', '{"fields":["contentType","action","content","name","author","contentBefore"]}', '[]', 1, '2021-06-09 09:58:08', '2021-06-09 09:58:08'),
-	(216, 'plugins::content-manager.explorer.delete', 'application::syslog.syslog', '{}', '[]', 1, '2021-06-09 10:32:59', '2021-06-09 10:32:59'),
-	(217, 'plugins::content-manager.explorer.delete', 'application::location.location', '{}', '[]', 1, '2021-06-09 10:32:59', '2021-06-09 10:32:59'),
-	(218, 'plugins::content-manager.explorer.delete', 'application::tech-resource-status.tech-resource-status', '{}', '[]', 1, '2021-06-09 10:32:59', '2021-06-09 10:32:59'),
-	(219, 'plugins::content-manager.explorer.delete', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-09 10:32:59', '2021-06-09 10:32:59'),
-	(220, 'plugins::content-manager.explorer.delete', 'plugins::users-permissions.user', '{}', '[]', 1, '2021-06-09 10:32:59', '2021-06-09 10:32:59'),
-	(221, 'plugins::content-manager.explorer.publish', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-09 10:32:59', '2021-06-09 10:32:59');
+	(222, 'plugins::content-manager.explorer.delete', 'application::tech-resource-status.tech-resource-status', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32'),
+	(223, 'plugins::content-manager.explorer.delete', 'application::syslog.syslog', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32'),
+	(224, 'plugins::content-manager.explorer.delete', 'application::location.location', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32'),
+	(225, 'plugins::content-manager.explorer.delete', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32'),
+	(226, 'plugins::content-manager.explorer.delete', 'plugins::users-permissions.user', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32'),
+	(227, 'plugins::content-manager.explorer.publish', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32');
 /*!40000 ALTER TABLE `strapi_permission` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.strapi_role
