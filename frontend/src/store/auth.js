@@ -55,6 +55,20 @@ export default {
       } catch (e) {
         throw e
       }
+    },
+    async resetPassword({dispatch, commit}, { password, confirmPassword }){
+      try {
+        await axios.post(`${this.state.url}/auth/reset-password`, {
+          code: 'privateCode', // code contained in the reset link
+          password: password,
+          passwordConfirmation: confirmPassword,
+        })
+        .then(response => {
+          console.log('success');
+        })
+      } catch (e) {
+        throw e
+      }
     }
   }
 }
