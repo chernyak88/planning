@@ -4,6 +4,7 @@ import ElementUI from 'element-ui'
 import locale from 'element-ui/lib/locale/lang/ru-RU'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueCookie from 'vue-cookie'
+import Print from 'vue-print-nb'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
@@ -13,6 +14,7 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI, { locale })
 Vue.use(VueCookie)
+Vue.use(Print)
 
 Vue.prototype.$http = axios
 const token = Vue.cookie.get('token')

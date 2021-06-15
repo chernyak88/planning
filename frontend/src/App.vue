@@ -15,29 +15,9 @@ export default {
     EmptyLayout,
     MainLayout
   },
-  beforeMount() {
-    window.addEventListener('beforeunload', this.onUnload)
-  },
-  beforeDestroy() {
-    window.removeEventListener('beforeunload', this.onUnload)
-  },
   computed: {
     layout() {
       return (this.$route.meta.layout || 'empty') + '-layout'
-    }
-  },
-  methods: {
-    async onUnload() {
-      try {
-        const user = JSON.parse(localStorage.getItem('user'))
-        await this.$http.post(`${this.$store.state.url}/syslogs`, {
-          contentType: 'browser/page',
-          action: 'close/refresh',
-          author: user.email || user.username
-        })
-      } catch (e) {
-        throw e
-      }
     }
   }
 }

@@ -36,6 +36,20 @@
           >
           </el-button>
         </el-input>
+        <el-tooltip
+          class="item"
+          effect="dark"
+          content="Печать"
+        >
+          <el-button
+            v-print="print"
+            class="print"
+            type="primary"
+            icon="el-icon-printer"
+            size="medium"
+          >
+          </el-button>
+        </el-tooltip>
         <el-dropdown
           size="medium"
           split-button type="primary"
@@ -63,6 +77,7 @@
       </div>
     </div>
     <el-table
+      id="table"
       :data="techresources"
       style="width: 100%"
       border
@@ -231,6 +246,10 @@ export default {
         locationColumn: true,
         statusColumn: true,
         actionColumn: true
+      },
+      print: {
+        id: "table",
+        popTitle: 'Технические ресурсы',
       }
     }
   },
@@ -359,6 +378,9 @@ export default {
 }
 .add {
   margin-left: 10px;
+}
+.print {
+  margin-right: 20px;
 }
 .search-field {
   width: 320px;
