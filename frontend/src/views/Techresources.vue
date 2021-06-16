@@ -39,6 +39,20 @@
         <el-tooltip
           class="item"
           effect="dark"
+          content="Экспорт в PDF"
+        >
+          <el-button
+            class="print"
+            type="danger"
+            icon="el-icon-document"
+            size="medium"
+            @click="exportPdf"
+          >
+          </el-button>
+        </el-tooltip>
+        <el-tooltip
+          class="item"
+          effect="dark"
           content="Печать"
         >
           <el-button
@@ -78,6 +92,7 @@
     </div>
     <el-table
       id="table"
+      ref="table"
       :data="techresources"
       style="width: 100%"
       border
@@ -213,6 +228,7 @@
 
 <script>
 import qs from 'qs'
+import jspdf from 'jspdf'
 import CreateTechresource from '@/components/techresources/CreateTechresource'
 import EditTechresource from '@/components/techresources/EditTechresource'
 
@@ -302,6 +318,15 @@ export default {
       } else {
         this.queries.sort = 'id:asc'
       }
+    },
+    exportPdf() {
+      const doc = new jspdf()
+      const html = this.$refs.table.innerHTML
+
+      doc.fromHTML(html, 15, 15, {
+        width: 150
+      })
+      doc.save("techresources.pdf")
     },
     async fetchTechResources() {
       this.loading = true

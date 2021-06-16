@@ -1,12 +1,12 @@
 <template>
     <el-container class="container">
-        <el-header class="header">
-            <Navbar />
-        </el-header>
+        <el-aside :width="asideWidth">
+            <Sidebar @toggleMenu='toggleMenu' />
+        </el-aside>
         <el-container>
-            <el-aside width="65px">
-                <Sidebar />
-            </el-aside>
+            <el-header class="header">
+                <Navbar />
+            </el-header>
             <el-main>
                 <div class="app-page">
                     <router-view />
@@ -25,6 +25,21 @@ export default {
   components: {
     Navbar,
     Sidebar
+  },
+  data: () => ({
+    asideWidth: '65px',
+  }),
+  methods: {
+    toggleMenu(isCollapse) {
+        switch (isCollapse) {
+            case true:
+                this.asideWidth = '65px'
+                break
+            case false:
+                this.asideWidth = '230px'
+                break
+        }
+    }
   }
 }
 </script>
