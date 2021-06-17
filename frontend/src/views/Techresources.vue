@@ -228,7 +228,8 @@
 
 <script>
 import qs from 'qs'
-import jspdf from 'jspdf'
+import jsPDF from 'jspdf'
+import html2canvas from 'html2canvas'
 import CreateTechresource from '@/components/techresources/CreateTechresource'
 import EditTechresource from '@/components/techresources/EditTechresource'
 
@@ -320,13 +321,15 @@ export default {
       }
     },
     exportPdf() {
-      const doc = new jspdf()
-      const html = this.$refs.table.innerHTML
-
-      doc.fromHTML(html, 15, 15, {
-        width: 150
+      const doc = new jsPDF({
+        orientation: 'l'
       })
-      doc.save("techresources.pdf")
+      html2canvas(this.$refs.table.$el).then(canvas => {
+        const img = canvas.toDataURL('image/jpeg', 0.9)
+        const height = canvas.height / 3.79
+        doc.addImage(img, 'JPEG', 10, 10, 277, height)
+        doc.save('output.pdf')
+      })
     },
     async fetchTechResources() {
       this.loading = true

@@ -51,4 +51,7 @@ export default {
 .header {
     border-bottom: solid 1px #e6e6e6;
 }
+.el-aside {
+    overflow: hidden;
+}
 </style>
