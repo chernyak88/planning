@@ -46,7 +46,7 @@
             type="danger"
             icon="el-icon-document"
             size="medium"
-            @click="exportPdf"
+            @click="exportToPdf"
           >
           </el-button>
         </el-tooltip>
@@ -228,12 +228,7 @@
 
 <script>
 import qs from 'qs'
-// import jsPDF from 'jspdf'
-// import html2canvas from 'html2canvas'
-import html2pdf from 'html2pdf.js'
-// import pdfMake from "pdfmake/build/pdfmake"
-// import pdfFonts from "pdfmake/build/vfs_fonts"
-// pdfMake.vfs = pdfFonts.pdfMake.vfs
+import pdfMixin from '@/mixins/pdf.mixin.js'
 import CreateTechresource from '@/components/techresources/CreateTechresource'
 import EditTechresource from '@/components/techresources/EditTechresource'
 
@@ -243,6 +238,7 @@ export default {
     CreateTechresource,
     EditTechresource
   },
+  mixins: [pdfMixin],
   data() {
     return {
       loading: true,
@@ -324,68 +320,15 @@ export default {
         this.queries.sort = 'id:asc'
       }
     },
-    async exportPdf() {
+    async exportToPdf() {
       this.loading = true
-
-      const element = this.$refs.table.$el;
-      const opt = {
-        margin: 13,
-        filename: 'output.pdf',
-        // image: { type: 'jpeg', quality: 0.98 },
-        // html2canvas: { scale: 2 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
-      };
-
-      await html2pdf().set(opt).from(element).save()
-
+      try {
+        await this.exportToPdfMixin(this.$refs.table.$el, 'techresources')
+      } catch (e) {
+        console.log(e)
+        this.$message.error('Ошибка экспорта')
+      }
       this.loading = false
-
-      // const doc = new jsPDF({
-      //   orientation: 'l',
-      //   unit: 'mm'
-      // })
-      // await doc.html(this.$refs.table.$el, {
-      //   'x': 10,
-      //   'y': 10,
-      //   'width': 270,
-        // callback: pdf => {
-        //   pdf.save('file.pdf')
-        // }
-      // })
-      // doc.save('file.pdf')
-      // this.loading = true
-      // await html2canvas(this.$refs.table.$el).then(canvas => {
-      //   const imgData = canvas.toDataURL('image/png', 1)
-      //   const imgWidth = 275
-      //   const pageHeight = 210
-      //   console.log(imgWidth)
-      //   const imgHeight = canvas.height * imgWidth / canvas.width - 20
-      //   let heightLeft = imgHeight
-      //   const doc = new jsPDF('l', 'mm')
-      //   let position = 0
-
-      //   doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight)
-      //   heightLeft -= pageHeight
-
-      //   while (heightLeft >= 0) {
-      //     position = heightLeft - imgHeight
-      //     doc.addPage()
-      //     doc.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight)
-      //     heightLeft -= pageHeight
-      //   }
-      //   doc.save( 'file.pdf')
-      // })
-      // this.loading = false
-
-      // const doc = new jsPDF({
-      //   orientation: 'l'
-      // })
-      // html2canvas(this.$refs.table.$el).then(canvas => {
-      //   const img = canvas.toDataURL('image/jpeg', 0.9)
-      //   const height = canvas.height / 3.79
-      //   doc.addImage(img, 'JPEG', 10, 10, 277, height)
-      //   doc.save('output.pdf')
-      // })
     },
     async fetchTechResources() {
       this.loading = true

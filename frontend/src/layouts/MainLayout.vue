@@ -36,7 +36,7 @@ export default {
                 this.asideWidth = '65px'
                 break
             case false:
-                this.asideWidth = '230px'
+                this.asideWidth = '250px'
                 break
         }
     }

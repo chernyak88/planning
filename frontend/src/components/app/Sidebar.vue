@@ -25,6 +25,48 @@
       <i class="el-icon-s-home"></i>
       <span slot="title">Главная</span>
     </el-menu-item>
+    <el-submenu index="/basic">
+      <template slot="title">
+        <i class="el-icon-menu"></i>
+        <span slot="title">Основные</span>
+      </template>
+      <el-menu-item index="/planning" :route="{ name: 'planning'}">
+        <span slot="title">Планирование</span>
+      </el-menu-item>
+      <el-menu-item index="/coordination" :route="{ name: 'coordination'}">
+        <span slot="title">Координация</span>
+      </el-menu-item>
+      <el-menu-item index="/producers" :route="{ name: 'producers'}">
+        <span slot="title">Продюссеры</span>
+      </el-menu-item>
+    </el-submenu>
+    <el-submenu index="/processes">
+      <template slot="title">
+        <i class="el-icon-s-marketing"></i>
+        <span slot="title">Процессы</span>
+      </template>
+      <el-menu-item index="/employeeschedule" :route="{ name: 'employeeschedule'}">
+        <span slot="title">График сотрудников</span>
+      </el-menu-item>
+      <el-menu-item index="/aetherplan" :route="{ name: 'aetherplan'}">
+        <span slot="title">Эфирный план</span>
+      </el-menu-item>
+      <el-menu-item index="/log" :route="{ name: 'log'}">
+        <span slot="title">ЛОГ</span>
+      </el-menu-item>
+    </el-submenu>
+    <el-submenu index="/management">
+      <template slot="title">
+        <i class="el-icon-s-management"></i>
+        <span slot="title">Управление</span>
+      </template>
+      <el-menu-item index="/employee" :route="{ name: 'employee'}">
+        <span slot="title">Управление сотрудниками</span>
+      </el-menu-item>
+      <el-menu-item index="/techresources" :route="{ name: 'techresources'}">
+        <span slot="title">Управление техресурсами</span>
+      </el-menu-item>
+    </el-submenu>
   </el-menu>
 </template>
 
@@ -55,7 +97,10 @@ export default {
 .sidebar {
   height: 100%;
 }
-.el-menu-item i {
+.el-menu-item i, .el-submenu__title i {
   margin-right: 22px !important;
+}
+.el-submenu .el-menu .el-menu-item {
+  padding-left: 66px !important;
 }
 </style>
