@@ -94,7 +94,6 @@
       id="table"
       ref="table"
       :data="techresources"
-      style="width: 100%"
       border
       stripe
       @sort-change="sortByColumn"
@@ -144,6 +143,7 @@
       >
       </el-table-column>
       <el-table-column
+        data-html2canvas-ignore
         v-if="columnsFilter.actionColumn"
         label="Действие"
         width="90"
