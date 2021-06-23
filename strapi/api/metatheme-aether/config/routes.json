@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/metatheme-aethers",
+      "handler": "metatheme-aether.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metatheme-aethers/count",
+      "handler": "metatheme-aether.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metatheme-aethers/:id",
+      "handler": "metatheme-aether.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/metatheme-aethers",
+      "handler": "metatheme-aether.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/metatheme-aethers/:id",
+      "handler": "metatheme-aether.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/metatheme-aethers/:id",
+      "handler": "metatheme-aether.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

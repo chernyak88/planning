@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employees",
+  "info": {
+    "name": "employee",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "surname": {
+      "type": "string"
+    },
+    "patronymic": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "comment": {
+      "type": "text"
+    },
+    "passport": {
+      "type": "string"
+    },
+    "foreign_passport": {
+      "type": "string"
+    },
+    "location": {
+      "model": "location"
+    },
+    "employee_role": {
+      "model": "employee-role"
+    }
+  }
+}

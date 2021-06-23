@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "metatheme_inclusions",
+  "info": {
+    "name": "metathemeInclusion"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

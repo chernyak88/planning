@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "metatheme_aethers",
+  "info": {
+    "name": "metathemeAether"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

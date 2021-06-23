@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/metatheme-aether-plans",
+      "handler": "metatheme-aether-plan.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metatheme-aether-plans/count",
+      "handler": "metatheme-aether-plan.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/metatheme-aether-plans/:id",
+      "handler": "metatheme-aether-plan.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/metatheme-aether-plans",
+      "handler": "metatheme-aether-plan.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/metatheme-aether-plans/:id",
+      "handler": "metatheme-aether-plan.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/metatheme-aether-plans/:id",
+      "handler": "metatheme-aether-plan.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employee_roles",
+  "info": {
+    "name": "employeeRole"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

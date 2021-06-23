@@ -17,6 +17,17 @@
 CREATE DATABASE IF NOT EXISTS `plandb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `plandb`;
 
+-- Дамп структуры для таблица plandb.components_metatheme_category_metathemes
+CREATE TABLE IF NOT EXISTS `components_metatheme_category_metathemes` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.components_metatheme_category_metathemes: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `components_metatheme_category_metathemes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `components_metatheme_category_metathemes` ENABLE KEYS */;
+
 -- Дамп структуры для таблица plandb.core_store
 CREATE TABLE IF NOT EXISTS `core_store` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
@@ -26,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `core_store` (
   `environment` varchar(255) DEFAULT NULL,
   `tag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Дамп данных таблицы plandb.core_store: ~7 rows (приблизительно)
 /*!40000 ALTER TABLE `core_store` DISABLE KEYS */;
@@ -63,8 +74,211 @@ INSERT INTO `core_store` (`id`, `key`, `value`, `type`, `environment`, `tag`) VA
 	(31, 'plugin_users-permissions_advanced', '{"unique_email":true,"allow_register":true,"email_confirmation":false,"email_reset_password":null,"email_confirmation_redirection":null,"default_role":"authenticated"}', 'object', '', ''),
 	(32, 'core_admin_auth', '{"providers":{"autoRegister":false,"defaultRole":null}}', 'object', '', ''),
 	(33, 'model_def_application::syslog.syslog', '{"uid":"application::syslog.syslog","collectionName":"syslogs","kind":"collectionType","info":{"name":"syslog","description":""},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"contentType":{"type":"string"},"action":{"type":"string"},"content":{"type":"json"},"name":{"type":"text"},"author":{"type":"string"},"contentBefore":{"type":"json"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
-	(34, 'plugin_content_manager_configuration_content_types::application::syslog.syslog', '{"uid":"application::syslog.syslog","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":50,"mainField":"contentType","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"author":{"edit":{"label":"Author","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Author","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"contentType":{"edit":{"label":"ContentType","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ContentType","searchable":true,"sortable":true}},"action":{"edit":{"label":"Action","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Action","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}},"contentBefore":{"edit":{"label":"ContentBefore","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ContentBefore","searchable":false,"sortable":false}},"content":{"edit":{"label":"Content","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Content","searchable":false,"sortable":false}},"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"contentType","size":6},{"name":"action","size":6}],[{"name":"name","size":6},{"name":"author","size":6}],[{"name":"content","size":12}],[{"name":"contentBefore","size":12}]],"editRelations":[],"list":["id","contentType","action","name","author"]}}', 'object', '', '');
+	(34, 'plugin_content_manager_configuration_content_types::application::syslog.syslog', '{"uid":"application::syslog.syslog","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":50,"mainField":"contentType","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"author":{"edit":{"label":"Author","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Author","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"contentType":{"edit":{"label":"ContentType","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ContentType","searchable":true,"sortable":true}},"action":{"edit":{"label":"Action","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Action","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}},"contentBefore":{"edit":{"label":"ContentBefore","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ContentBefore","searchable":false,"sortable":false}},"content":{"edit":{"label":"Content","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Content","searchable":false,"sortable":false}},"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"contentType","size":6},{"name":"action","size":6}],[{"name":"name","size":6},{"name":"author","size":6}],[{"name":"content","size":12}],[{"name":"contentBefore","size":12}]],"editRelations":[],"list":["id","contentType","action","name","author"]}}', 'object', '', ''),
+	(35, 'model_def_metatheme-category.metatheme', '{"uid":"metatheme-category.metatheme","collectionName":"components_metatheme_category_metathemes","info":{"name":"metatheme","icon":"align-center"},"options":{"timestamps":false},"attributes":{"name":{"type":"string"}}}', 'object', NULL, NULL),
+	(37, 'model_def_application::metatheme-section.metatheme-section', '{"uid":"application::metatheme-section.metatheme-section","collectionName":"metatheme_sections","kind":"collectionType","info":{"name":"metatheme-section"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
+	(38, 'plugin_content_manager_configuration_content_types::application::metatheme-section.metatheme-section', '{"uid":"application::metatheme-section.metatheme-section","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":50,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"name","size":6}]],"editRelations":[],"list":["id","name","created_at","updated_at"]}}', 'object', '', ''),
+	(39, 'model_def_application::metatheme-inclusion.metatheme-inclusion', '{"uid":"application::metatheme-inclusion.metatheme-inclusion","collectionName":"metatheme_inclusions","kind":"collectionType","info":{"name":"metathemeInclusion"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
+	(40, 'plugin_content_manager_configuration_content_types::application::metatheme-inclusion.metatheme-inclusion', '{"uid":"application::metatheme-inclusion.metatheme-inclusion","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"name","size":6}]],"editRelations":[],"list":["id","name","created_at","updated_at"]}}', 'object', '', ''),
+	(41, 'model_def_application::metatheme-aether.metatheme-aether', '{"uid":"application::metatheme-aether.metatheme-aether","collectionName":"metatheme_aethers","kind":"collectionType","info":{"name":"metathemeAether"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
+	(42, 'plugin_content_manager_configuration_content_types::application::metatheme-aether.metatheme-aether', '{"uid":"application::metatheme-aether.metatheme-aether","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":20,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"name","size":6}]],"editRelations":[],"list":["id","name","created_at","updated_at"]}}', 'object', '', ''),
+	(43, 'model_def_application::metatheme-aether-plan.metatheme-aether-plan', '{"uid":"application::metatheme-aether-plan.metatheme-aether-plan","collectionName":"metatheme_aether_plans","kind":"collectionType","info":{"name":"metathemeAetherPlan"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
+	(44, 'plugin_content_manager_configuration_content_types::application::metatheme-aether-plan.metatheme-aether-plan', '{"uid":"application::metatheme-aether-plan.metatheme-aether-plan","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":20,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"name","size":6}]],"editRelations":[],"list":["id","name","created_at","updated_at"]}}', 'object', '', ''),
+	(45, 'model_def_application::employee.employee', '{"uid":"application::employee.employee","collectionName":"employees","kind":"collectionType","info":{"name":"employee","description":""},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"surname":{"type":"string"},"patronymic":{"type":"string"},"phone":{"type":"string"},"comment":{"type":"text"},"passport":{"type":"string"},"foreign_passport":{"type":"string"},"location":{"model":"location"},"employee_role":{"model":"employee-role"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
+	(46, 'plugin_content_manager_configuration_content_types::application::employee.employee', '{"uid":"application::employee.employee","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":100,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"employee_role":{"edit":{"label":"Employee_role","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Employee_role","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"phone":{"edit":{"label":"Phone","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Phone","searchable":true,"sortable":true}},"passport":{"edit":{"label":"Passport","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Passport","searchable":true,"sortable":true}},"location":{"edit":{"label":"Location","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Location","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}},"surname":{"edit":{"label":"Surname","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Surname","searchable":true,"sortable":true}},"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"patronymic":{"edit":{"label":"Patronymic","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Patronymic","searchable":true,"sortable":true}},"foreign_passport":{"edit":{"label":"Foreign_passport","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Foreign_passport","searchable":true,"sortable":true}},"comment":{"edit":{"label":"Comment","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Comment","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"surname","size":6},{"name":"name","size":6}],[{"name":"patronymic","size":6},{"name":"phone","size":6}],[{"name":"comment","size":6},{"name":"passport","size":6}],[{"name":"foreign_passport","size":6}]],"editRelations":["location","employee_role"],"list":["id","surname","name","patronymic","location","employee_role"]}}', 'object', '', ''),
+	(47, 'model_def_application::employee-role.employee-role', '{"uid":"application::employee-role.employee-role","collectionName":"employee_roles","kind":"collectionType","info":{"name":"employeeRole"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
+	(48, 'plugin_content_manager_configuration_content_types::application::employee-role.employee-role', '{"uid":"application::employee-role.employee-role","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":20,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"name","size":6}]],"editRelations":[],"list":["id","name","created_at","updated_at"]}}', 'object', '', '');
 /*!40000 ALTER TABLE `core_store` ENABLE KEYS */;
+
+-- Дамп структуры для таблица plandb.employees
+CREATE TABLE IF NOT EXISTS `employees` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `surname` varchar(255) DEFAULT NULL,
+  `patronymic` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `comment` longtext,
+  `passport` varchar(255) DEFAULT NULL,
+  `foreign_passport` varchar(255) DEFAULT NULL,
+  `location` int DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `employee_role` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.employees: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `employees` DISABLE KEYS */;
+INSERT INTO `employees` (`id`, `name`, `surname`, `patronymic`, `phone`, `comment`, `passport`, `foreign_passport`, `location`, `created_by`, `updated_by`, `created_at`, `updated_at`, `employee_role`) VALUES
+	(1, 'Олег', 'Барышев', 'Олегович', '+7 915 259-02-90', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:38:47', '2021-06-23 12:38:47', 4),
+	(2, 'Дмитрий', 'Вахницкий', 'Борисович', '+7 985 480-58-20', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:40:03', '2021-06-23 12:40:03', 4),
+	(3, 'Анна', 'Воропай', 'Владимировна', '+7 916 963-76-54', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:40:40', '2021-06-23 12:40:40', 4),
+	(4, 'Георгий', 'Гривенный', 'Леонидович', '+7 916 040-11-53', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:41:18', '2021-06-23 12:41:18', 4),
+	(5, 'Надежда', 'Алешкина', 'Сергеевна', '+7 903 148-51-98', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:41:50', '2021-06-23 12:41:50', 4),
+	(6, 'Игнат', 'Бугаев', 'Витальевич', '+7 926 101-77-45', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:42:28', '2021-06-23 12:42:28', 5),
+	(7, 'Александр', 'Малышев', 'Александрович', '+7 916 489-87-42', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:43:00', '2021-06-23 12:43:00', 5),
+	(8, 'Максим', 'Алейников', 'Петрович', '+7 903 773-45-79', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:43:44', '2021-06-23 12:43:44', 1),
+	(9, 'Алексей', 'Аносов', 'Николаевич', '+7 968 668-88-48', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:44:18', '2021-06-23 12:44:18', 5),
+	(10, 'Федор', 'Болдырев', 'Сергеевич', '+7 916 943-90-99', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:44:55', '2021-06-23 12:44:55', 5),
+	(11, 'Станислав', 'Борисов', 'Михайлович', '+7 906 719-94-48', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:45:29', '2021-06-23 12:45:29', 5),
+	(12, 'Андрей', 'Брыков', 'Михайлович', '+7 916 066-12-18, +7 903 164-95-75', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:46:06', '2021-06-23 12:46:06', 5),
+	(13, 'Артём', 'Вицинский', 'Викторович', '+7 915 294-02-38', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:46:36', '2021-06-23 12:46:36', 5),
+	(14, 'Никита', 'Глебов', 'Евгеньевич', '+7 985 688-56-52, +7 926 157-37-57', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:47:08', '2021-06-23 12:47:08', 5),
+	(15, 'Никита', 'Дмитров', 'Вадимович', '+7 916 100-76-04', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:47:45', '2021-06-23 12:47:45', 1),
+	(16, 'Олег', 'Деркач', 'Иванович', '+7 916 417-65-56', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:48:14', '2021-06-23 12:48:14', 5),
+	(17, 'Артем', 'Афанасьев', 'Алексеевич', '+7 917 574-82-54', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:48:49', '2021-06-23 12:48:49', 1),
+	(18, 'Ираклий', 'Джеджелава', 'Зурабович', '+7 966 122-74-42, +7 977 819-01-82', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:49:24', '2021-06-23 12:49:24', 5),
+	(19, 'Сергей', 'Домнышев', 'Михайлович', '+7 916 233-62-89-82', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:49:51', '2021-06-23 12:49:51', 5),
+	(20, 'Алексей', 'Егоров', 'Георгиевич', '+7 965 352-41-88', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:50:28', '2021-06-23 12:50:28', 5),
+	(21, 'Алексей', 'Евдоков', 'Валерьевич', '+7 977 263-85-34', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:50:58', '2021-06-23 12:50:58', 1),
+	(22, 'Станислав', 'Григорьев', 'Игоревич', '+7 915 229-13-59', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:51:30', '2021-06-23 12:51:30', 4),
+	(23, 'Дмитрий', 'Зименкин', 'Сергеевич', '+7 931 391 0073', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:52:05', '2021-06-23 12:52:05', 4),
+	(24, 'Николай', 'Иванов', 'Лаврентьевич', '+7 925 122-45-79', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:52:37', '2021-06-23 12:52:37', 4),
+	(25, 'Леонид', 'Китрарь', 'Юрьевич', '+7 916 679-91-58', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:53:11', '2021-06-23 12:53:11', 4),
+	(26, 'Денис', 'Кулага', 'Николаевич', '+7 985 071-90-71', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:53:45', '2021-06-23 12:53:45', 4),
+	(27, 'Наталья', 'Кирилова', 'Николаевна', '+7 915 232-76-33', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:54:14', '2021-06-23 12:54:14', 4),
+	(28, 'Александр', 'Мостославский', 'Маркович', '+7 915 293-46-02', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:54:42', '2021-06-23 12:54:42', 4),
+	(29, 'Семен', 'Еремин', 'Николаевич', '+7-919-760-37-40', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:55:11', '2021-06-23 12:55:11', 4),
+	(30, 'Кирилл', 'Ольков', 'Алексеевич', '8-919-771-95-51', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:55:36', '2021-06-23 12:55:36', 4),
+	(31, 'Вячеслав', 'Николаев', 'Юрьевич', '+7-915-293-12-70', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:56:05', '2021-06-23 12:56:05', 4),
+	(32, 'Кирилл', 'Поляков', 'Вячеславович', '+7-985-857-88-91', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:56:33', '2021-06-23 12:56:33', 4),
+	(33, 'Дмитрий', 'Помельников', 'Борисович', '+7-917-581-97-01', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:57:05', '2021-06-23 12:57:05', 7),
+	(34, 'Николай', 'Никулин', 'Львович', '+7-905-552-34-58', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:57:39', '2021-06-23 12:57:39', 4),
+	(35, 'Максим', 'Прихода', 'Вячеславович', '+7 -916-211-14-06', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:58:07', '2021-06-23 12:58:07', 4),
+	(36, 'Виктор', 'Синеок', 'Сергеевич', '+7-916-401-72-30', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:58:37', '2021-06-23 12:58:37', 4),
+	(37, 'Руслан', 'Смыков', 'Дулатович', '+7-966-300-84-77', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:59:00', '2021-06-23 12:59:00', 4),
+	(38, 'Валентин', 'Трушнин', 'Александрович', '+7-915-281-77-46', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:59:28', '2021-06-23 12:59:28', 4),
+	(39, 'Елена', 'Хмура', 'Сергеевна', '+7 903 717-38-38', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:00:17', '2021-06-23 13:00:17', 4),
+	(40, 'Мери', 'Бадунц', 'Ваграмовна', '+7 989 832-29-20', NULL, NULL, NULL, 3, 1, 1, '2021-06-23 13:00:47', '2021-06-23 13:00:47', 4),
+	(41, 'Дмитрий', 'Жуков', 'Викторович', '+7 926 388-95-84', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:01:12', '2021-06-23 13:01:12', 1),
+	(42, 'Михаил', 'Жгулев', 'Алексеевич', '+7 925 862-49-59', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:01:42', '2021-06-23 13:01:42', 1),
+	(43, 'Андрей', 'Зыков', 'Борисович', '+7 916 617-24-27', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:02:13', '2021-06-23 13:02:13', 5),
+	(44, 'Николай', 'Заболотский', 'Дмитриевич', '+7 926 091-12-19', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:02:42', '2021-06-23 13:02:42', 5),
+	(45, 'Сергей', 'Забелинский', 'Александрович', '+7 926 865-98-69', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:03:15', '2021-06-23 13:03:15', 5),
+	(46, 'Николай', 'Иевлев', 'Вячеславович', '+7 916 329-61-41', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:03:50', '2021-06-23 13:03:50', 5),
+	(47, 'Сергей', 'Кезин', 'Анатольевич', '+7 903 191-42-08', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:04:17', '2021-06-23 13:04:17', 5),
+	(48, 'Михаил', 'Комиссаров', 'Александрович', '+7 905 711-55-08', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:09:38', '2021-06-23 13:09:38', 5),
+	(49, 'Петр', 'Коваленко', 'Константинович', '+7 916 632-64-32', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:10:12', '2021-06-23 13:10:12', 5),
+	(50, 'Евгений', 'Киркаленко', 'Андреевич', '+7 962 926-10-31', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:10:40', '2021-06-23 13:10:40', 5),
+	(51, 'Евгений', 'Кузнецов', 'Игоревич', '+7 977 654-29-49', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:11:13', '2021-06-23 13:11:13', 1),
+	(52, 'Михаил', 'Курчевнев', 'Юрьевич', '+7 977 654-29-49', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:11:37', '2021-06-23 13:11:37', 5),
+	(53, 'Александр', 'Козлов', 'Сергеевич', '+7 929 671-14-19', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:12:01', '2021-06-23 13:12:01', 1),
+	(54, 'Валерий', 'Лутовинов', 'Васильевич', '+7 910 480-45-34, +7 916 798-32-84', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:12:31', '2021-06-23 13:12:31', 5),
+	(55, 'Дмитрий', 'Михайлов', 'Александрович', '+7 926 688-52-94', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:13:03', '2021-06-23 13:13:03', 5),
+	(56, 'Андрей', 'Марков', 'Евгеньевич', '+7 925 126-94-08', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:13:34', '2021-06-23 13:13:34', 1),
+	(57, 'Виктор', 'Музалевский', 'Иванович', '+7 903 168-81-27', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:14:26', '2021-06-23 13:14:26', 5),
+	(58, 'Валерия', 'Миланская', 'Сергеевна', '+7 915 208-17-11', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:14:57', '2021-06-23 13:14:57', 5),
+	(59, 'Андрей', 'Минченко', 'Викторович', '+7 926 151-41-11', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:15:24', '2021-06-23 13:15:24', 1),
+	(60, 'Андрей', 'Макаренко', 'Юрьевич', '+7 926 633-30-33', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:15:48', '2021-06-23 13:15:49', 5),
+	(61, 'Дмитрий', 'Нефедов', 'Валерьевич', '+7 903 718-46-85', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:16:14', '2021-06-23 13:16:14', 5),
+	(62, 'Шуан Абдул', 'Нури', 'Кадырович', '+7 906 099-09-04', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:17:01', '2021-06-23 13:17:01', 5),
+	(63, 'Артем', 'Невский', 'Денисович', '+7 985 442-72-45', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:17:29', '2021-06-23 13:17:29', 1),
+	(64, 'Илья', 'Омельченко', 'Викторович', '+7 916 682-55-62', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:18:01', '2021-06-23 13:18:01', 5),
+	(65, 'Альфред', 'Оя', 'Викторович', '+7 909 975-76-94', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:18:28', '2021-06-23 13:18:28', 5),
+	(66, 'Олег', 'Орлов', 'Алексеевич', '+7 977 439-54-88', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:18:53', '2021-06-23 13:18:53', 1),
+	(67, 'Николай', 'Посадский', 'Сергеевич', '+7 963 711-01-34', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:19:19', '2021-06-23 13:19:19', 1),
+	(68, 'Кирилл', 'Пикторинский', 'Павлович', '+7 909 961-04-99', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:19:46', '2021-06-23 13:19:46', 5),
+	(69, 'Тимофей', 'Проймин', 'Владимирович', '+7 915 226-25-98', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:20:09', '2021-06-23 13:20:09', 5),
+	(70, 'Сергей', 'Резниченко', 'Сергеевич', '+7 926 262-58-36', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:20:39', '2021-06-23 13:20:39', 5),
+	(71, 'Дмитрий', 'Родионов', 'Викторович', '+7 985 281-70-96', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:21:08', '2021-06-23 13:21:08', 5),
+	(72, 'Сергей', 'Сидоренко', 'Николаевич', '+7 985 663-16-31', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:21:39', '2021-06-23 13:21:39', 5),
+	(73, 'Владимир', 'Силантьев', 'Алексеевич', '+7 926 460-13-08', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:22:04', '2021-06-23 13:22:04', 5),
+	(74, 'Олег', 'Серебряков', 'Евгеньевич', '+7 920 625-62-00', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:22:32', '2021-06-23 13:22:32', 5),
+	(75, 'Владимир', 'Сотников', 'Борисович', '+7 915 130-08-48', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:23:00', '2021-06-23 13:23:00', 5),
+	(76, 'Вадим', 'Степченко', 'Анатольевич', '+7 926 836-18-01', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:23:32', '2021-06-23 13:23:32', 5),
+	(77, 'Юрий', 'Тюнев', 'Петрович', '+7 916 616-83-48', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:23:58', '2021-06-23 13:23:58', 5),
+	(78, 'Антон', 'Таланов', 'Павлович', '+7 905 539-45-33', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:24:26', '2021-06-23 13:24:26', 5),
+	(79, 'Алексей', 'Фоминцов', 'Николаевич', '+7 926 331-10-31', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:24:55', '2021-06-23 13:24:55', 5),
+	(80, 'Артем', 'Ходалев', 'Сергеевич', '+7 925 275-00-18', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:25:25', '2021-06-23 13:25:25', 5),
+	(81, 'Виктор', 'Цховребов', 'Джумберович', '+7 985 111-01-91', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:26:05', '2021-06-23 13:26:05', 5),
+	(82, 'Константин', 'Чистяков', 'Николаевич', '+7 916 330-33-84', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:26:41', '2021-06-23 13:26:41', 5),
+	(83, 'Константин', 'Черкасов', 'Александрович', '+7 916 423-63-06', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:27:06', '2021-06-23 13:27:06', 1),
+	(84, 'Иван', 'Чеботарев', 'Петрович', '+7 962 924-03-23', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:27:30', '2021-06-23 13:27:30', 5),
+	(85, 'Игорь', 'Чигарев', 'Юрьевич', '+7 910 469-43-50', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:27:55', '2021-06-23 13:27:55', 5),
+	(86, 'Дмитрий', 'Шиков', 'Валерьевич', '+7 916 705-74-79', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:28:22', '2021-06-23 13:28:22', 5),
+	(87, 'Максим', 'Шипулин', 'Олегович', '+7 967 068-07-21', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:28:48', '2021-06-23 13:28:48', 1),
+	(88, 'Николай', 'Шевнин', 'Константинович', '+7 903 757-05-86', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:29:16', '2021-06-23 13:29:16', 5),
+	(89, 'Алексей', 'Якубович', 'Андреевич', '+7 905 525-33-28', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:29:43', '2021-06-23 13:29:43', 5),
+	(90, 'Наталья', 'Калышева', 'Викторовна', '+7 909 934-54-99', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:30:07', '2021-06-23 13:30:07', 5),
+	(91, 'Екатерина', 'Ягутян', 'Александровна', '+7 916 277-26-49', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:30:31', '2021-06-23 13:30:31', 5),
+	(92, 'Максим', 'Гаврилец', 'Александрович', '+7 917 217-79-47', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:30:54', '2021-06-23 13:30:54', 5),
+	(93, 'Данила', 'Головатенко', 'Андреевич', '+7 977 423-41-91', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:31:18', '2021-06-23 13:31:18', 5),
+	(94, 'Алексей', 'Двоенкин', 'Эдуардович', '+7 926 797-11-92', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:31:45', '2021-06-23 13:31:46', 5),
+	(95, 'Андрей', 'Иванов', 'Цветанов', '+7 985 422-76-38', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:32:25', '2021-06-23 13:32:25', 5),
+	(96, 'Олег', 'Климин', 'Васильевич', '+7 926 663-03-81', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:32:55', '2021-06-23 13:32:55', 5),
+	(97, 'Дмитрий', 'Климинченко', 'Викторович', '+7 926 663-03-81', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:33:22', '2021-06-23 13:33:22', 5),
+	(98, 'Борис', 'Маричев', 'Александрович', '+7 909 998-77-94', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:33:51', '2021-06-23 13:33:51', 5),
+	(99, 'Максим', 'Сыровегин', 'Сергеевич', '+7 925 848-87-98', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:34:17', '2021-06-23 13:34:17', 5),
+	(100, 'Евгений', 'Чегис', 'Александрович', '+7 967 225-22-76', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:34:41', '2021-06-23 13:34:48', 5),
+	(101, 'Андрей', 'Рачеев', 'Александрович', '+7 964 501-33-08', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:35:18', '2021-06-23 13:35:18', 5),
+	(102, 'Сергей', 'Лямытских', 'Геннадиевич', '+7 914 076-38-26', NULL, NULL, NULL, 3, 1, 1, '2021-06-23 13:35:49', '2021-06-23 13:35:49', 5),
+	(103, 'Алексей', 'Корниенко', 'Витальевич', '+7 928 449-13-73', NULL, NULL, NULL, 3, 1, 1, '2021-06-23 13:36:24', '2021-06-23 13:36:24', 5),
+	(104, 'Рамазан', 'Рашидов', 'Рашидович', '+7 903 499-92-33', NULL, NULL, NULL, 3, 1, 1, '2021-06-23 13:36:55', '2021-06-23 13:36:55', 5),
+	(105, 'Виталий', 'Ханин', 'Олегович', '+ 7 915 345 40 16', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:37:21', '2021-06-23 13:37:21', 4),
+	(106, 'Иван', 'Солилов', 'Сергеевич', '+7 926 375-87-95', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:37:46', '2021-06-23 13:37:46', 1),
+	(107, 'Ксения', 'Солдатова', 'Владимировна', '+7-917-510-21-95', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 13:38:16', '2021-06-23 13:38:16', 4),
+	(108, 'Александр', 'Басов', 'Александрович', '89856044779', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:23:37', '2021-06-23 16:23:37', 2),
+	(109, 'Денис', 'Молоканов', 'Алексеевич', '89164533647', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:24:09', '2021-06-23 16:24:09', 2),
+	(110, 'Александр', 'Каримов', 'Анатольевич', '89774986282', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:24:46', '2021-06-23 16:24:46', 2),
+	(111, 'Владимир', 'Марисов', 'Викторович', '89779279092', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:25:46', '2021-06-23 16:25:46', 2),
+	(112, 'Николай', 'Шаварин', 'Александрович', '89670463682', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:26:19', '2021-06-23 16:26:19', 2),
+	(113, 'Сергей', 'Хрисанов', 'Владимирович', '89168615815', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:27:01', '2021-06-23 16:27:01', 2),
+	(114, 'Василий', 'Матрос', 'Владимирович', '89104847050', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:27:29', '2021-06-23 16:27:29', 2),
+	(115, 'Алексей', 'Болотов', 'Юрьевич', '89269177408', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:27:53', '2021-06-23 16:27:53', 2),
+	(116, 'Виктор', 'Швачко', 'Анатольевич', '89998018100', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:28:22', '2021-06-23 16:28:22', 2),
+	(117, 'Александр', 'Дудка', 'Анатольевич', '89057606666', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:28:50', '2021-06-23 16:28:50', 2),
+	(118, 'Виталий', 'Шипилов', 'Николаевич', '89160573266', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:29:17', '2021-06-23 16:29:17', 2),
+	(119, 'Валерий', 'Назаренко', 'Анатольевич', '89163373758', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:29:47', '2021-06-23 16:29:47', 2),
+	(120, 'Владимир', 'Рожков', 'Александрович', '89265522792', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:30:10', '2021-06-23 16:30:10', 2),
+	(121, 'Сергей', 'Бартеньев', 'Владимирович', '89197659474', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:30:36', '2021-06-23 16:30:36', 2),
+	(122, 'Игорь', 'Жернов', 'Юрьевич', '89031752828', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:31:01', '2021-06-23 16:31:01', 2),
+	(123, 'Роман', 'Бочков', 'Викторович', '89264960039', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:31:24', '2021-06-23 16:31:24', 2),
+	(124, 'Александр', 'Сафонов', 'Владимирович', '89169557220', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:31:52', '2021-06-23 16:31:52', 2),
+	(125, 'Георгий', 'Осипов', 'Валерьевич', '89263813673', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:32:21', '2021-06-23 16:32:21', 2),
+	(126, 'Михаил', 'Киселев', 'Владимирович', '89031367542', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:32:45', '2021-06-23 16:32:45', 2),
+	(127, 'Евгений', 'Босканов', 'Алексеевич', '89154037033', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:33:11', '2021-06-23 16:33:11', 2),
+	(128, 'Антон', 'Золотницкий', 'Владимирович', '+7 910 405-65-66', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:33:37', '2021-06-23 16:33:37', 7),
+	(129, 'Иван', 'Бурняшев', 'Иванович', '+7 925 726-20-42', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:34:00', '2021-06-23 16:34:00', 7),
+	(130, 'Артем', 'Кузнецов', 'Александрович', '+7 963 767-11-09', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:34:29', '2021-06-23 16:34:29', 7),
+	(131, 'Андрей', 'Казаков', 'Андреевич', '+7 968 947-95-77', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:34:56', '2021-06-23 16:34:56', 7),
+	(132, 'Иван', 'Литомин', 'Анатольевич', '+7 963 638-89-18', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:35:28', '2021-06-23 16:35:28', 4),
+	(133, 'Валерия', 'Нодельман', NULL, '+7 915 184-48-35; +7 915 184-48-35', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:36:08', '2021-06-23 16:36:08', 3),
+	(134, 'Алина', 'Скачкова', 'Михайловна', '8 915 738 70 50', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:36:42', '2021-06-23 16:36:42', 7),
+	(135, 'Вероника', 'Пичугина', 'Александровна', '8 960 536 05 18', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:37:08', '2021-06-23 16:37:08', 7),
+	(136, 'Егор', 'Кильдибеков', 'Владимирович', '8 925 729 17 27', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:37:35', '2021-06-23 16:37:35', 4),
+	(137, 'Даниил', 'Левин', 'Игоревич', '8 915 059 88 58', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:38:03', '2021-06-23 16:38:03', 4),
+	(138, 'Владимир', 'Седов', 'Владимирович', '89263790214', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:38:35', '2021-06-23 16:38:35', 4),
+	(139, 'Александра', 'Чальцева', 'Дмитриевна', '89652445534', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 16:39:02', '2021-06-23 16:39:02', 4);
+/*!40000 ALTER TABLE `employees` ENABLE KEYS */;
+
+-- Дамп структуры для таблица plandb.employee_roles
+CREATE TABLE IF NOT EXISTS `employee_roles` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.employee_roles: ~11 rows (приблизительно)
+/*!40000 ALTER TABLE `employee_roles` DISABLE KEYS */;
+INSERT INTO `employee_roles` (`id`, `name`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+	(1, 'Ассистент', 1, 1, '2021-06-23 12:31:39', '2021-06-23 12:31:39'),
+	(2, 'Водитель', 1, 1, '2021-06-23 12:31:53', '2021-06-23 12:31:53'),
+	(3, 'Газета(корр)', 1, 1, '2021-06-23 12:32:13', '2021-06-23 12:32:13'),
+	(4, 'Корреспондент', 1, 1, '2021-06-23 12:32:26', '2021-06-23 12:32:26'),
+	(5, 'Оператор', 1, 1, '2021-06-23 12:32:39', '2021-06-23 12:32:39'),
+	(6, 'Продюсер', 1, 1, '2021-06-23 12:32:53', '2021-06-23 12:32:53'),
+	(7, 'Продюсер(сним)', 1, 1, '2021-06-23 12:33:09', '2021-06-23 12:33:09'),
+	(8, 'Стажер', 1, 1, '2021-06-23 12:33:23', '2021-06-23 12:33:23'),
+	(9, 'Ведущий', 1, 1, '2021-06-23 12:33:45', '2021-06-23 12:33:45'),
+	(10, 'Газета(фото)', 1, 1, '2021-06-23 12:34:02', '2021-06-23 12:34:02'),
+	(11, 'Инженер', 1, 1, '2021-06-23 12:34:26', '2021-06-23 12:34:26');
+/*!40000 ALTER TABLE `employee_roles` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.i18n_locales
 CREATE TABLE IF NOT EXISTS `i18n_locales` (
@@ -106,6 +320,131 @@ INSERT INTO `locations` (`id`, `name`, `created_by`, `updated_by`, `created_at`,
 	(4, 'Мир', 1, 1, '2021-06-01 08:15:08', '2021-06-01 08:15:08');
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 
+-- Дамп структуры для таблица plandb.metatheme_aethers
+CREATE TABLE IF NOT EXISTS `metatheme_aethers` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.metatheme_aethers: ~19 rows (приблизительно)
+/*!40000 ALTER TABLE `metatheme_aethers` DISABLE KEYS */;
+INSERT INTO `metatheme_aethers` (`id`, `name`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+	(1, '5 Канал 05:00', 1, 1, '2021-06-23 11:51:05', '2021-06-23 11:51:05'),
+	(2, '5 Канал 09:00', 1, 1, '2021-06-23 11:51:32', '2021-06-23 11:51:32'),
+	(3, '5 Канал 13:00', 1, 1, '2021-06-23 11:51:44', '2021-06-23 11:51:44'),
+	(4, '5 Канал 17:30', 1, 1, '2021-06-23 11:52:10', '2021-06-23 11:52:10'),
+	(5, '5 Канал 20:00', 1, 1, '2021-06-23 11:52:22', '2021-06-23 11:52:22'),
+	(6, '5 Канал 00:00', 1, 1, '2021-06-23 11:52:37', '2021-06-23 11:52:37'),
+	(7, 'Итоги.Главное', 1, 1, '2021-06-23 11:52:51', '2021-06-23 11:52:51'),
+	(8, 'РЕН пятиминутки', 1, 1, '2021-06-23 11:53:11', '2021-06-23 11:53:11'),
+	(9, 'РЕН 08:30', 1, 1, '2021-06-23 11:53:30', '2021-06-23 11:53:30'),
+	(10, 'РЕН 12:30', 1, 1, '2021-06-23 11:53:43', '2021-06-23 11:53:44'),
+	(11, 'РЕН 16:30', 1, 1, '2021-06-23 11:53:59', '2021-06-23 11:53:59'),
+	(12, 'РЕН 19:30', 1, 1, '2021-06-23 11:54:12', '2021-06-23 11:54:12'),
+	(13, 'РЕН 21:00', 1, 1, '2021-06-23 11:54:25', '2021-06-23 11:54:25'),
+	(14, 'РЕН 23:00', 1, 1, '2021-06-23 11:54:38', '2021-06-23 11:54:38'),
+	(15, 'РЕН Добров', 1, 1, '2021-06-23 11:54:50', '2021-06-23 11:54:50'),
+	(16, 'Вызов пятиминутки', 1, 1, '2021-06-23 11:55:08', '2021-06-23 11:55:08'),
+	(17, 'Вызов 12:00', 1, 1, '2021-06-23 11:55:23', '2021-06-23 11:55:23'),
+	(18, 'Вызов 16:00', 1, 1, '2021-06-23 11:55:46', '2021-06-23 11:55:46'),
+	(19, 'Вызов 19:00', 1, 1, '2021-06-23 11:56:02', '2021-06-23 11:56:02');
+/*!40000 ALTER TABLE `metatheme_aethers` ENABLE KEYS */;
+
+-- Дамп структуры для таблица plandb.metatheme_aether_plans
+CREATE TABLE IF NOT EXISTS `metatheme_aether_plans` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.metatheme_aether_plans: ~12 rows (приблизительно)
+/*!40000 ALTER TABLE `metatheme_aether_plans` DISABLE KEYS */;
+INSERT INTO `metatheme_aether_plans` (`id`, `name`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+	(1, 'Командировка', 1, 1, '2021-06-23 11:59:10', '2021-06-23 11:59:10'),
+	(2, 'Следим', 1, 1, '2021-06-23 11:59:21', '2021-06-23 11:59:21'),
+	(3, 'Следим (112)', 1, 1, '2021-06-23 11:59:36', '2021-06-23 11:59:36'),
+	(4, 'Разработка', 1, 1, '2021-06-23 11:59:50', '2021-06-23 11:59:50'),
+	(5, 'Эпизоды', 1, 1, '2021-06-23 12:00:01', '2021-06-23 12:00:01'),
+	(6, 'Исходник', 1, 1, '2021-06-23 12:00:15', '2021-06-23 12:00:15'),
+	(7, 'ВМЗ', 1, 1, '2021-06-23 12:00:28', '2021-06-23 12:00:28'),
+	(8, 'БЗ+СХ', 1, 1, '2021-06-23 12:00:40', '2021-06-23 12:00:40'),
+	(9, 'ВМЗ/БЗ+СХ', 1, 1, '2021-06-23 12:01:00', '2021-06-23 12:01:00'),
+	(10, 'Прямо', 1, 1, '2021-06-23 12:01:11', '2021-06-23 12:01:11'),
+	(11, 'Сайту', 1, 1, '2021-06-23 12:01:19', '2021-06-23 12:01:19'),
+	(12, 'IZ', 1, 1, '2021-06-23 12:01:28', '2021-06-23 12:01:28');
+/*!40000 ALTER TABLE `metatheme_aether_plans` ENABLE KEYS */;
+
+-- Дамп структуры для таблица plandb.metatheme_inclusions
+CREATE TABLE IF NOT EXISTS `metatheme_inclusions` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.metatheme_inclusions: ~6 rows (приблизительно)
+/*!40000 ALTER TABLE `metatheme_inclusions` DISABLE KEYS */;
+INSERT INTO `metatheme_inclusions` (`id`, `name`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+	(1, 'ПУЛ', 1, 1, '2021-06-23 11:45:56', '2021-06-23 11:45:56'),
+	(2, 'Трансляция', 1, 1, '2021-06-23 11:46:41', '2021-06-23 11:46:41'),
+	(3, 'Дежеро', 1, 1, '2021-06-23 11:46:54', '2021-06-23 11:46:54'),
+	(4, 'Телефон', 1, 1, '2021-06-23 11:47:08', '2021-06-23 11:47:08'),
+	(5, 'ПССС', 1, 1, '2021-06-23 11:47:23', '2021-06-23 11:47:23'),
+	(6, 'Видео', 1, 1, '2021-06-23 11:47:34', '2021-06-23 11:47:34');
+/*!40000 ALTER TABLE `metatheme_inclusions` ENABLE KEYS */;
+
+-- Дамп структуры для таблица plandb.metatheme_sections
+CREATE TABLE IF NOT EXISTS `metatheme_sections` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.metatheme_sections: ~24 rows (приблизительно)
+/*!40000 ALTER TABLE `metatheme_sections` DISABLE KEYS */;
+INSERT INTO `metatheme_sections` (`id`, `name`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+	(1, 'Первые лица, События', 1, 1, '2021-06-23 11:29:38', '2021-06-23 11:29:38'),
+	(2, 'Москва', 1, 1, '2021-06-23 11:29:55', '2021-06-23 11:29:56'),
+	(3, 'Остальное М', 1, 1, '2021-06-23 11:30:31', '2021-06-23 11:30:31'),
+	(4, 'Повестка СПб', 1, 1, '2021-06-23 11:32:54', '2021-06-23 11:32:54'),
+	(5, 'Остальное СПб', 1, 1, '2021-06-23 11:33:09', '2021-06-23 11:33:09'),
+	(6, 'Эфир Рег', 1, 1, '2021-06-23 11:33:33', '2021-06-23 11:33:33'),
+	(7, 'Планы Рег', 1, 1, '2021-06-23 11:33:41', '2021-06-23 11:33:41'),
+	(8, 'Разработка Рег', 1, 1, '2021-06-23 11:33:52', '2021-06-23 11:33:52'),
+	(9, 'Консервы Рег', 1, 1, '2021-06-23 11:34:05', '2021-06-23 11:34:05'),
+	(10, 'Эфир ЗР', 1, 1, '2021-06-23 11:34:24', '2021-06-23 11:34:24'),
+	(11, 'Повестка ЗР', 1, 1, '2021-06-23 11:34:44', '2021-06-23 11:34:44'),
+	(12, 'Разработка ЗР', 1, 1, '2021-06-23 11:34:53', '2021-06-23 11:34:53'),
+	(13, 'Съемки Прод', 1, 1, '2021-06-23 11:35:11', '2021-06-23 11:35:11'),
+	(14, 'Консервы Прод', 1, 1, '2021-06-23 11:35:21', '2021-06-23 11:35:21'),
+	(15, 'Эфир IZ.TV', 1, 1, '2021-06-23 11:35:38', '2021-06-23 11:35:38'),
+	(16, 'Остальное IZ.TV', 1, 1, '2021-06-23 11:36:16', '2021-06-23 11:36:16'),
+	(17, 'Повестка 78', 1, 1, '2021-06-23 11:36:52', '2021-06-23 11:36:52'),
+	(18, 'Остальное 78', 1, 1, '2021-06-23 11:36:59', '2021-06-23 11:36:59'),
+	(19, 'Повестка 112', 1, 1, '2021-06-23 11:37:13', '2021-06-23 11:37:13'),
+	(20, 'Остальное 112', 1, 1, '2021-06-23 11:37:22', '2021-06-23 11:37:22'),
+	(21, 'Планы Ren.TV', 1, 1, '2021-06-23 11:37:44', '2021-06-23 11:37:44'),
+	(22, 'Эфирный план 5 канала', 1, 1, '2021-06-23 11:37:59', '2021-06-23 11:37:59'),
+	(23, 'Планы IZ', 1, 1, '2021-06-23 11:38:24', '2021-06-23 11:38:24'),
+	(24, 'Планы Газета', 1, 1, '2021-06-23 11:38:41', '2021-06-23 11:38:41');
+/*!40000 ALTER TABLE `metatheme_sections` ENABLE KEYS */;
+
 -- Дамп структуры для таблица plandb.strapi_administrator
 CREATE TABLE IF NOT EXISTS `strapi_administrator` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
@@ -140,7 +479,7 @@ CREATE TABLE IF NOT EXISTS `strapi_permission` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=228 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=348 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Дамп данных таблицы plandb.strapi_permission: ~96 rows (приблизительно)
 /*!40000 ALTER TABLE `strapi_permission` DISABLE KEYS */;
@@ -235,12 +574,36 @@ INSERT INTO `strapi_permission` (`id`, `action`, `subject`, `properties`, `condi
 	(207, 'plugins::content-manager.explorer.read', 'application::syslog.syslog', '{"fields":["contentType","action","content","name","author","contentBefore"]}', '[]', 1, '2021-06-09 09:58:08', '2021-06-09 09:58:08'),
 	(208, 'plugins::content-manager.explorer.create', 'application::syslog.syslog', '{"fields":["contentType","action","content","name","author","contentBefore"]}', '[]', 1, '2021-06-09 09:58:08', '2021-06-09 09:58:08'),
 	(209, 'plugins::content-manager.explorer.update', 'application::syslog.syslog', '{"fields":["contentType","action","content","name","author","contentBefore"]}', '[]', 1, '2021-06-09 09:58:08', '2021-06-09 09:58:08'),
-	(222, 'plugins::content-manager.explorer.delete', 'application::tech-resource-status.tech-resource-status', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32'),
-	(223, 'plugins::content-manager.explorer.delete', 'application::syslog.syslog', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32'),
-	(224, 'plugins::content-manager.explorer.delete', 'application::location.location', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32'),
-	(225, 'plugins::content-manager.explorer.delete', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32'),
-	(226, 'plugins::content-manager.explorer.delete', 'plugins::users-permissions.user', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32'),
-	(227, 'plugins::content-manager.explorer.publish', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-09 10:54:32', '2021-06-09 10:54:32');
+	(246, 'plugins::content-manager.explorer.read', 'application::metatheme-section.metatheme-section', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:28:30', '2021-06-23 11:28:30'),
+	(247, 'plugins::content-manager.explorer.create', 'application::metatheme-section.metatheme-section', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:28:30', '2021-06-23 11:28:30'),
+	(248, 'plugins::content-manager.explorer.update', 'application::metatheme-section.metatheme-section', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:28:30', '2021-06-23 11:28:30'),
+	(256, 'plugins::content-manager.explorer.read', 'application::metatheme-inclusion.metatheme-inclusion', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:44:41', '2021-06-23 11:44:41'),
+	(257, 'plugins::content-manager.explorer.create', 'application::metatheme-inclusion.metatheme-inclusion', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:44:41', '2021-06-23 11:44:41'),
+	(258, 'plugins::content-manager.explorer.update', 'application::metatheme-inclusion.metatheme-inclusion', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:44:41', '2021-06-23 11:44:41'),
+	(267, 'plugins::content-manager.explorer.update', 'application::metatheme-aether.metatheme-aether', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:49:26', '2021-06-23 11:49:26'),
+	(268, 'plugins::content-manager.explorer.create', 'application::metatheme-aether.metatheme-aether', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:49:26', '2021-06-23 11:49:26'),
+	(276, 'plugins::content-manager.explorer.read', 'application::metatheme-aether.metatheme-aether', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:49:26', '2021-06-23 11:49:26'),
+	(279, 'plugins::content-manager.explorer.read', 'application::metatheme-aether-plan.metatheme-aether-plan', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:58:04', '2021-06-23 11:58:04'),
+	(280, 'plugins::content-manager.explorer.create', 'application::metatheme-aether-plan.metatheme-aether-plan', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:58:04', '2021-06-23 11:58:04'),
+	(281, 'plugins::content-manager.explorer.update', 'application::metatheme-aether-plan.metatheme-aether-plan', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:58:04', '2021-06-23 11:58:04'),
+	(306, 'plugins::content-manager.explorer.create', 'application::employee-role.employee-role', '{"fields":["name"]}', '[]', 1, '2021-06-23 12:30:52', '2021-06-23 12:30:52'),
+	(307, 'plugins::content-manager.explorer.read', 'application::employee-role.employee-role', '{"fields":["name"]}', '[]', 1, '2021-06-23 12:30:52', '2021-06-23 12:30:52'),
+	(308, 'plugins::content-manager.explorer.update', 'application::employee-role.employee-role', '{"fields":["name"]}', '[]', 1, '2021-06-23 12:30:52', '2021-06-23 12:30:52'),
+	(321, 'plugins::content-manager.explorer.update', 'application::employee.employee', '{"fields":["name","surname","patronymic","phone","comment","passport","foreign_passport","location","employee_role"]}', '[]', 1, '2021-06-23 12:35:14', '2021-06-23 12:35:14'),
+	(322, 'plugins::content-manager.explorer.read', 'application::employee.employee', '{"fields":["name","surname","patronymic","phone","comment","passport","foreign_passport","location","employee_role"]}', '[]', 1, '2021-06-23 12:35:14', '2021-06-23 12:35:14'),
+	(323, 'plugins::content-manager.explorer.create', 'application::employee.employee', '{"fields":["name","surname","patronymic","phone","comment","passport","foreign_passport","location","employee_role"]}', '[]', 1, '2021-06-23 12:35:14', '2021-06-23 12:35:14'),
+	(336, 'plugins::content-manager.explorer.delete', 'application::employee-role.employee-role', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(337, 'plugins::content-manager.explorer.delete', 'application::employee.employee', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(338, 'plugins::content-manager.explorer.delete', 'application::metatheme-aether-plan.metatheme-aether-plan', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(339, 'plugins::content-manager.explorer.delete', 'application::location.location', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(340, 'plugins::content-manager.explorer.delete', 'application::metatheme-aether.metatheme-aether', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(341, 'plugins::content-manager.explorer.delete', 'application::metatheme-inclusion.metatheme-inclusion', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(342, 'plugins::content-manager.explorer.delete', 'application::metatheme-section.metatheme-section', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(343, 'plugins::content-manager.explorer.delete', 'application::syslog.syslog', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(344, 'plugins::content-manager.explorer.delete', 'application::tech-resource-status.tech-resource-status', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(345, 'plugins::content-manager.explorer.delete', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(346, 'plugins::content-manager.explorer.delete', 'plugins::users-permissions.user', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
+	(347, 'plugins::content-manager.explorer.publish', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04');
 /*!40000 ALTER TABLE `strapi_permission` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.strapi_role
@@ -307,10 +670,13 @@ CREATE TABLE IF NOT EXISTS `syslogs` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Дамп данных таблицы plandb.syslogs: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `syslogs` DISABLE KEYS */;
+INSERT INTO `syslogs` (`id`, `contentType`, `action`, `content`, `name`, `author`, `contentBefore`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+	(1, 'auth', 'login', NULL, '172.18.0.1', 'user1@user1.ru', NULL, NULL, NULL, '2021-06-23 10:07:57', '2021-06-23 10:07:57'),
+	(2, 'request', 'get', NULL, '/tech-resources?&_start=0&_limit=5&_sort=id:asc', 'user1@user1.ru', NULL, NULL, NULL, '2021-06-23 10:08:00', '2021-06-23 10:08:00');
 /*!40000 ALTER TABLE `syslogs` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.tech_resources
@@ -427,7 +793,7 @@ CREATE TABLE IF NOT EXISTS `users-permissions_permission` (
   `created_by` int DEFAULT NULL,
   `updated_by` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=233 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=305 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Дамп данных таблицы plandb.users-permissions_permission: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `users-permissions_permission` DISABLE KEYS */;
@@ -651,7 +1017,79 @@ INSERT INTO `users-permissions_permission` (`id`, `type`, `controller`, `action`
 	(229, 'application', 'syslog', 'create', 1, '', 1, NULL, NULL),
 	(230, 'application', 'syslog', 'findone', 0, '', 2, NULL, NULL),
 	(231, 'application', 'syslog', 'update', 0, '', 1, NULL, NULL),
-	(232, 'application', 'syslog', 'update', 0, '', 2, NULL, NULL);
+	(232, 'application', 'syslog', 'update', 0, '', 2, NULL, NULL),
+	(233, 'application', 'metatheme-section', 'count', 0, '', 1, NULL, NULL),
+	(234, 'application', 'metatheme-section', 'count', 0, '', 2, NULL, NULL),
+	(235, 'application', 'metatheme-section', 'create', 0, '', 1, NULL, NULL),
+	(236, 'application', 'metatheme-section', 'delete', 0, '', 1, NULL, NULL),
+	(237, 'application', 'metatheme-section', 'create', 0, '', 2, NULL, NULL),
+	(238, 'application', 'metatheme-section', 'delete', 0, '', 2, NULL, NULL),
+	(239, 'application', 'metatheme-section', 'find', 0, '', 1, NULL, NULL),
+	(240, 'application', 'metatheme-section', 'find', 0, '', 2, NULL, NULL),
+	(241, 'application', 'metatheme-section', 'findone', 0, '', 1, NULL, NULL),
+	(242, 'application', 'metatheme-section', 'findone', 0, '', 2, NULL, NULL),
+	(243, 'application', 'metatheme-section', 'update', 0, '', 1, NULL, NULL),
+	(244, 'application', 'metatheme-section', 'update', 0, '', 2, NULL, NULL),
+	(245, 'application', 'metatheme-inclusion', 'count', 0, '', 1, NULL, NULL),
+	(246, 'application', 'metatheme-inclusion', 'count', 0, '', 2, NULL, NULL),
+	(247, 'application', 'metatheme-inclusion', 'create', 0, '', 2, NULL, NULL),
+	(248, 'application', 'metatheme-inclusion', 'create', 0, '', 1, NULL, NULL),
+	(249, 'application', 'metatheme-inclusion', 'delete', 0, '', 1, NULL, NULL),
+	(250, 'application', 'metatheme-inclusion', 'delete', 0, '', 2, NULL, NULL),
+	(251, 'application', 'metatheme-inclusion', 'find', 0, '', 1, NULL, NULL),
+	(252, 'application', 'metatheme-inclusion', 'find', 0, '', 2, NULL, NULL),
+	(253, 'application', 'metatheme-inclusion', 'findone', 0, '', 1, NULL, NULL),
+	(254, 'application', 'metatheme-inclusion', 'findone', 0, '', 2, NULL, NULL),
+	(255, 'application', 'metatheme-inclusion', 'update', 0, '', 1, NULL, NULL),
+	(256, 'application', 'metatheme-inclusion', 'update', 0, '', 2, NULL, NULL),
+	(257, 'application', 'metatheme-aether', 'count', 0, '', 1, NULL, NULL),
+	(258, 'application', 'metatheme-aether', 'count', 0, '', 2, NULL, NULL),
+	(259, 'application', 'metatheme-aether', 'create', 0, '', 1, NULL, NULL),
+	(260, 'application', 'metatheme-aether', 'create', 0, '', 2, NULL, NULL),
+	(261, 'application', 'metatheme-aether', 'delete', 0, '', 1, NULL, NULL),
+	(262, 'application', 'metatheme-aether', 'delete', 0, '', 2, NULL, NULL),
+	(263, 'application', 'metatheme-aether', 'find', 0, '', 1, NULL, NULL),
+	(264, 'application', 'metatheme-aether', 'find', 0, '', 2, NULL, NULL),
+	(265, 'application', 'metatheme-aether', 'findone', 0, '', 1, NULL, NULL),
+	(266, 'application', 'metatheme-aether', 'findone', 0, '', 2, NULL, NULL),
+	(267, 'application', 'metatheme-aether', 'update', 0, '', 1, NULL, NULL),
+	(268, 'application', 'metatheme-aether', 'update', 0, '', 2, NULL, NULL),
+	(269, 'application', 'metatheme-aether-plan', 'count', 0, '', 1, NULL, NULL),
+	(270, 'application', 'metatheme-aether-plan', 'count', 0, '', 2, NULL, NULL),
+	(271, 'application', 'metatheme-aether-plan', 'create', 0, '', 2, NULL, NULL),
+	(272, 'application', 'metatheme-aether-plan', 'delete', 0, '', 2, NULL, NULL),
+	(273, 'application', 'metatheme-aether-plan', 'find', 0, '', 1, NULL, NULL),
+	(274, 'application', 'metatheme-aether-plan', 'delete', 0, '', 1, NULL, NULL),
+	(275, 'application', 'metatheme-aether-plan', 'create', 0, '', 1, NULL, NULL),
+	(276, 'application', 'metatheme-aether-plan', 'find', 0, '', 2, NULL, NULL),
+	(277, 'application', 'metatheme-aether-plan', 'findone', 0, '', 1, NULL, NULL),
+	(278, 'application', 'metatheme-aether-plan', 'findone', 0, '', 2, NULL, NULL),
+	(279, 'application', 'metatheme-aether-plan', 'update', 0, '', 1, NULL, NULL),
+	(280, 'application', 'metatheme-aether-plan', 'update', 0, '', 2, NULL, NULL),
+	(281, 'application', 'employee', 'count', 0, '', 1, NULL, NULL),
+	(282, 'application', 'employee', 'count', 0, '', 2, NULL, NULL),
+	(283, 'application', 'employee', 'create', 0, '', 1, NULL, NULL),
+	(284, 'application', 'employee', 'create', 0, '', 2, NULL, NULL),
+	(285, 'application', 'employee', 'delete', 0, '', 1, NULL, NULL),
+	(286, 'application', 'employee', 'delete', 0, '', 2, NULL, NULL),
+	(287, 'application', 'employee', 'find', 0, '', 1, NULL, NULL),
+	(288, 'application', 'employee', 'find', 0, '', 2, NULL, NULL),
+	(289, 'application', 'employee', 'findone', 0, '', 1, NULL, NULL),
+	(290, 'application', 'employee', 'findone', 0, '', 2, NULL, NULL),
+	(291, 'application', 'employee', 'update', 0, '', 1, NULL, NULL),
+	(292, 'application', 'employee', 'update', 0, '', 2, NULL, NULL),
+	(293, 'application', 'employee-role', 'count', 0, '', 1, NULL, NULL),
+	(294, 'application', 'employee-role', 'count', 0, '', 2, NULL, NULL),
+	(295, 'application', 'employee-role', 'create', 0, '', 1, NULL, NULL),
+	(296, 'application', 'employee-role', 'delete', 0, '', 1, NULL, NULL),
+	(297, 'application', 'employee-role', 'delete', 0, '', 2, NULL, NULL),
+	(298, 'application', 'employee-role', 'find', 0, '', 1, NULL, NULL),
+	(299, 'application', 'employee-role', 'find', 0, '', 2, NULL, NULL),
+	(300, 'application', 'employee-role', 'create', 0, '', 2, NULL, NULL),
+	(301, 'application', 'employee-role', 'findone', 0, '', 1, NULL, NULL),
+	(302, 'application', 'employee-role', 'findone', 0, '', 2, NULL, NULL),
+	(303, 'application', 'employee-role', 'update', 0, '', 1, NULL, NULL),
+	(304, 'application', 'employee-role', 'update', 0, '', 2, NULL, NULL);
 /*!40000 ALTER TABLE `users-permissions_permission` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.users-permissions_role

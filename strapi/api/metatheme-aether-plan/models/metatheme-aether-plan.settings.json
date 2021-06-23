@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "metatheme_aether_plans",
+  "info": {
+    "name": "metathemeAetherPlan"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}
