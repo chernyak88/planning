@@ -1,6 +1,9 @@
 <template>
   <el-row :gutter="20">
-    <el-col :span="24">
+    <el-col :span="24" v-if="$route.path === '/planning'">
+      <PlanningHeader />
+    </el-col>
+    <el-col :span="logoutWidth">
       <el-dropdown class="user-name" @command="logout">
         <span class="el-dropdown-link">
           {{name}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -15,11 +18,19 @@
 </template>
 
 <script>
+import PlanningHeader from '@/components/planning/PlanningHeader'
+
 export default {
+  components: {
+    PlanningHeader
+  },
   computed: {
     name() {
       let user = JSON.parse(localStorage.getItem("user"))
       return user.email
+    },
+    logoutWidth() {
+      return this.$route.path === '/planning' ? 12 : 24
     }
   },
   methods: {

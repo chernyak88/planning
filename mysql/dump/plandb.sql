@@ -37,9 +37,9 @@ CREATE TABLE IF NOT EXISTS `core_store` (
   `environment` varchar(255) DEFAULT NULL,
   `tag` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы plandb.core_store: ~7 rows (приблизительно)
+-- Дамп данных таблицы plandb.core_store: ~3 rows (приблизительно)
 /*!40000 ALTER TABLE `core_store` DISABLE KEYS */;
 INSERT INTO `core_store` (`id`, `key`, `value`, `type`, `environment`, `tag`) VALUES
 	(1, 'model_def_strapi::core-store', '{"uid":"strapi::core-store","collectionName":"core_store","info":{"name":"core_store","description":""},"options":{"timestamps":false},"pluginOptions":{"content-manager":{"visible":false},"content-type-builder":{"visible":false}},"attributes":{"key":{"type":"string"},"value":{"type":"text"},"type":{"type":"string"},"environment":{"type":"string"},"tag":{"type":"string"}}}', 'object', NULL, NULL),
@@ -76,8 +76,8 @@ INSERT INTO `core_store` (`id`, `key`, `value`, `type`, `environment`, `tag`) VA
 	(33, 'model_def_application::syslog.syslog', '{"uid":"application::syslog.syslog","collectionName":"syslogs","kind":"collectionType","info":{"name":"syslog","description":""},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"contentType":{"type":"string"},"action":{"type":"string"},"content":{"type":"json"},"name":{"type":"text"},"author":{"type":"string"},"contentBefore":{"type":"json"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
 	(34, 'plugin_content_manager_configuration_content_types::application::syslog.syslog', '{"uid":"application::syslog.syslog","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":50,"mainField":"contentType","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"author":{"edit":{"label":"Author","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Author","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"contentType":{"edit":{"label":"ContentType","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ContentType","searchable":true,"sortable":true}},"action":{"edit":{"label":"Action","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Action","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}},"contentBefore":{"edit":{"label":"ContentBefore","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"ContentBefore","searchable":false,"sortable":false}},"content":{"edit":{"label":"Content","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Content","searchable":false,"sortable":false}},"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"contentType","size":6},{"name":"action","size":6}],[{"name":"name","size":6},{"name":"author","size":6}],[{"name":"content","size":12}],[{"name":"contentBefore","size":12}]],"editRelations":[],"list":["id","contentType","action","name","author"]}}', 'object', '', ''),
 	(35, 'model_def_metatheme-category.metatheme', '{"uid":"metatheme-category.metatheme","collectionName":"components_metatheme_category_metathemes","info":{"name":"metatheme","icon":"align-center"},"options":{"timestamps":false},"attributes":{"name":{"type":"string"}}}', 'object', NULL, NULL),
-	(37, 'model_def_application::metatheme-section.metatheme-section', '{"uid":"application::metatheme-section.metatheme-section","collectionName":"metatheme_sections","kind":"collectionType","info":{"name":"metatheme-section"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
-	(38, 'plugin_content_manager_configuration_content_types::application::metatheme-section.metatheme-section', '{"uid":"application::metatheme-section.metatheme-section","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":50,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"name","size":6}]],"editRelations":[],"list":["id","name","created_at","updated_at"]}}', 'object', '', ''),
+	(37, 'model_def_application::metatheme-section.metatheme-section', '{"uid":"application::metatheme-section.metatheme-section","collectionName":"metatheme_sections","kind":"collectionType","info":{"name":"metatheme-section"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"metathemes":{"via":"metatheme_section","collection":"metatheme","isVirtual":true},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
+	(38, 'plugin_content_manager_configuration_content_types::application::metatheme-section.metatheme-section', '{"uid":"application::metatheme-section.metatheme-section","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":50,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"metathemes":{"edit":{"label":"Metathemes","description":"","placeholder":"","visible":true,"editable":true,"mainField":"id"},"list":{"label":"Metathemes","searchable":false,"sortable":false}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"list":["id","name","created_at","updated_at"],"edit":[[{"name":"name","size":6}]],"editRelations":["metathemes"]}}', 'object', '', ''),
 	(39, 'model_def_application::metatheme-inclusion.metatheme-inclusion', '{"uid":"application::metatheme-inclusion.metatheme-inclusion","collectionName":"metatheme_inclusions","kind":"collectionType","info":{"name":"metathemeInclusion"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
 	(40, 'plugin_content_manager_configuration_content_types::application::metatheme-inclusion.metatheme-inclusion', '{"uid":"application::metatheme-inclusion.metatheme-inclusion","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":10,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"name","size":6}]],"editRelations":[],"list":["id","name","created_at","updated_at"]}}', 'object', '', ''),
 	(41, 'model_def_application::metatheme-aether.metatheme-aether', '{"uid":"application::metatheme-aether.metatheme-aether","collectionName":"metatheme_aethers","kind":"collectionType","info":{"name":"metathemeAether"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
@@ -87,7 +87,9 @@ INSERT INTO `core_store` (`id`, `key`, `value`, `type`, `environment`, `tag`) VA
 	(45, 'model_def_application::employee.employee', '{"uid":"application::employee.employee","collectionName":"employees","kind":"collectionType","info":{"name":"employee","description":""},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"surname":{"type":"string"},"patronymic":{"type":"string"},"phone":{"type":"string"},"comment":{"type":"text"},"passport":{"type":"string"},"foreign_passport":{"type":"string"},"location":{"model":"location"},"employee_role":{"model":"employee-role"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
 	(46, 'plugin_content_manager_configuration_content_types::application::employee.employee', '{"uid":"application::employee.employee","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":100,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"employee_role":{"edit":{"label":"Employee_role","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Employee_role","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"phone":{"edit":{"label":"Phone","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Phone","searchable":true,"sortable":true}},"passport":{"edit":{"label":"Passport","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Passport","searchable":true,"sortable":true}},"location":{"edit":{"label":"Location","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Location","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}},"surname":{"edit":{"label":"Surname","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Surname","searchable":true,"sortable":true}},"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"patronymic":{"edit":{"label":"Patronymic","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Patronymic","searchable":true,"sortable":true}},"foreign_passport":{"edit":{"label":"Foreign_passport","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Foreign_passport","searchable":true,"sortable":true}},"comment":{"edit":{"label":"Comment","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Comment","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"surname","size":6},{"name":"name","size":6}],[{"name":"patronymic","size":6},{"name":"phone","size":6}],[{"name":"comment","size":6},{"name":"passport","size":6}],[{"name":"foreign_passport","size":6}]],"editRelations":["location","employee_role"],"list":["id","surname","name","patronymic","location","employee_role"]}}', 'object', '', ''),
 	(47, 'model_def_application::employee-role.employee-role', '{"uid":"application::employee-role.employee-role","collectionName":"employee_roles","kind":"collectionType","info":{"name":"employeeRole"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"string"},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
-	(48, 'plugin_content_manager_configuration_content_types::application::employee-role.employee-role', '{"uid":"application::employee-role.employee-role","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":20,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"name","size":6}]],"editRelations":[],"list":["id","name","created_at","updated_at"]}}', 'object', '', '');
+	(48, 'plugin_content_manager_configuration_content_types::application::employee-role.employee-role', '{"uid":"application::employee-role.employee-role","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":20,"mainField":"name","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}}},"layouts":{"edit":[[{"name":"name","size":6}]],"editRelations":[],"list":["id","name","created_at","updated_at"]}}', 'object', '', ''),
+	(49, 'model_def_application::metatheme.metatheme', '{"uid":"application::metatheme.metatheme","collectionName":"metathemes","kind":"collectionType","info":{"name":"metatheme"},"options":{"increments":true,"timestamps":["created_at","updated_at"],"draftAndPublish":false},"pluginOptions":{},"attributes":{"name":{"type":"text","required":true},"date_start":{"type":"datetime","required":true},"date_end":{"type":"datetime","required":true},"short_description":{"type":"richtext"},"description":{"type":"richtext"},"address":{"type":"text"},"comment_inclusions":{"type":"richtext"},"comment_aether_plans":{"type":"richtext"},"metatheme_section":{"model":"metatheme-section","via":"metathemes"},"metatheme_inclusions":{"collection":"metatheme-inclusion","attribute":"metatheme-inclusion","column":"id","isVirtual":true},"metatheme_aethers":{"collection":"metatheme-aether","attribute":"metatheme-aether","column":"id","isVirtual":true},"metatheme_aether_plans":{"collection":"metatheme-aether-plan","attribute":"metatheme-aether-plan","column":"id","isVirtual":true},"created_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true},"updated_by":{"model":"user","plugin":"admin","configurable":false,"writable":false,"visible":false,"private":true}}}', 'object', NULL, NULL),
+	(50, 'plugin_content_manager_configuration_content_types::application::metatheme.metatheme', '{"uid":"application::metatheme.metatheme","settings":{"bulkable":true,"filterable":true,"searchable":true,"pageSize":50,"mainField":"id","defaultSortBy":"id","defaultSortOrder":"ASC"},"metadatas":{"metatheme_section":{"edit":{"label":"Metatheme_section","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Metatheme_section","searchable":true,"sortable":true}},"date_end":{"edit":{"label":"Date_end","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Date_end","searchable":true,"sortable":true}},"created_at":{"edit":{"label":"Created_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Created_at","searchable":true,"sortable":true}},"name":{"edit":{"label":"Name","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Name","searchable":true,"sortable":true}},"metatheme_aether_plans":{"edit":{"label":"Metatheme_aether_plans","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Metatheme_aether_plans","searchable":false,"sortable":false}},"comment_aether_plans":{"edit":{"label":"Comment_aether_plans","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Comment_aether_plans","searchable":false,"sortable":false}},"date_start":{"edit":{"label":"Date_start","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Date_start","searchable":true,"sortable":true}},"metatheme_inclusions":{"edit":{"label":"Metatheme_inclusions","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Metatheme_inclusions","searchable":false,"sortable":false}},"metatheme_aethers":{"edit":{"label":"Metatheme_aethers","description":"","placeholder":"","visible":true,"editable":true,"mainField":"name"},"list":{"label":"Metatheme_aethers","searchable":false,"sortable":false}},"address":{"edit":{"label":"Address","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Address","searchable":true,"sortable":true}},"comment_inclusions":{"edit":{"label":"Comment_inclusions","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Comment_inclusions","searchable":false,"sortable":false}},"updated_at":{"edit":{"label":"Updated_at","description":"","placeholder":"","visible":false,"editable":true},"list":{"label":"Updated_at","searchable":true,"sortable":true}},"short_description":{"edit":{"label":"Short_description","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Short_description","searchable":false,"sortable":false}},"id":{"edit":{},"list":{"label":"Id","searchable":true,"sortable":true}},"description":{"edit":{"label":"Description","description":"","placeholder":"","visible":true,"editable":true},"list":{"label":"Description","searchable":false,"sortable":false}}},"layouts":{"edit":[[{"name":"name","size":6},{"name":"date_start","size":6}],[{"name":"date_end","size":6}],[{"name":"short_description","size":12}],[{"name":"description","size":12}],[{"name":"address","size":6}],[{"name":"comment_inclusions","size":12}],[{"name":"comment_aether_plans","size":12}]],"editRelations":["metatheme_section","metatheme_inclusions","metatheme_aethers","metatheme_aether_plans"],"list":["id","name","date_start","date_end"]}}', 'object', '', '');
 /*!40000 ALTER TABLE `core_store` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.employees
@@ -109,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `employees` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы plandb.employees: ~0 rows (приблизительно)
+-- Дамп данных таблицы plandb.employees: ~139 rows (приблизительно)
 /*!40000 ALTER TABLE `employees` DISABLE KEYS */;
 INSERT INTO `employees` (`id`, `name`, `surname`, `patronymic`, `phone`, `comment`, `passport`, `foreign_passport`, `location`, `created_by`, `updated_by`, `created_at`, `updated_at`, `employee_role`) VALUES
 	(1, 'Олег', 'Барышев', 'Олегович', '+7 915 259-02-90', NULL, NULL, NULL, 1, 1, 1, '2021-06-23 12:38:47', '2021-06-23 12:38:47', 4),
@@ -320,6 +322,65 @@ INSERT INTO `locations` (`id`, `name`, `created_by`, `updated_by`, `created_at`,
 	(4, 'Мир', 1, 1, '2021-06-01 08:15:08', '2021-06-01 08:15:08');
 /*!40000 ALTER TABLE `locations` ENABLE KEYS */;
 
+-- Дамп структуры для таблица plandb.metathemes
+CREATE TABLE IF NOT EXISTS `metathemes` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` longtext NOT NULL,
+  `date_start` datetime NOT NULL,
+  `date_end` datetime NOT NULL,
+  `short_description` longtext,
+  `description` longtext,
+  `address` longtext,
+  `comment_inclusions` longtext,
+  `comment_aether_plans` longtext,
+  `metatheme_section` int DEFAULT NULL,
+  `created_by` int DEFAULT NULL,
+  `updated_by` int DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.metathemes: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `metathemes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `metathemes` ENABLE KEYS */;
+
+-- Дамп структуры для таблица plandb.metathemes__metatheme_aethers
+CREATE TABLE IF NOT EXISTS `metathemes__metatheme_aethers` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `metatheme_id` int DEFAULT NULL,
+  `metatheme-aether_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.metathemes__metatheme_aethers: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `metathemes__metatheme_aethers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `metathemes__metatheme_aethers` ENABLE KEYS */;
+
+-- Дамп структуры для таблица plandb.metathemes__metatheme_aether_plans
+CREATE TABLE IF NOT EXISTS `metathemes__metatheme_aether_plans` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `metatheme_id` int DEFAULT NULL,
+  `metatheme-aether-plan_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.metathemes__metatheme_aether_plans: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `metathemes__metatheme_aether_plans` DISABLE KEYS */;
+/*!40000 ALTER TABLE `metathemes__metatheme_aether_plans` ENABLE KEYS */;
+
+-- Дамп структуры для таблица plandb.metathemes__metatheme_inclusions
+CREATE TABLE IF NOT EXISTS `metathemes__metatheme_inclusions` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `metatheme_id` int DEFAULT NULL,
+  `metatheme-inclusion_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Дамп данных таблицы plandb.metathemes__metatheme_inclusions: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `metathemes__metatheme_inclusions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `metathemes__metatheme_inclusions` ENABLE KEYS */;
+
 -- Дамп структуры для таблица plandb.metatheme_aethers
 CREATE TABLE IF NOT EXISTS `metatheme_aethers` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
@@ -479,9 +540,9 @@ CREATE TABLE IF NOT EXISTS `strapi_permission` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=348 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы plandb.strapi_permission: ~96 rows (приблизительно)
+-- Дамп данных таблицы plandb.strapi_permission: ~120 rows (приблизительно)
 /*!40000 ALTER TABLE `strapi_permission` DISABLE KEYS */;
 INSERT INTO `strapi_permission` (`id`, `action`, `subject`, `properties`, `conditions`, `role`, `created_at`, `updated_at`) VALUES
 	(1, 'plugins::content-manager.explorer.create', 'application::location.location', '{"fields":["name"]}', '[]', 2, '2021-06-01 07:58:44', '2021-06-01 07:58:44'),
@@ -574,9 +635,6 @@ INSERT INTO `strapi_permission` (`id`, `action`, `subject`, `properties`, `condi
 	(207, 'plugins::content-manager.explorer.read', 'application::syslog.syslog', '{"fields":["contentType","action","content","name","author","contentBefore"]}', '[]', 1, '2021-06-09 09:58:08', '2021-06-09 09:58:08'),
 	(208, 'plugins::content-manager.explorer.create', 'application::syslog.syslog', '{"fields":["contentType","action","content","name","author","contentBefore"]}', '[]', 1, '2021-06-09 09:58:08', '2021-06-09 09:58:08'),
 	(209, 'plugins::content-manager.explorer.update', 'application::syslog.syslog', '{"fields":["contentType","action","content","name","author","contentBefore"]}', '[]', 1, '2021-06-09 09:58:08', '2021-06-09 09:58:08'),
-	(246, 'plugins::content-manager.explorer.read', 'application::metatheme-section.metatheme-section', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:28:30', '2021-06-23 11:28:30'),
-	(247, 'plugins::content-manager.explorer.create', 'application::metatheme-section.metatheme-section', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:28:30', '2021-06-23 11:28:30'),
-	(248, 'plugins::content-manager.explorer.update', 'application::metatheme-section.metatheme-section', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:28:30', '2021-06-23 11:28:30'),
 	(256, 'plugins::content-manager.explorer.read', 'application::metatheme-inclusion.metatheme-inclusion', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:44:41', '2021-06-23 11:44:41'),
 	(257, 'plugins::content-manager.explorer.create', 'application::metatheme-inclusion.metatheme-inclusion', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:44:41', '2021-06-23 11:44:41'),
 	(258, 'plugins::content-manager.explorer.update', 'application::metatheme-inclusion.metatheme-inclusion', '{"fields":["name"]}', '[]', 1, '2021-06-23 11:44:41', '2021-06-23 11:44:41'),
@@ -592,18 +650,25 @@ INSERT INTO `strapi_permission` (`id`, `action`, `subject`, `properties`, `condi
 	(321, 'plugins::content-manager.explorer.update', 'application::employee.employee', '{"fields":["name","surname","patronymic","phone","comment","passport","foreign_passport","location","employee_role"]}', '[]', 1, '2021-06-23 12:35:14', '2021-06-23 12:35:14'),
 	(322, 'plugins::content-manager.explorer.read', 'application::employee.employee', '{"fields":["name","surname","patronymic","phone","comment","passport","foreign_passport","location","employee_role"]}', '[]', 1, '2021-06-23 12:35:14', '2021-06-23 12:35:14'),
 	(323, 'plugins::content-manager.explorer.create', 'application::employee.employee', '{"fields":["name","surname","patronymic","phone","comment","passport","foreign_passport","location","employee_role"]}', '[]', 1, '2021-06-23 12:35:14', '2021-06-23 12:35:14'),
-	(336, 'plugins::content-manager.explorer.delete', 'application::employee-role.employee-role', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(337, 'plugins::content-manager.explorer.delete', 'application::employee.employee', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(338, 'plugins::content-manager.explorer.delete', 'application::metatheme-aether-plan.metatheme-aether-plan', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(339, 'plugins::content-manager.explorer.delete', 'application::location.location', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(340, 'plugins::content-manager.explorer.delete', 'application::metatheme-aether.metatheme-aether', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(341, 'plugins::content-manager.explorer.delete', 'application::metatheme-inclusion.metatheme-inclusion', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(342, 'plugins::content-manager.explorer.delete', 'application::metatheme-section.metatheme-section', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(343, 'plugins::content-manager.explorer.delete', 'application::syslog.syslog', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(344, 'plugins::content-manager.explorer.delete', 'application::tech-resource-status.tech-resource-status', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(345, 'plugins::content-manager.explorer.delete', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(346, 'plugins::content-manager.explorer.delete', 'plugins::users-permissions.user', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04'),
-	(347, 'plugins::content-manager.explorer.publish', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-23 13:42:04', '2021-06-23 13:42:04');
+	(360, 'plugins::content-manager.explorer.create', 'application::metatheme-section.metatheme-section', '{"fields":["name","metathemes"]}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(361, 'plugins::content-manager.explorer.create', 'application::metatheme.metatheme', '{"fields":["name","date_start","date_end","short_description","description","address","comment_inclusions","comment_aether_plans","metatheme_section","metatheme_inclusions","metatheme_aethers","metatheme_aether_plans"]}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(362, 'plugins::content-manager.explorer.read', 'application::metatheme-section.metatheme-section', '{"fields":["name","metathemes"]}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(363, 'plugins::content-manager.explorer.read', 'application::metatheme.metatheme', '{"fields":["name","date_start","date_end","short_description","description","address","comment_inclusions","comment_aether_plans","metatheme_section","metatheme_inclusions","metatheme_aethers","metatheme_aether_plans"]}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(364, 'plugins::content-manager.explorer.update', 'application::metatheme-section.metatheme-section', '{"fields":["name","metathemes"]}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(365, 'plugins::content-manager.explorer.update', 'application::metatheme.metatheme', '{"fields":["name","date_start","date_end","short_description","description","address","comment_inclusions","comment_aether_plans","metatheme_section","metatheme_inclusions","metatheme_aethers","metatheme_aether_plans"]}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(366, 'plugins::content-manager.explorer.delete', 'application::employee-role.employee-role', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(367, 'plugins::content-manager.explorer.delete', 'application::employee.employee', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(368, 'plugins::content-manager.explorer.delete', 'application::location.location', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(369, 'plugins::content-manager.explorer.delete', 'application::metatheme-aether-plan.metatheme-aether-plan', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(370, 'plugins::content-manager.explorer.delete', 'application::metatheme-aether.metatheme-aether', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(371, 'plugins::content-manager.explorer.delete', 'application::metatheme-inclusion.metatheme-inclusion', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(372, 'plugins::content-manager.explorer.delete', 'application::metatheme-section.metatheme-section', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(373, 'plugins::content-manager.explorer.delete', 'application::metatheme.metatheme', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(374, 'plugins::content-manager.explorer.delete', 'application::tech-resource-status.tech-resource-status', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(375, 'plugins::content-manager.explorer.delete', 'application::syslog.syslog', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(376, 'plugins::content-manager.explorer.delete', 'plugins::users-permissions.user', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(377, 'plugins::content-manager.explorer.publish', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
+	(378, 'plugins::content-manager.explorer.delete', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21');
 /*!40000 ALTER TABLE `strapi_permission` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.strapi_role
@@ -695,7 +760,7 @@ CREATE TABLE IF NOT EXISTS `tech_resources` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы plandb.tech_resources: ~17 rows (приблизительно)
+-- Дамп данных таблицы plandb.tech_resources: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `tech_resources` DISABLE KEYS */;
 INSERT INTO `tech_resources` (`id`, `name`, `type`, `location`, `status`, `comment`, `published_at`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
 	(1, 'ТЖК 001', 'стандартный комплект ТЖК', 1, 1, '<p>Комментарий 1</p><p><br></p><p><strong>Жирный</strong></p><p><em>Курсив</em></p><p><u>Подчеркнутый</u></p><p><s>Зачеркнутый</s></p><p><br></p><ol><li>Нумерованный</li><li>Список</li></ol><p><br></p><ul><li>Ненумерованный</li><li>Список</li></ul><p><br></p><p><span style="color: rgb(230, 0, 0);">Цвет шрифта</span></p><p><span style="color: rgb(255, 255, 255); background-color: rgb(0, 71, 178);">Фон и цвет шрифта</span></p>', '2021-06-01 08:16:30', NULL, NULL, '2021-06-01 08:16:30', '2021-06-03 11:41:46'),
@@ -793,7 +858,7 @@ CREATE TABLE IF NOT EXISTS `users-permissions_permission` (
   `created_by` int DEFAULT NULL,
   `updated_by` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=305 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=317 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Дамп данных таблицы plandb.users-permissions_permission: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `users-permissions_permission` DISABLE KEYS */;
@@ -1089,7 +1154,19 @@ INSERT INTO `users-permissions_permission` (`id`, `type`, `controller`, `action`
 	(301, 'application', 'employee-role', 'findone', 0, '', 1, NULL, NULL),
 	(302, 'application', 'employee-role', 'findone', 0, '', 2, NULL, NULL),
 	(303, 'application', 'employee-role', 'update', 0, '', 1, NULL, NULL),
-	(304, 'application', 'employee-role', 'update', 0, '', 2, NULL, NULL);
+	(304, 'application', 'employee-role', 'update', 0, '', 2, NULL, NULL),
+	(305, 'application', 'metatheme', 'count', 0, '', 1, NULL, NULL),
+	(306, 'application', 'metatheme', 'count', 0, '', 2, NULL, NULL),
+	(307, 'application', 'metatheme', 'create', 0, '', 1, NULL, NULL),
+	(308, 'application', 'metatheme', 'delete', 0, '', 1, NULL, NULL),
+	(309, 'application', 'metatheme', 'create', 0, '', 2, NULL, NULL),
+	(310, 'application', 'metatheme', 'delete', 0, '', 2, NULL, NULL),
+	(311, 'application', 'metatheme', 'find', 0, '', 1, NULL, NULL),
+	(312, 'application', 'metatheme', 'find', 0, '', 2, NULL, NULL),
+	(313, 'application', 'metatheme', 'findone', 0, '', 1, NULL, NULL),
+	(314, 'application', 'metatheme', 'findone', 0, '', 2, NULL, NULL),
+	(315, 'application', 'metatheme', 'update', 0, '', 1, NULL, NULL),
+	(316, 'application', 'metatheme', 'update', 0, '', 2, NULL, NULL);
 /*!40000 ALTER TABLE `users-permissions_permission` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.users-permissions_role

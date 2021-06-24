@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "metathemes",
+  "info": {
+    "name": "metatheme"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "text",
+      "required": true
+    },
+    "date_start": {
+      "type": "datetime",
+      "required": true
+    },
+    "date_end": {
+      "type": "datetime",
+      "required": true
+    },
+    "short_description": {
+      "type": "richtext"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "address": {
+      "type": "text"
+    },
+    "comment_inclusions": {
+      "type": "richtext"
+    },
+    "comment_aether_plans": {
+      "type": "richtext"
+    },
+    "metatheme_section": {
+      "model": "metatheme-section",
+      "via": "metathemes"
+    },
+    "metatheme_inclusions": {
+      "collection": "metatheme-inclusion"
+    },
+    "metatheme_aethers": {
+      "collection": "metatheme-aether"
+    },
+    "metatheme_aether_plans": {
+      "collection": "metatheme-aether-plan"
+    }
+  }
+}
