@@ -2,13 +2,16 @@
     <div>
       <el-date-picker
         v-model="date"
+        class="planning-picker"
         type="date"
         :editable="false"
         :clearable="false"
+        format="dd-MM-yyyy"
+        :picker-options="{ firstDayOfWeek: 1 }"
       >
       </el-date-picker>
       <el-button type="primary">Добавить тему</el-button>
-      <el-button type="danger">Срочный выезд</el-button>
+      <el-button type="danger">Срочный выезд!</el-button>
   </div>
 </template>
 
@@ -23,12 +26,13 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.el-date-editor.el-input, .el-date-editor.el-input__inner {
-  width: 135px;
+<style lang="scss">
+.planning-picker.el-input {
+  width: 115px;
   margin-right: 10px;
 }
-.el-input__inner {
+.planning-picker.el-input .el-input__inner {
+  padding-right: 10px;
   cursor: pointer;
 }
 </style>

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from './auth'
 import locations from './locations'
 import techresources from './techresources'
+import metathemesections from './metatheme-sections'
 
 Vue.use(Vuex)
 
@@ -19,6 +20,7 @@ export default new Vuex.Store({
   modules: {
     auth,
     locations,
-    techresources
+    techresources,
+    metathemesections
   }
 })

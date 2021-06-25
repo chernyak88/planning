@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `core_store` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы plandb.core_store: ~3 rows (приблизительно)
+-- Дамп данных таблицы plandb.core_store: ~18 rows (приблизительно)
 /*!40000 ALTER TABLE `core_store` DISABLE KEYS */;
 INSERT INTO `core_store` (`id`, `key`, `value`, `type`, `environment`, `tag`) VALUES
 	(1, 'model_def_strapi::core-store', '{"uid":"strapi::core-store","collectionName":"core_store","info":{"name":"core_store","description":""},"options":{"timestamps":false},"pluginOptions":{"content-manager":{"visible":false},"content-type-builder":{"visible":false}},"attributes":{"key":{"type":"string"},"value":{"type":"text"},"type":{"type":"string"},"environment":{"type":"string"},"tag":{"type":"string"}}}', 'object', NULL, NULL),
@@ -339,10 +339,43 @@ CREATE TABLE IF NOT EXISTS `metathemes` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Дамп данных таблицы plandb.metathemes: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `metathemes` DISABLE KEYS */;
+INSERT INTO `metathemes` (`id`, `name`, `date_start`, `date_end`, `short_description`, `description`, `address`, `comment_inclusions`, `comment_aether_plans`, `metatheme_section`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
+	(1, 'Первые лица, События Тест 1', '2021-06-25 09:00:00', '2021-06-25 12:00:00', NULL, NULL, NULL, NULL, NULL, 1, 1, 1, '2021-06-25 09:31:52', '2021-06-25 09:31:53'),
+	(2, 'Первые лица, События Тест 2', '2021-06-25 12:00:00', '2021-06-25 14:00:00', NULL, NULL, NULL, NULL, NULL, 1, 1, 1, '2021-06-25 09:32:24', '2021-06-25 09:32:24'),
+	(3, 'Москва Тест 1', '2021-06-25 09:00:00', '2021-06-25 10:00:00', NULL, NULL, NULL, NULL, NULL, 2, 1, 1, '2021-06-25 09:33:26', '2021-06-25 09:33:26'),
+	(4, 'Москва Тест 2', '2021-06-25 10:30:00', '2021-06-25 11:30:00', NULL, NULL, NULL, NULL, NULL, 2, 1, 1, '2021-06-25 09:33:48', '2021-06-25 09:33:48'),
+	(5, 'Остальное М Тест 1', '2021-06-25 09:00:00', '2021-06-25 10:00:00', NULL, NULL, NULL, NULL, NULL, 3, 1, 1, '2021-06-25 09:34:31', '2021-06-25 09:34:31'),
+	(6, 'Остальное М Тест 2', '2021-06-25 10:30:00', '2021-06-25 11:00:00', NULL, NULL, NULL, NULL, NULL, 3, 1, 1, '2021-06-25 09:34:50', '2021-06-25 09:34:50'),
+	(7, 'Повестка СПб Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 4, 1, 1, '2021-06-25 09:35:32', '2021-06-25 09:35:32'),
+	(8, 'Повестка СПб Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 4, 1, 1, '2021-06-25 09:35:53', '2021-06-25 09:35:53'),
+	(9, 'Остальное СПб Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 5, 1, 1, '2021-06-25 09:38:10', '2021-06-25 09:38:10'),
+	(10, 'Остальное СПб Тест 2', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 5, 1, 1, '2021-06-25 09:38:29', '2021-06-25 09:38:29'),
+	(11, 'Эфир Рег Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 6, 1, 1, '2021-06-25 09:39:27', '2021-06-25 09:39:27'),
+	(12, 'Эфир Рег Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 6, 1, 1, '2021-06-25 09:39:50', '2021-06-25 09:39:50'),
+	(13, 'Планы Рег Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 7, 1, 1, '2021-06-25 09:40:50', '2021-06-25 09:40:50'),
+	(14, 'Планы Рег Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 7, 1, 1, '2021-06-25 09:41:09', '2021-06-25 09:41:09'),
+	(15, 'Разработка Рег Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 8, 1, 1, '2021-06-25 09:41:34', '2021-06-25 09:41:34'),
+	(16, 'Разработка Рег Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 8, 1, 1, '2021-06-25 09:42:03', '2021-06-25 09:42:03'),
+	(17, 'Консервы Рег Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 9, 1, 1, '2021-06-25 09:43:28', '2021-06-25 09:43:28'),
+	(18, 'Консервы Рег Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 9, 1, 1, '2021-06-25 09:44:12', '2021-06-25 09:44:12'),
+	(19, 'Эфир ЗР Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 10, 1, 1, '2021-06-25 09:44:47', '2021-06-25 09:44:47'),
+	(20, 'Эфир ЗР Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 10, 1, 1, '2021-06-25 09:45:04', '2021-06-25 09:45:04'),
+	(21, 'Повестка ЗР Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 11, 1, 1, '2021-06-25 09:45:39', '2021-06-25 09:45:39'),
+	(22, 'Повестка ЗР Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 11, 1, 1, '2021-06-25 09:46:06', '2021-06-25 09:46:06'),
+	(23, 'Разработка ЗР Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 12, 1, 1, '2021-06-25 09:47:25', '2021-06-25 09:47:25'),
+	(24, 'Разработка ЗР Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 12, 1, 1, '2021-06-25 09:47:43', '2021-06-25 09:47:43'),
+	(25, 'Съемки Прод Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 13, 1, 1, '2021-06-25 09:48:15', '2021-06-25 09:48:16'),
+	(26, 'Съемки Прод Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 13, 1, 1, '2021-06-25 09:48:34', '2021-06-25 09:48:34'),
+	(27, 'Консервы Прод Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 14, 1, 1, '2021-06-25 09:49:24', '2021-06-25 09:49:24'),
+	(28, 'Консервы Прод Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 14, 1, 1, '2021-06-25 09:49:43', '2021-06-25 09:49:43'),
+	(29, 'Эфир IZ.TV Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 15, 1, 1, '2021-06-25 09:50:24', '2021-06-25 09:50:24'),
+	(30, 'Эфир IZ.TV Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 15, 1, 1, '2021-06-25 09:50:44', '2021-06-25 09:50:44'),
+	(31, 'Остальное IZ.TV Тест 1', '2021-06-25 09:00:00', '2021-06-25 09:30:00', NULL, NULL, NULL, NULL, NULL, 16, 1, 1, '2021-06-25 09:51:37', '2021-06-25 09:51:37'),
+	(32, 'Остальное IZ.TV Тест 2', '2021-06-25 10:00:00', '2021-06-25 10:30:00', NULL, NULL, NULL, NULL, NULL, 16, 1, 1, '2021-06-25 09:51:56', '2021-06-25 09:51:56');
 /*!40000 ALTER TABLE `metathemes` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.metathemes__metatheme_aethers
@@ -540,9 +573,9 @@ CREATE TABLE IF NOT EXISTS `strapi_permission` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=379 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=405 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Дамп данных таблицы plandb.strapi_permission: ~120 rows (приблизительно)
+-- Дамп данных таблицы plandb.strapi_permission: ~124 rows (приблизительно)
 /*!40000 ALTER TABLE `strapi_permission` DISABLE KEYS */;
 INSERT INTO `strapi_permission` (`id`, `action`, `subject`, `properties`, `conditions`, `role`, `created_at`, `updated_at`) VALUES
 	(1, 'plugins::content-manager.explorer.create', 'application::location.location', '{"fields":["name"]}', '[]', 2, '2021-06-01 07:58:44', '2021-06-01 07:58:44'),
@@ -656,19 +689,19 @@ INSERT INTO `strapi_permission` (`id`, `action`, `subject`, `properties`, `condi
 	(363, 'plugins::content-manager.explorer.read', 'application::metatheme.metatheme', '{"fields":["name","date_start","date_end","short_description","description","address","comment_inclusions","comment_aether_plans","metatheme_section","metatheme_inclusions","metatheme_aethers","metatheme_aether_plans"]}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
 	(364, 'plugins::content-manager.explorer.update', 'application::metatheme-section.metatheme-section', '{"fields":["name","metathemes"]}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
 	(365, 'plugins::content-manager.explorer.update', 'application::metatheme.metatheme', '{"fields":["name","date_start","date_end","short_description","description","address","comment_inclusions","comment_aether_plans","metatheme_section","metatheme_inclusions","metatheme_aethers","metatheme_aether_plans"]}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(366, 'plugins::content-manager.explorer.delete', 'application::employee-role.employee-role', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(367, 'plugins::content-manager.explorer.delete', 'application::employee.employee', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(368, 'plugins::content-manager.explorer.delete', 'application::location.location', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(369, 'plugins::content-manager.explorer.delete', 'application::metatheme-aether-plan.metatheme-aether-plan', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(370, 'plugins::content-manager.explorer.delete', 'application::metatheme-aether.metatheme-aether', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(371, 'plugins::content-manager.explorer.delete', 'application::metatheme-inclusion.metatheme-inclusion', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(372, 'plugins::content-manager.explorer.delete', 'application::metatheme-section.metatheme-section', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(373, 'plugins::content-manager.explorer.delete', 'application::metatheme.metatheme', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(374, 'plugins::content-manager.explorer.delete', 'application::tech-resource-status.tech-resource-status', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(375, 'plugins::content-manager.explorer.delete', 'application::syslog.syslog', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(376, 'plugins::content-manager.explorer.delete', 'plugins::users-permissions.user', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(377, 'plugins::content-manager.explorer.publish', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21'),
-	(378, 'plugins::content-manager.explorer.delete', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-24 12:24:21', '2021-06-24 12:24:21');
+	(392, 'plugins::content-manager.explorer.delete', 'application::employee-role.employee-role', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(393, 'plugins::content-manager.explorer.delete', 'application::employee.employee', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(394, 'plugins::content-manager.explorer.delete', 'application::location.location', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(395, 'plugins::content-manager.explorer.delete', 'application::metatheme-section.metatheme-section', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(396, 'plugins::content-manager.explorer.delete', 'application::metatheme-inclusion.metatheme-inclusion', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(397, 'plugins::content-manager.explorer.delete', 'application::metatheme-aether.metatheme-aether', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(398, 'plugins::content-manager.explorer.delete', 'application::syslog.syslog', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(399, 'plugins::content-manager.explorer.delete', 'application::metatheme.metatheme', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(400, 'plugins::content-manager.explorer.delete', 'application::metatheme-aether-plan.metatheme-aether-plan', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(401, 'plugins::content-manager.explorer.delete', 'application::tech-resource-status.tech-resource-status', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(402, 'plugins::content-manager.explorer.delete', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(403, 'plugins::content-manager.explorer.delete', 'plugins::users-permissions.user', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56'),
+	(404, 'plugins::content-manager.explorer.publish', 'application::tech-resource.tech-resource', '{}', '[]', 1, '2021-06-25 16:46:56', '2021-06-25 16:46:56');
 /*!40000 ALTER TABLE `strapi_permission` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.strapi_role
@@ -735,13 +768,10 @@ CREATE TABLE IF NOT EXISTS `syslogs` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Дамп данных таблицы plandb.syslogs: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `syslogs` DISABLE KEYS */;
-INSERT INTO `syslogs` (`id`, `contentType`, `action`, `content`, `name`, `author`, `contentBefore`, `created_by`, `updated_by`, `created_at`, `updated_at`) VALUES
-	(1, 'auth', 'login', NULL, '172.18.0.1', 'user1@user1.ru', NULL, NULL, NULL, '2021-06-23 10:07:57', '2021-06-23 10:07:57'),
-	(2, 'request', 'get', NULL, '/tech-resources?&_start=0&_limit=5&_sort=id:asc', 'user1@user1.ru', NULL, NULL, NULL, '2021-06-23 10:08:00', '2021-06-23 10:08:00');
 /*!40000 ALTER TABLE `syslogs` ENABLE KEYS */;
 
 -- Дамп структуры для таблица plandb.tech_resources
@@ -1083,89 +1113,89 @@ INSERT INTO `users-permissions_permission` (`id`, `type`, `controller`, `action`
 	(230, 'application', 'syslog', 'findone', 0, '', 2, NULL, NULL),
 	(231, 'application', 'syslog', 'update', 0, '', 1, NULL, NULL),
 	(232, 'application', 'syslog', 'update', 0, '', 2, NULL, NULL),
-	(233, 'application', 'metatheme-section', 'count', 0, '', 1, NULL, NULL),
+	(233, 'application', 'metatheme-section', 'count', 1, '', 1, NULL, NULL),
 	(234, 'application', 'metatheme-section', 'count', 0, '', 2, NULL, NULL),
 	(235, 'application', 'metatheme-section', 'create', 0, '', 1, NULL, NULL),
 	(236, 'application', 'metatheme-section', 'delete', 0, '', 1, NULL, NULL),
 	(237, 'application', 'metatheme-section', 'create', 0, '', 2, NULL, NULL),
 	(238, 'application', 'metatheme-section', 'delete', 0, '', 2, NULL, NULL),
-	(239, 'application', 'metatheme-section', 'find', 0, '', 1, NULL, NULL),
+	(239, 'application', 'metatheme-section', 'find', 1, '', 1, NULL, NULL),
 	(240, 'application', 'metatheme-section', 'find', 0, '', 2, NULL, NULL),
-	(241, 'application', 'metatheme-section', 'findone', 0, '', 1, NULL, NULL),
+	(241, 'application', 'metatheme-section', 'findone', 1, '', 1, NULL, NULL),
 	(242, 'application', 'metatheme-section', 'findone', 0, '', 2, NULL, NULL),
 	(243, 'application', 'metatheme-section', 'update', 0, '', 1, NULL, NULL),
 	(244, 'application', 'metatheme-section', 'update', 0, '', 2, NULL, NULL),
-	(245, 'application', 'metatheme-inclusion', 'count', 0, '', 1, NULL, NULL),
+	(245, 'application', 'metatheme-inclusion', 'count', 1, '', 1, NULL, NULL),
 	(246, 'application', 'metatheme-inclusion', 'count', 0, '', 2, NULL, NULL),
 	(247, 'application', 'metatheme-inclusion', 'create', 0, '', 2, NULL, NULL),
 	(248, 'application', 'metatheme-inclusion', 'create', 0, '', 1, NULL, NULL),
 	(249, 'application', 'metatheme-inclusion', 'delete', 0, '', 1, NULL, NULL),
 	(250, 'application', 'metatheme-inclusion', 'delete', 0, '', 2, NULL, NULL),
-	(251, 'application', 'metatheme-inclusion', 'find', 0, '', 1, NULL, NULL),
+	(251, 'application', 'metatheme-inclusion', 'find', 1, '', 1, NULL, NULL),
 	(252, 'application', 'metatheme-inclusion', 'find', 0, '', 2, NULL, NULL),
-	(253, 'application', 'metatheme-inclusion', 'findone', 0, '', 1, NULL, NULL),
+	(253, 'application', 'metatheme-inclusion', 'findone', 1, '', 1, NULL, NULL),
 	(254, 'application', 'metatheme-inclusion', 'findone', 0, '', 2, NULL, NULL),
 	(255, 'application', 'metatheme-inclusion', 'update', 0, '', 1, NULL, NULL),
 	(256, 'application', 'metatheme-inclusion', 'update', 0, '', 2, NULL, NULL),
-	(257, 'application', 'metatheme-aether', 'count', 0, '', 1, NULL, NULL),
+	(257, 'application', 'metatheme-aether', 'count', 1, '', 1, NULL, NULL),
 	(258, 'application', 'metatheme-aether', 'count', 0, '', 2, NULL, NULL),
 	(259, 'application', 'metatheme-aether', 'create', 0, '', 1, NULL, NULL),
 	(260, 'application', 'metatheme-aether', 'create', 0, '', 2, NULL, NULL),
 	(261, 'application', 'metatheme-aether', 'delete', 0, '', 1, NULL, NULL),
 	(262, 'application', 'metatheme-aether', 'delete', 0, '', 2, NULL, NULL),
-	(263, 'application', 'metatheme-aether', 'find', 0, '', 1, NULL, NULL),
+	(263, 'application', 'metatheme-aether', 'find', 1, '', 1, NULL, NULL),
 	(264, 'application', 'metatheme-aether', 'find', 0, '', 2, NULL, NULL),
-	(265, 'application', 'metatheme-aether', 'findone', 0, '', 1, NULL, NULL),
+	(265, 'application', 'metatheme-aether', 'findone', 1, '', 1, NULL, NULL),
 	(266, 'application', 'metatheme-aether', 'findone', 0, '', 2, NULL, NULL),
 	(267, 'application', 'metatheme-aether', 'update', 0, '', 1, NULL, NULL),
 	(268, 'application', 'metatheme-aether', 'update', 0, '', 2, NULL, NULL),
-	(269, 'application', 'metatheme-aether-plan', 'count', 0, '', 1, NULL, NULL),
+	(269, 'application', 'metatheme-aether-plan', 'count', 1, '', 1, NULL, NULL),
 	(270, 'application', 'metatheme-aether-plan', 'count', 0, '', 2, NULL, NULL),
 	(271, 'application', 'metatheme-aether-plan', 'create', 0, '', 2, NULL, NULL),
 	(272, 'application', 'metatheme-aether-plan', 'delete', 0, '', 2, NULL, NULL),
-	(273, 'application', 'metatheme-aether-plan', 'find', 0, '', 1, NULL, NULL),
+	(273, 'application', 'metatheme-aether-plan', 'find', 1, '', 1, NULL, NULL),
 	(274, 'application', 'metatheme-aether-plan', 'delete', 0, '', 1, NULL, NULL),
 	(275, 'application', 'metatheme-aether-plan', 'create', 0, '', 1, NULL, NULL),
 	(276, 'application', 'metatheme-aether-plan', 'find', 0, '', 2, NULL, NULL),
-	(277, 'application', 'metatheme-aether-plan', 'findone', 0, '', 1, NULL, NULL),
+	(277, 'application', 'metatheme-aether-plan', 'findone', 1, '', 1, NULL, NULL),
 	(278, 'application', 'metatheme-aether-plan', 'findone', 0, '', 2, NULL, NULL),
 	(279, 'application', 'metatheme-aether-plan', 'update', 0, '', 1, NULL, NULL),
 	(280, 'application', 'metatheme-aether-plan', 'update', 0, '', 2, NULL, NULL),
-	(281, 'application', 'employee', 'count', 0, '', 1, NULL, NULL),
+	(281, 'application', 'employee', 'count', 1, '', 1, NULL, NULL),
 	(282, 'application', 'employee', 'count', 0, '', 2, NULL, NULL),
 	(283, 'application', 'employee', 'create', 0, '', 1, NULL, NULL),
 	(284, 'application', 'employee', 'create', 0, '', 2, NULL, NULL),
 	(285, 'application', 'employee', 'delete', 0, '', 1, NULL, NULL),
 	(286, 'application', 'employee', 'delete', 0, '', 2, NULL, NULL),
-	(287, 'application', 'employee', 'find', 0, '', 1, NULL, NULL),
+	(287, 'application', 'employee', 'find', 1, '', 1, NULL, NULL),
 	(288, 'application', 'employee', 'find', 0, '', 2, NULL, NULL),
-	(289, 'application', 'employee', 'findone', 0, '', 1, NULL, NULL),
+	(289, 'application', 'employee', 'findone', 1, '', 1, NULL, NULL),
 	(290, 'application', 'employee', 'findone', 0, '', 2, NULL, NULL),
 	(291, 'application', 'employee', 'update', 0, '', 1, NULL, NULL),
 	(292, 'application', 'employee', 'update', 0, '', 2, NULL, NULL),
-	(293, 'application', 'employee-role', 'count', 0, '', 1, NULL, NULL),
+	(293, 'application', 'employee-role', 'count', 1, '', 1, NULL, NULL),
 	(294, 'application', 'employee-role', 'count', 0, '', 2, NULL, NULL),
 	(295, 'application', 'employee-role', 'create', 0, '', 1, NULL, NULL),
 	(296, 'application', 'employee-role', 'delete', 0, '', 1, NULL, NULL),
 	(297, 'application', 'employee-role', 'delete', 0, '', 2, NULL, NULL),
-	(298, 'application', 'employee-role', 'find', 0, '', 1, NULL, NULL),
+	(298, 'application', 'employee-role', 'find', 1, '', 1, NULL, NULL),
 	(299, 'application', 'employee-role', 'find', 0, '', 2, NULL, NULL),
 	(300, 'application', 'employee-role', 'create', 0, '', 2, NULL, NULL),
-	(301, 'application', 'employee-role', 'findone', 0, '', 1, NULL, NULL),
+	(301, 'application', 'employee-role', 'findone', 1, '', 1, NULL, NULL),
 	(302, 'application', 'employee-role', 'findone', 0, '', 2, NULL, NULL),
 	(303, 'application', 'employee-role', 'update', 0, '', 1, NULL, NULL),
 	(304, 'application', 'employee-role', 'update', 0, '', 2, NULL, NULL),
-	(305, 'application', 'metatheme', 'count', 0, '', 1, NULL, NULL),
+	(305, 'application', 'metatheme', 'count', 1, '', 1, NULL, NULL),
 	(306, 'application', 'metatheme', 'count', 0, '', 2, NULL, NULL),
-	(307, 'application', 'metatheme', 'create', 0, '', 1, NULL, NULL),
-	(308, 'application', 'metatheme', 'delete', 0, '', 1, NULL, NULL),
+	(307, 'application', 'metatheme', 'create', 1, '', 1, NULL, NULL),
+	(308, 'application', 'metatheme', 'delete', 1, '', 1, NULL, NULL),
 	(309, 'application', 'metatheme', 'create', 0, '', 2, NULL, NULL),
 	(310, 'application', 'metatheme', 'delete', 0, '', 2, NULL, NULL),
-	(311, 'application', 'metatheme', 'find', 0, '', 1, NULL, NULL),
+	(311, 'application', 'metatheme', 'find', 1, '', 1, NULL, NULL),
 	(312, 'application', 'metatheme', 'find', 0, '', 2, NULL, NULL),
-	(313, 'application', 'metatheme', 'findone', 0, '', 1, NULL, NULL),
+	(313, 'application', 'metatheme', 'findone', 1, '', 1, NULL, NULL),
 	(314, 'application', 'metatheme', 'findone', 0, '', 2, NULL, NULL),
-	(315, 'application', 'metatheme', 'update', 0, '', 1, NULL, NULL),
+	(315, 'application', 'metatheme', 'update', 1, '', 1, NULL, NULL),
 	(316, 'application', 'metatheme', 'update', 0, '', 2, NULL, NULL);
 /*!40000 ALTER TABLE `users-permissions_permission` ENABLE KEYS */;
 
