@@ -11,39 +11,69 @@
         <el-tab-pane label="IZ.TV" name="iztv"></el-tab-pane>
       </el-tabs>
     </div>
-    <div class="el-table planning-table el-table--fit el-table--striped el-table--border">
+    <div class="el-table planning-table el-table--border">
       <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
         <thead>
           <tr>
-            <th colspan="1" rowspan="1" class="el-table_5_column_29 is-leaf"><div class="cell">Нач.</div></th>
-            <th colspan="1" rowspan="1" class="el-table_5_column_30 is-leaf"><div class="cell">Тема</div></th>
-            <th colspan="1" rowspan="1" class="el-table_5_column_31 is-leaf"><div class="cell">Адрес</div></th>
-            <th colspan="1" rowspan="1" class="el-table_5_column_32 is-leaf"><div class="cell">Корреспонденты</div></th>
-            <th colspan="1" rowspan="1" class="el-table_5_column_33 is-leaf"><div class="cell">Эф план</div></th>
-            <th colspan="1" rowspan="1" class="el-table_5_column_34 is-leaf"><div class="cell">Перегоны, включения</div></th>
-            <th colspan="1" rowspan="1" class="el-table_5_column_35 is-leaf"><div class="cell">Статус</div></th>
+            <th colspan="1" rowspan="1" width="60"><div class="cell">Нач.</div></th>
+            <th colspan="1" rowspan="1" width="350"><div class="cell">Тема</div></th>
+            <th colspan="1" rowspan="1"><div class="cell">Адрес</div></th>
+            <th colspan="1" rowspan="1"><div class="cell">Корреспонденты</div></th>
+            <th colspan="1" rowspan="1"><div class="cell">Эф план</div></th>
+            <th colspan="1" rowspan="1"><div class="cell">Перегоны, включения</div></th>
+            <th colspan="1" rowspan="1" width="80"><div class="cell">Статус</div></th>
           </tr>
         </thead>
         <tbody v-if="metathemeSections.length === 0">
           <tr class="el-table__row no-data">
-            <td rowspan="1" colspan="7" class="el-table_8_column_51"><div class="cell">Нет данных</div></td>
+            <td rowspan="1" colspan="7"><div class="cell">Нет данных</div></td>
           </tr>
         </tbody>
         <tbody v-else v-for="section in metathemeSections" :key="section.id">
-          <tr class="el-table__row expanded el-table__row--level-0" v-if="section.metathemes.length !== 0">
-            <td rowspan="1" colspan="7" class="el-table_8_column_51"><div class="cell">{{ section.name }}</div></td>
+          <tr class="el-table__row el-table__row--level-0" v-if="section.metathemes.length !== 0">
+            <td rowspan="1" colspan="7"><div class="cell bold">{{ section.name }}</div></td>
           </tr>
-          <tr class="el-table__row el-table__row--striped el-table__row--level-1" v-for="theme in section.metathemes" :key="theme.id">
-            <td rowspan="1" colspan="1" class="el-table_8_column_50">
-              <div class="cell">{{ theme.date_start }}</div>
-              <div class="cell">{{ theme.date_start }}</div>
+          <tr class="el-table__row el-table__row--level-1" v-for="theme in section.metathemes" :key="theme.id">
+            <td rowspan="1" colspan="1">
+              <div class="cell bold">{{ moment(theme.date_start).format('HH:mm') }}</div>
+              <div class="cell">{{ moment(theme.date_start).format('DD/MM') }}</div>
             </td>
-            <td rowspan="1" colspan="1" class="el-table_8_column_51"><div class="cell">{{ theme.name }}</div></td>
-            <td rowspan="1" colspan="1" class="el-table_8_column_51"><div class="cell">{{ theme.address }}</div></td>
-            <td rowspan="1" colspan="1" class="el-table_8_column_51"><div class="cell"></div></td>
-            <td rowspan="1" colspan="1" class="el-table_8_column_51"><div class="cell"></div></td>
-            <td rowspan="1" colspan="1" class="el-table_8_column_51"><div class="cell"></div></td>
-            <td rowspan="1" colspan="1" class="el-table_8_column_51"><div class="cell"></div></td>
+            <td rowspan="1" colspan="1">
+              <div class="cell">
+                <div class="bold theme-name">
+                  <el-tooltip class="item" effect="dark" content="Поменять тему местами" placement="bottom">
+                    <el-button icon="el-icon-sort" type="info" size="small"></el-button>
+                  </el-tooltip>
+                  <span>
+                    {{ theme.name }}
+                  </span>
+                  <el-tooltip class="item" effect="dark" content="Добавить тему" placement="bottom">
+                    <i class="el-icon-circle-plus theme-icon"></i>
+                  </el-tooltip>
+                  <el-tooltip class="item" effect="dark" content="Копировать тему" placement="bottom">
+                    <i class="el-icon-document-copy theme-icon"></i>
+                  </el-tooltip>
+                  <el-tooltip class="item" effect="dark" content="Редактировать тему" placement="bottom">
+                    <i class="el-icon-edit theme-icon"></i>
+                  </el-tooltip>
+                  <el-tooltip class="item" effect="dark" content="Управление сотрудниками" placement="bottom">
+                    <i class="el-icon-s-custom theme-icon"></i>
+                  </el-tooltip>
+                </div>
+                <div>
+                  {{ theme.short_description }}
+                </div>
+              </div>
+            </td>
+            <td rowspan="1" colspan="1"><div class="cell">{{ theme.address }}</div></td>
+            <td rowspan="1" colspan="1">
+              <div class="cell centered">
+                <el-button type="primary" size="mini" round>Добавить</el-button>
+              </div>
+            </td>
+            <td rowspan="1" colspan="1"><div class="cell"></div></td>
+            <td rowspan="1" colspan="1"><div class="cell"></div></td>
+            <td rowspan="1" colspan="1"><div class="cell"></div></td>
           </tr>
         </tbody>
       </table>
@@ -115,18 +145,37 @@ export default {
 </script>
 
 <style lang="scss">
+.planning-table .bold {
+  font-weight: bold;
+}
+.planning-table .centered {
+  text-align: center;
+}
 .planning-table th > .cell {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.planning-table .cell {
+  word-break: normal;
+}
 .planning-table .el-table__row--level-0 {
   font-size: 20px;
-  font-weight: bold;
   background-color: rgba(120, 89, 223, 0.2);
 }
 .planning-table .el-table__row--level-0 td,
 .planning-table .no-data td {
   text-align: center;
+}
+.planning-table .el-button--small {
+  padding: 7px 7px;
+}
+.planning-table .theme-name {
+  margin-bottom: 10px;
+}
+.planning-table .theme-icon {
+  color: #409EFF;
+  cursor: pointer;
+  margin-left: 5px;
 }
 </style>
