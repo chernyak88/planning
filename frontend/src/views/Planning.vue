@@ -14,7 +14,7 @@
     <div class="el-table planning-table el-table--border">
       <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
         <thead>
-          <tr>
+          <tr class="sticky">
             <th colspan="1" rowspan="1" width="60"><div class="cell">Нач.</div></th>
             <th colspan="1" rowspan="1" width="350"><div class="cell">Тема</div></th>
             <th colspan="1" rowspan="1"><div class="cell">Адрес</div></th>
@@ -71,8 +71,19 @@
                 <el-button type="primary" size="mini" round>Добавить</el-button>
               </div>
             </td>
-            <td rowspan="1" colspan="1"><div class="cell"></div></td>
-            <td rowspan="1" colspan="1"><div class="cell"></div></td>
+            <td rowspan="1" colspan="1">
+              <div class="cell">
+                <el-tag size="mini" v-for="item in theme.metatheme_aether_plans" :key="'AP'+item.id">{{ item.name }}</el-tag>
+                <p>{{ theme.comment_aether_plans }}</p>
+              </div>
+            </td>
+            <td rowspan="1" colspan="1">
+              <div class="cell">
+                <el-tag size="mini" v-for="item in theme.metatheme_inclusions" :key="'I'+item.id">{{ item.name }}</el-tag>
+                <p>{{ theme.comment_inclusions }}</p>
+                <el-tag size="mini" v-for="item in theme.metatheme_aethers" :key="'A'+item.id">{{ item.name }}</el-tag>
+              </div>
+            </td>
             <td rowspan="1" colspan="1"><div class="cell"></div></td>
           </tr>
         </tbody>
@@ -145,11 +156,19 @@ export default {
 </script>
 
 <style lang="scss">
+.planning-table {
+  overflow: inherit;
+}
 .planning-table .bold {
   font-weight: bold;
 }
 .planning-table .centered {
   text-align: center;
+}
+.planning-table .sticky {
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 .planning-table th > .cell {
   white-space: nowrap;
@@ -177,5 +196,9 @@ export default {
   color: #409EFF;
   cursor: pointer;
   margin-left: 5px;
+}
+.planning-table .el-tag {
+  display: block;
+  margin-bottom: 5px;
 }
 </style>

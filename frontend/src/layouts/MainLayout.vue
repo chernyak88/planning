@@ -54,4 +54,7 @@ export default {
 .el-aside {
     overflow: hidden;
 }
+.el-main {
+    overflow: inherit;
+}
 </style>
