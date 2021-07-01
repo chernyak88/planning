@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading">
-    <div class="heading">
+    <div class="planning-tabs">
       <el-tabs v-model="activeName">
         <el-tab-pane label="Все" name="all"></el-tab-pane>
         <el-tab-pane label="Планирование" name="planning"></el-tab-pane>
@@ -11,10 +11,54 @@
         <el-tab-pane label="IZ.TV" name="iztv"></el-tab-pane>
       </el-tabs>
     </div>
+    <div class="planning-heading">
+      <el-input
+        size="medium"
+        class="search-field"
+        v-model="searchField"
+        placeholder="Поиск"
+        :clearable="true"
+      >
+        <el-button
+          slot="append"
+          icon="el-icon-search"
+        >
+        </el-button>
+      </el-input>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="Экспорт в PDF"
+      >
+        <el-button
+          class="pdf"
+          type="danger"
+          icon="el-icon-document"
+          size="medium"
+          @click="exportToPdf"
+        >
+        </el-button>
+      </el-tooltip>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="Печать"
+      >
+        <el-button
+          v-print="print"
+          class="print"
+          type="primary"
+          icon="el-icon-printer"
+          size="medium"
+        >
+        </el-button>
+      </el-tooltip>
+    </div>
     <div class="el-table planning-table el-table--border">
-      <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
+      <table id="table" ref="table" cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
         <thead>
           <tr class="sticky">
+            <th colspan="1" rowspan="1" width="44"><div class="cell"></div></th>
             <th colspan="1" rowspan="1" width="60"><div class="cell">Нач.</div></th>
             <th colspan="1" rowspan="1" width="350"><div class="cell">Тема</div></th>
             <th colspan="1" rowspan="1"><div class="cell">Адрес</div></th>
@@ -26,14 +70,21 @@
         </thead>
         <tbody v-if="metathemeSections.length === 0">
           <tr class="el-table__row no-data">
-            <td rowspan="1" colspan="7"><div class="cell">Нет данных</div></td>
+            <td rowspan="1" colspan="8"><div class="cell">Нет данных</div></td>
           </tr>
         </tbody>
         <tbody v-else v-for="section in metathemeSections" :key="section.id">
           <tr class="el-table__row el-table__row--level-0" v-if="section.metathemes.length !== 0">
-            <td rowspan="1" colspan="7"><div class="cell bold">{{ section.name }}</div></td>
+            <td rowspan="1" colspan="8"><div class="cell bold">{{ section.name }}</div></td>
           </tr>
           <tr class="el-table__row el-table__row--level-1" v-for="theme in section.metathemes" :key="theme.id">
+            <td rowspan="1" colspan="1" class="el-table__expand-column">
+              <div class="cell">
+                <div class="el-table__expand-icon">
+                  <i class="el-icon el-icon-arrow-right"></i>
+                </div>
+              </div>
+            </td>
             <td rowspan="1" colspan="1">
               <div class="cell bold">{{ moment(theme.date_start).format('HH:mm') }}</div>
               <div class="cell">{{ moment(theme.date_start).format('DD/MM') }}</div>
@@ -84,7 +135,35 @@
                 <el-tag size="mini" v-for="item in theme.metatheme_aethers" :key="'A'+item.id">{{ item.name }}</el-tag>
               </div>
             </td>
-            <td rowspan="1" colspan="1"><div class="cell"></div></td>
+            <td rowspan="1" colspan="1">
+              <div class="cell status-btn">
+                <el-tooltip v-if="theme.status_coord === 'new'" class="item" effect="dark" content="Координация статус" placement="bottom">
+                  <el-button type="info" size="mini" @click="theme.status_coord='coord'">
+                    К <i class="el-icon-minus"></i>
+                  </el-button>
+                </el-tooltip>
+                <el-tooltip v-if="theme.status_coord === 'coord'" class="item" effect="dark" content="Координация статус" placement="bottom">
+                  <el-button type="warning" size="mini" @click="theme.status_coord='done'">
+                    К <i class="el-icon-warning"></i>
+                  </el-button>
+                </el-tooltip>
+                <el-tooltip v-if="theme.status_coord === 'done'" class="item" effect="dark" content="Координация статус" placement="bottom">
+                  <el-button type="success" size="mini" @click="theme.status_coord='new'">
+                    К <i class="el-icon-success"></i>
+                  </el-button>
+                </el-tooltip>
+                <el-tooltip v-if="theme.status_log === false || theme.status_log === null" class="item" effect="dark" content="Лог" placement="bottom">
+                  <el-button type="info" size="mini" @click="theme.status_log=true">
+                    Л
+                  </el-button>
+                </el-tooltip>
+                <el-tooltip v-if="theme.status_log === true" class="item" effect="dark" content="Лог" placement="bottom">
+                  <el-button type="success" size="mini" @click="theme.status_log=false">
+                    Л
+                  </el-button>
+                </el-tooltip>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -131,13 +210,21 @@
 </template>
 
 <script>
+import pdfMixin from '@/mixins/pdf.mixin.js'
+
 export default {
   name: 'planning',
+  mixins: [pdfMixin],
   data() {
     return {
       loading: true,
       activeName: 'all',
-      metathemeSections: []
+      metathemeSections: [],
+      searchField: null,
+      print: {
+        id: "table",
+        popTitle: 'Метатемы',
+      }
     }
   },
   async mounted() {
@@ -146,6 +233,19 @@ export default {
     console.log(this.metathemeSections)
   },
   methods: {
+    async exportToPdf() {
+      this.loading = true
+      try {
+        await this.exportToPdfMixin(this.$refs.table, 'metathemes')
+      } catch (e) {
+        console.log(e)
+        this.$message.error('Ошибка экспорта')
+      }
+      this.loading = false
+    },
+    changeCoordStatus(id) {
+      console.log(id)
+    },
     arraySpanMethod({ row, column, rowIndex, columnIndex }) {
       if (row.metathemes) {
         return [1, 6]
@@ -156,6 +256,15 @@ export default {
 </script>
 
 <style lang="scss">
+.planning-heading {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+.planning-heading .search-field {
+  width: 320px;
+  margin-right: 20px;
+}
 .planning-table {
   overflow: inherit;
 }
@@ -200,5 +309,20 @@ export default {
 .planning-table .el-tag {
   display: block;
   margin-bottom: 5px;
+}
+.planning-table .status-btn {
+  display: flex;
+}
+.planning-table .status-btn .el-button {
+  padding: 7px 7px;
+}
+.planning-table .status-btn .el-button:first-child {
+  border-radius: 3px 0 0 3px;
+}
+.planning-table .status-btn .el-button:last-child {
+  border-radius: 0 3px 3px 0;
+}
+.planning-table .status-btn .el-button+.el-button {
+  margin-left: 0;
 }
 </style>

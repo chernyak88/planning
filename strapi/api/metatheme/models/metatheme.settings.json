@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "metathemes",
   "info": {
-    "name": "metatheme"
+    "name": "metatheme",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -17,11 +18,11 @@
     },
     "date_start": {
       "type": "datetime",
-      "required": true
+      "required": false
     },
     "date_end": {
       "type": "datetime",
-      "required": true
+      "required": false
     },
     "short_description": {
       "type": "richtext"
@@ -50,6 +51,19 @@
     },
     "metatheme_aether_plans": {
       "collection": "metatheme-aether-plan"
+    },
+    "status_coord": {
+      "type": "enumeration",
+      "enum": [
+        "new",
+        "coord",
+        "done"
+      ],
+      "default": "new"
+    },
+    "status_log": {
+      "type": "boolean",
+      "default": true
     }
   }
 }
