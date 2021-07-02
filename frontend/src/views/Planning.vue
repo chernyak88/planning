@@ -59,7 +59,15 @@
         <thead>
           <tr class="sticky">
             <th colspan="1" rowspan="1" width="44"><div class="cell"></div></th>
-            <th colspan="1" rowspan="1" width="60"><div class="cell">Нач.</div></th>
+            <th colspan="1" rowspan="1" width="80">
+              <div class="cell">
+                Нач.
+                <span class="caret-wrapper">
+                  <i class="sort-caret ascending"></i>
+                  <i class="sort-caret descending"></i>
+                </span>
+              </div>
+            </th>
             <th colspan="1" rowspan="1" width="350"><div class="cell">Тема</div></th>
             <th colspan="1" rowspan="1"><div class="cell">Адрес</div></th>
             <th colspan="1" rowspan="1"><div class="cell">Корреспонденты</div></th>
@@ -77,135 +85,108 @@
           <tr class="el-table__row el-table__row--level-0" v-if="section.metathemes.length !== 0">
             <td rowspan="1" colspan="8"><div class="cell bold">{{ section.name }}</div></td>
           </tr>
-          <tr class="el-table__row el-table__row--level-1" v-for="theme in section.metathemes" :key="theme.id">
-            <td rowspan="1" colspan="1" class="el-table__expand-column">
-              <div class="cell">
-                <div class="el-table__expand-icon">
-                  <i class="el-icon el-icon-arrow-right"></i>
+          <tbody class="contents" v-for="theme in section.metathemes" :key="theme.id">
+            <tr class="el-table__row el-table__row--level-1">
+              <td rowspan="1" colspan="1" class="el-table__expand-column">
+                <div class="cell">
+                  <div class="el-table__expand-icon" :class="{ rotate: theme.expand_row }" @click="theme.expand_row = !theme.expand_row">
+                    <i class="el-icon el-icon-arrow-right"></i>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td rowspan="1" colspan="1">
-              <div class="cell bold">{{ moment(theme.date_start).format('HH:mm') }}</div>
-              <div class="cell">{{ moment(theme.date_start).format('DD/MM') }}</div>
-            </td>
-            <td rowspan="1" colspan="1">
-              <div class="cell">
-                <div class="bold theme-name">
-                  <el-tooltip class="item" effect="dark" content="Поменять тему местами" placement="bottom">
-                    <el-button icon="el-icon-sort" type="info" size="small"></el-button>
+              </td>
+              <td class="center" rowspan="1" colspan="1">
+                <div class="cell bold">{{ moment(theme.date_start).format('HH:mm') }}</div>
+                <div class="cell">{{ moment(theme.date_start).format('DD/MM') }}</div>
+              </td>
+              <td rowspan="1" colspan="1">
+                <div class="cell">
+                  <div class="bold theme-name">
+                    <el-tooltip class="item" effect="dark" content="Поменять тему местами" placement="bottom">
+                      <el-button icon="el-icon-sort" type="info" size="small"></el-button>
+                    </el-tooltip>
+                    <span>
+                      {{ theme.name }}
+                    </span>
+                    <el-tooltip class="item" effect="dark" content="Добавить тему" placement="bottom">
+                      <i class="el-icon-circle-plus theme-icon"></i>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="dark" content="Копировать тему" placement="bottom">
+                      <i class="el-icon-document-copy theme-icon"></i>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="dark" content="Редактировать тему" placement="bottom">
+                      <i class="el-icon-edit theme-icon"></i>
+                    </el-tooltip>
+                    <el-tooltip class="item" effect="dark" content="Управление сотрудниками" placement="bottom">
+                      <i class="el-icon-s-custom theme-icon"></i>
+                    </el-tooltip>
+                  </div>
+                  <div>
+                    {{ theme.short_description }}
+                  </div>
+                </div>
+              </td>
+              <td rowspan="1" colspan="1"><div class="cell">{{ theme.address }}</div></td>
+              <td rowspan="1" colspan="1">
+                <div class="cell centered">
+                  <el-button type="primary" size="mini" round>Добавить</el-button>
+                </div>
+              </td>
+              <td rowspan="1" colspan="1">
+                <div class="cell">
+                  <el-tag size="mini" v-for="item in theme.metatheme_aether_plans" :key="'AP'+item.id">{{ item.name }}</el-tag>
+                  <p>{{ theme.comment_aether_plans }}</p>
+                </div>
+              </td>
+              <td rowspan="1" colspan="1">
+                <div class="cell">
+                  <el-tag size="mini" v-for="item in theme.metatheme_inclusions" :key="'I'+item.id">{{ item.name }}</el-tag>
+                  <p>{{ theme.comment_inclusions }}</p>
+                  <el-tag size="mini" v-for="item in theme.metatheme_aethers" :key="'A'+item.id">{{ item.name }}</el-tag>
+                </div>
+              </td>
+              <td rowspan="1" colspan="1">
+                <div class="cell status-btn">
+                  <el-tooltip v-if="theme.status_coord === 'new'" class="item" effect="dark" content="Координация статус" placement="bottom">
+                    <el-button type="info" size="mini" @click="theme.status_coord='coord'">
+                      К <i class="el-icon-minus"></i>
+                    </el-button>
                   </el-tooltip>
-                  <span>
-                    {{ theme.name }}
-                  </span>
-                  <el-tooltip class="item" effect="dark" content="Добавить тему" placement="bottom">
-                    <i class="el-icon-circle-plus theme-icon"></i>
+                  <el-tooltip v-if="theme.status_coord === 'coord'" class="item" effect="dark" content="Координация статус" placement="bottom">
+                    <el-button type="warning" size="mini" @click="theme.status_coord='done'">
+                      К <i class="el-icon-warning"></i>
+                    </el-button>
                   </el-tooltip>
-                  <el-tooltip class="item" effect="dark" content="Копировать тему" placement="bottom">
-                    <i class="el-icon-document-copy theme-icon"></i>
+                  <el-tooltip v-if="theme.status_coord === 'done'" class="item" effect="dark" content="Координация статус" placement="bottom">
+                    <el-button type="success" size="mini" @click="theme.status_coord='new'">
+                      К <i class="el-icon-success"></i>
+                    </el-button>
                   </el-tooltip>
-                  <el-tooltip class="item" effect="dark" content="Редактировать тему" placement="bottom">
-                    <i class="el-icon-edit theme-icon"></i>
+                  <el-tooltip v-if="theme.status_log === false || theme.status_log === null" class="item" effect="dark" content="Лог" placement="bottom">
+                    <el-button type="info" size="mini" @click="theme.status_log=true">
+                      Л
+                    </el-button>
                   </el-tooltip>
-                  <el-tooltip class="item" effect="dark" content="Управление сотрудниками" placement="bottom">
-                    <i class="el-icon-s-custom theme-icon"></i>
+                  <el-tooltip v-if="theme.status_log === true" class="item" effect="dark" content="Лог" placement="bottom">
+                    <el-button type="success" size="mini" @click="theme.status_log=false">
+                      Л
+                    </el-button>
                   </el-tooltip>
                 </div>
-                <div>
-                  {{ theme.short_description }}
+              </td>
+            </tr>
+            <tr v-if="theme.expand_row === true">
+              <td rowspan="1" colspan="8">
+                <div class="cell">
+                  <p class="bold">Прибытие: <span style="font-weight: normal;">{{ moment(theme.date_start).format('YYYY-MM-DD HH:mm:ss') }}</span></p>
+                  <p class="bold">Подробнее:</p>
+                  <p class="theme-description">{{ theme.description }}</p>
                 </div>
-              </div>
-            </td>
-            <td rowspan="1" colspan="1"><div class="cell">{{ theme.address }}</div></td>
-            <td rowspan="1" colspan="1">
-              <div class="cell centered">
-                <el-button type="primary" size="mini" round>Добавить</el-button>
-              </div>
-            </td>
-            <td rowspan="1" colspan="1">
-              <div class="cell">
-                <el-tag size="mini" v-for="item in theme.metatheme_aether_plans" :key="'AP'+item.id">{{ item.name }}</el-tag>
-                <p>{{ theme.comment_aether_plans }}</p>
-              </div>
-            </td>
-            <td rowspan="1" colspan="1">
-              <div class="cell">
-                <el-tag size="mini" v-for="item in theme.metatheme_inclusions" :key="'I'+item.id">{{ item.name }}</el-tag>
-                <p>{{ theme.comment_inclusions }}</p>
-                <el-tag size="mini" v-for="item in theme.metatheme_aethers" :key="'A'+item.id">{{ item.name }}</el-tag>
-              </div>
-            </td>
-            <td rowspan="1" colspan="1">
-              <div class="cell status-btn">
-                <el-tooltip v-if="theme.status_coord === 'new'" class="item" effect="dark" content="Координация статус" placement="bottom">
-                  <el-button type="info" size="mini" @click="theme.status_coord='coord'">
-                    К <i class="el-icon-minus"></i>
-                  </el-button>
-                </el-tooltip>
-                <el-tooltip v-if="theme.status_coord === 'coord'" class="item" effect="dark" content="Координация статус" placement="bottom">
-                  <el-button type="warning" size="mini" @click="theme.status_coord='done'">
-                    К <i class="el-icon-warning"></i>
-                  </el-button>
-                </el-tooltip>
-                <el-tooltip v-if="theme.status_coord === 'done'" class="item" effect="dark" content="Координация статус" placement="bottom">
-                  <el-button type="success" size="mini" @click="theme.status_coord='new'">
-                    К <i class="el-icon-success"></i>
-                  </el-button>
-                </el-tooltip>
-                <el-tooltip v-if="theme.status_log === false || theme.status_log === null" class="item" effect="dark" content="Лог" placement="bottom">
-                  <el-button type="info" size="mini" @click="theme.status_log=true">
-                    Л
-                  </el-button>
-                </el-tooltip>
-                <el-tooltip v-if="theme.status_log === true" class="item" effect="dark" content="Лог" placement="bottom">
-                  <el-button type="success" size="mini" @click="theme.status_log=false">
-                    Л
-                  </el-button>
-                </el-tooltip>
-              </div>
-            </td>
-          </tr>
+              </td>
+            </tr>
+          </tbody>
         </tbody>
       </table>
     </div>
-    <!-- <el-table
-      ref="table"
-      class="planning-table"
-      :data="metathemeSections"
-      stripe
-      border
-      row-key="id"
-      :tree-props="{children: 'metathemes'}"
-      default-expand-all
-      :span-method="arraySpanMethod"
-    >
-      <el-table-column
-        prop="date_start"
-        label="Нач.">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="Тема">
-      </el-table-column>
-      <el-table-column
-        prop="address"
-        label="Адрес">
-      </el-table-column>
-      <el-table-column
-        label="Корреспонденты">
-      </el-table-column>
-      <el-table-column
-        prop="metatheme_aether_plans.name"
-        label="Эф план">
-      </el-table-column>
-      <el-table-column
-        prop="metatheme_aethers.name"
-        label="Перегоны, включения">
-      </el-table-column>
-      <el-table-column
-        label="Статус">
-      </el-table-column>
-    </el-table> -->
   </div>
 </template>
 
@@ -245,11 +226,6 @@ export default {
     },
     changeCoordStatus(id) {
       console.log(id)
-    },
-    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-      if (row.metathemes) {
-        return [1, 6]
-      }
     }
   }
 }
@@ -279,6 +255,9 @@ export default {
   top: 0;
   z-index: 2;
 }
+.planning-table .contents {
+  display: contents;
+}
 .planning-table th > .cell {
   white-space: nowrap;
   overflow: hidden;
@@ -300,6 +279,12 @@ export default {
 }
 .planning-table .theme-name {
   margin-bottom: 10px;
+}
+.planning-table .el-table__expand-icon {
+  transition: transform .2s ease-in-out;
+}
+.planning-table .el-table__expand-icon.rotate {
+  transform: rotate(90deg);
 }
 .planning-table .theme-icon {
   color: #409EFF;
@@ -324,5 +309,9 @@ export default {
 }
 .planning-table .status-btn .el-button+.el-button {
   margin-left: 0;
+}
+.planning-table .theme-description {
+  background: #ecf5ff;
+  padding: 15px;
 }
 </style>

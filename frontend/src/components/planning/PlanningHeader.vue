@@ -12,6 +12,7 @@
       </el-date-picker>
       <el-button type="primary">Добавить тему</el-button>
       <el-button type="danger">Срочный выезд!</el-button>
+      <el-button type="primary" icon="el-icon-refresh"></el-button>
   </div>
 </template>
 
@@ -34,5 +35,6 @@ export default {
 .planning-picker.el-input .el-input__inner {
   padding-right: 10px;
   cursor: pointer;
+  background: #ecf5ff;
 }
 </style>

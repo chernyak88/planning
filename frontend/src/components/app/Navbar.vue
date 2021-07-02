@@ -4,6 +4,9 @@
       <PlanningHeader />
     </el-col>
     <el-col :span="logoutWidth">
+      <el-badge :value="32" class="badge" v-if="$route.path === '/planning'">
+        <i class="el-icon-message-solid"></i>
+      </el-badge>
       <el-dropdown class="user-name" @command="logout">
         <span class="el-dropdown-link">
           {{name}}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -58,8 +61,10 @@ export default {
   cursor: pointer;
   color: #409EFF;
 }
-.search-field {
-  width: 320px;
-  margin-right: 20px;
+.badge {
+  font-size: 22px;
+  color: #909399;
+  margin-right: 25px;
+  cursor: pointer;
 }
 </style>

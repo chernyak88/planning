@@ -64,6 +64,10 @@
     "status_log": {
       "type": "boolean",
       "default": true
+    },
+    "expand_row": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
