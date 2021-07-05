@@ -1,7 +1,7 @@
 <template>
   <div v-loading="loading">
     <div class="planning-tabs">
-      <el-tabs v-model="activeName">
+      <el-tabs v-model="activeTab" @tab-click="handleTabClick">
         <el-tab-pane label="Все" name="all"></el-tab-pane>
         <el-tab-pane label="Планирование" name="planning"></el-tab-pane>
         <el-tab-pane label="Санкт-Петербург" name="spb"></el-tab-pane>
@@ -76,16 +76,16 @@
             <th colspan="1" rowspan="1" width="80"><div class="cell">Статус</div></th>
           </tr>
         </thead>
-        <tbody v-if="metathemeSections.length === 0">
+        <tbody v-if="metathemes.length === 0">
           <tr class="el-table__row no-data">
             <td rowspan="1" colspan="8"><div class="cell">Нет данных</div></td>
           </tr>
         </tbody>
-        <tbody v-else v-for="section in metathemeSections" :key="section.id">
-          <tr class="el-table__row el-table__row--level-0" v-if="section.metathemes.length !== 0">
-            <td rowspan="1" colspan="8"><div class="cell bold">{{ section.name }}</div></td>
+        <tbody v-else v-for="(themes, section) in grouped" :key="section">
+          <tr class="el-table__row el-table__row--level-0">
+            <td rowspan="1" colspan="8"><div class="cell bold">{{ section }}</div></td>
           </tr>
-          <tbody class="contents" v-for="theme in section.metathemes" :key="theme.id">
+          <tbody class="contents" v-for="theme in themes" :key="theme.id">
             <tr class="el-table__row el-table__row--level-1">
               <td rowspan="1" colspan="1" class="el-table__expand-column">
                 <div class="cell">
@@ -199,8 +199,8 @@ export default {
   data() {
     return {
       loading: true,
-      activeName: 'all',
-      metathemeSections: [],
+      activeTab: 'all',
+      metathemes: [],
       searchField: null,
       print: {
         id: "table",
@@ -209,9 +209,21 @@ export default {
     }
   },
   async mounted() {
-    this.metathemeSections = await this.$store.dispatch('fetchMetathemeSections')
-    this.loading = false
-    console.log(this.metathemeSections)
+    this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
+  },
+  watch: {
+  '$store.state.metathemes.date': function () {
+    this.activeTab = 'all'
+    this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
+   }
+  },
+  computed: {
+    grouped() {
+      return this.metathemes.reduce((acc, n) => {
+        (acc[n.metatheme_section.name] = acc[n.metatheme_section.name] || []).push(n)
+        return acc
+      }, {})
+    }
   },
   methods: {
     async exportToPdf() {
@@ -226,6 +238,37 @@ export default {
     },
     changeCoordStatus(id) {
       console.log(id)
+    },
+    handleTabClick(tab, event) {
+      switch (tab.name) {
+        case 'all':
+          this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
+          break
+        case 'planning':
+          this.fetchMetathemes([1,2,3])
+          break
+        case 'spb':
+          this.fetchMetathemes([4,5])
+          break
+        case 'regions':
+          this.fetchMetathemes([6,7,8,9])
+          break
+        case 'foreign':
+          this.fetchMetathemes([10,11,12])
+          break
+        case 'producers':
+          this.fetchMetathemes([13,14])
+          break
+        case 'iztv':
+          this.fetchMetathemes([15,16])
+          break
+      }
+    },
+    async fetchMetathemes(arr) {
+      this.loading = true
+      this.metathemes = await this.$store.dispatch('fetchMetathemes', arr)
+      this.loading = false
+      console.log(this.metathemes)
     }
   }
 }

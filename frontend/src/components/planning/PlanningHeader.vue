@@ -1,13 +1,14 @@
 <template>
     <div>
       <el-date-picker
-        v-model="date"
+        v-model="$store.state.metathemes.date"
         class="planning-picker"
         type="date"
         :editable="false"
         :clearable="false"
         format="dd-MM-yyyy"
         :picker-options="{ firstDayOfWeek: 1 }"
+        @change="handleChangeDate"
       >
       </el-date-picker>
       <el-button type="primary">Добавить тему</el-button>
@@ -19,9 +20,9 @@
 <script>
 export default {
   name: 'planningheader',
-  data() {
-    return {
-      date: new Date()
+  methods: {
+    handleChangeDate(newDate) {
+      this.$store.commit('setDate', newDate)
     }
   }
 }
