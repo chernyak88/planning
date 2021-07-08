@@ -16,7 +16,8 @@
     },
     "metathemes": {
       "via": "metatheme_section",
-      "collection": "metatheme"
+      "collection": "metatheme",
+      "autoPopulate" : false
     }
   }
 }

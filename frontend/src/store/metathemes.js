@@ -27,6 +27,38 @@ export default {
       } catch (e) {
         throw e
       }
+    },
+    async fetchMetathemeSections() {
+      try {
+        const response = await axios.get(`${this.state.url}/metatheme-sections`)
+        return response.data
+      } catch (e) {
+        throw e
+      }
+    },
+    async fetchMetathemeInclusions() {
+      try {
+        const response = await axios.get(`${this.state.url}/metatheme-inclusions`)
+        return response.data
+      } catch (e) {
+        throw e
+      }
+    },
+    async fetchMetathemeAethers() {
+      try {
+        const response = await axios.get(`${this.state.url}/metatheme-aethers`)
+        return response.data
+      } catch (e) {
+        throw e
+      }
+    },
+    async fetchMetathemeAetherPlans() {
+      try {
+        const response = await axios.get(`${this.state.url}/metatheme-aether-plans`)
+        return response.data
+      } catch (e) {
+        throw e
+      }
     }
   },
   mutations: {

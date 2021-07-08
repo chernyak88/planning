@@ -11,18 +11,48 @@
         @change="handleChangeDate"
       >
       </el-date-picker>
-      <el-button type="primary">Добавить тему</el-button>
+      <el-button type="primary" @click="createFormVisible = true">Добавить тему</el-button>
       <el-button type="danger">Срочный выезд!</el-button>
       <el-button type="primary" icon="el-icon-refresh"></el-button>
+
+    <el-dialog
+      title="Добавление новой темы"
+      width="950px"
+      :visible.sync="createFormVisible"
+    >
+      <CreateMetatheme
+        @hideCreateForm="hideCreateForm"
+        @created="addNewMetateheme"
+      />
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import CreateMetatheme from '@/components/planning/CreateMetatheme'
+
 export default {
   name: 'planningheader',
+  components: {
+    CreateMetatheme
+  },
+  data() {
+    return {
+      createFormVisible: false
+    }
+  },
   methods: {
     handleChangeDate(newDate) {
       this.$store.commit('setDate', newDate)
+    },
+    hideCreateForm() {
+      this.createFormVisible = false
+    },
+    addNewMetateheme() {
+      this.createFormVisible = false
+      // this.loading = true
+      // this.fetchTechResources()
+      // this.loading = false
     }
   }
 }
