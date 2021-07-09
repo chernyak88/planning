@@ -7,7 +7,7 @@ export default {
     date: moment(new Date()).set({hour:0,minute:0,second:0,millisecond:0}).format(),
   },
   actions: {
-    async fetchMetathemes({commit, dispatch}, arr) {
+    async fetchMetathemes({commit, dispatch}, arr, params = {_sort: 'metatheme_section.id:asc'}) {
       try {
         let query = qs.stringify({ _where: {
           _or: [
@@ -21,7 +21,8 @@ export default {
         })
         const response = await axios({
           method: 'get',
-          url: `${this.state.url}/metathemes?${query}`
+          url: `${this.state.url}/metathemes?${query}`,
+          params: params
         })
         return response.data
       } catch (e) {
@@ -56,6 +57,29 @@ export default {
       try {
         const response = await axios.get(`${this.state.url}/metatheme-aether-plans`)
         return response.data
+      } catch (e) {
+        throw e
+      }
+    },
+    async createMetatheme({commit, dispatch}, obj) {
+      try {
+        return await axios.post(
+          `${this.state.url}/metathemes`,
+          {
+            name: obj.name,
+            metatheme_section: obj.metatheme_section,
+            date_start: obj.date_start,
+            date_end: obj.date_end,
+            short_description: obj.short_description,
+            description: obj.description,
+            address: obj.address,
+            metatheme_inclusions: obj.metatheme_inclusions,
+            comment_inclusions: obj.comment_inclusions,
+            metatheme_aethers: obj.metatheme_aethers,
+            metatheme_aether_plans: obj.metatheme_aether_plans,
+            comment_aether_plans: obj.comment_aether_plans
+          }
+        )
       } catch (e) {
         throw e
       }

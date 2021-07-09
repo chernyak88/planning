@@ -120,9 +120,7 @@
                       <i class="el-icon-s-custom theme-icon"></i>
                     </el-tooltip>
                   </div>
-                  <div>
-                    {{ theme.short_description }}
-                  </div>
+                  <div v-html="theme.short_description"></div>
                 </div>
               </td>
               <td rowspan="1" colspan="1"><div class="cell">{{ theme.address }}</div></td>
@@ -179,7 +177,7 @@
                 <div class="cell">
                   <p class="bold">Прибытие: <span style="font-weight: normal;">{{ moment(theme.date_start).format('YYYY-MM-DD HH:mm:ss') }}</span></p>
                   <p class="bold">Подробнее:</p>
-                  <p class="theme-description">{{ theme.description }}</p>
+                  <p class="theme-description" v-html="theme.description"></p>
                 </div>
               </td>
             </tr>

@@ -63,11 +63,14 @@
     },
     "status_log": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "expand_row": {
       "type": "boolean",
       "default": false
+    },
+    "country": {
+      "type": "string"
     }
   }
 }

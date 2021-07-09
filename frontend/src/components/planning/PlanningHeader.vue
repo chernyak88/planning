@@ -16,13 +16,14 @@
       <el-button type="primary" icon="el-icon-refresh"></el-button>
 
     <el-dialog
-      title="Добавление новой темы"
+      :title="createFormTitle"
       width="950px"
       :visible.sync="createFormVisible"
     >
       <CreateMetatheme
         @hideCreateForm="hideCreateForm"
         @created="addNewMetateheme"
+        @handleChangeTitle="handleChangeTitle"
       />
     </el-dialog>
   </div>
@@ -38,21 +39,23 @@ export default {
   },
   data() {
     return {
-      createFormVisible: false
+      createFormVisible: false,
+      createFormTitle: 'Добавление новой темы'
     }
   },
   methods: {
     handleChangeDate(newDate) {
       this.$store.commit('setDate', newDate)
     },
+    handleChangeTitle(newTitle) {
+      this.createFormTitle = `Добавление новой темы в раздел ${newTitle}`
+    },
     hideCreateForm() {
       this.createFormVisible = false
     },
     addNewMetateheme() {
       this.createFormVisible = false
-      // this.loading = true
-      // this.fetchTechResources()
-      // this.loading = false
+      this.$store.commit('setDate', new Date())
     }
   }
 }

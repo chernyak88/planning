@@ -1,5 +1,5 @@
 <template>
-  <div class="planning-create">
+  <div class="planning-create" v-loading="loading">
     <el-form
       :model="form"
       :rules="rules"
@@ -25,6 +25,7 @@
           <el-select
             v-model="form.metatheme_section"
             placeholder=""
+            @change="handleChangeSection"
           >
             <el-option
               v-for="item in metatheme_sections"
@@ -41,8 +42,10 @@
           <el-date-picker
             v-model="form.date_start"
             type="datetime"
+            :editable="false"
             placeholder="Выберите дату и время"
             default-time="12:00:00"
+            :picker-options = "pickerOptions"
             @blur="checkDateStart">
           </el-date-picker>
         </el-form-item>
@@ -53,8 +56,10 @@
           <el-date-picker
             v-model="form.date_end"
             type="datetime"
+            :editable="false"
             placeholder="Выберите дату и время"
             default-time="12:00:00"
+            :picker-options = "pickerOptions"
             @blur="checkDateEnd">
           </el-date-picker>
         </el-form-item>
@@ -178,10 +183,17 @@ export default {
   },
   mixins: [textEditorMixin],
   data: () => ({
+    loading: true,
     metatheme_sections: [],
     metatheme_inclusions: [],
     metatheme_aethers: [],
     metatheme_aether_plans: [],
+    pickerOptions: {
+      firstDayOfWeek: 1,
+      disabledDate(time) {
+        return time.getTime() < Date.now() - 8.64e7
+      }
+    },
     form: {
       name: null,
       metatheme_section: null,
@@ -232,15 +244,17 @@ export default {
     this.metatheme_inclusions = await this.$store.dispatch('fetchMetathemeInclusions')
     this.metatheme_aethers = await this.$store.dispatch('fetchMetathemeAethers')
     this.metatheme_aether_plans = await this.$store.dispatch('fetchMetathemeAetherPlans')
+    this.loading = false
   },
   methods: {
+    handleChangeSection(id) {
+      this.metatheme_sections.forEach( (item) => {
+        if(item.id === id) this.$emit('handleChangeTitle', item.name)
+      })
+    },
     checkDateStart() {
-      if(!this.form.date_end) {
+      if((!this.form.date_end) || (this.form.date_end && (this.form.date_end < this.form.date_start))) {
         this.form.date_end = this.moment(this.form.date_start).add(4, 'hours').format()
-        return
-      }
-      if (this.form.date_end && (this.form.date_end < this.form.date_start)) {
-        this.form.date_end = null
       }
     },
     checkDateEnd() {
@@ -254,6 +268,7 @@ export default {
           return false
         } else {
           try {
+            this.loading = true
             let formData = {
               name: this.form.name,
               metatheme_section: this.form.metatheme_section,
@@ -268,12 +283,17 @@ export default {
               metatheme_aether_plans: this.form.metatheme_aether_plans,
               comment_aether_plans: this.form.comment_aether_plans
             }
-            console.log(formData)
             await this.$store.dispatch('createMetatheme', formData)
             .then(() => {
               this.$emit('created')
+              this.loading = false
               this.$message.success('Тема добавлена')
               this.$refs[form].resetFields()
+              this.form.metatheme_inclusions = null
+              this.form.comment_inclusions = null
+              this.form.metatheme_aethers = null
+              this.form.metatheme_aether_plans = null
+              this.form.comment_aether_plans = null
             })
           } catch (e) {
             this.$message.error('Недостаточно прав для выполнения данной операции')
