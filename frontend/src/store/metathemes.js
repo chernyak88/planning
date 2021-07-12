@@ -77,7 +77,10 @@ export default {
             comment_inclusions: obj.comment_inclusions,
             metatheme_aethers: obj.metatheme_aethers,
             metatheme_aether_plans: obj.metatheme_aether_plans,
-            comment_aether_plans: obj.comment_aether_plans
+            comment_aether_plans: obj.comment_aether_plans,
+            status_coord: obj.status_coord,
+            comment_coord: obj.comment_coord,
+            country: obj.country
           }
         )
       } catch (e) {

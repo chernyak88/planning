@@ -19,6 +19,10 @@
       :title="createFormTitle"
       width="950px"
       :visible.sync="createFormVisible"
+      :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      @close="hideCreateForm"
     >
       <CreateMetatheme
         @hideCreateForm="hideCreateForm"
@@ -52,6 +56,7 @@ export default {
     },
     hideCreateForm() {
       this.createFormVisible = false
+      this.createFormTitle = 'Добавление новой темы'
     },
     addNewMetateheme() {
       this.createFormVisible = false

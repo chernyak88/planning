@@ -71,6 +71,9 @@
     },
     "country": {
       "type": "string"
+    },
+    "comment_coord": {
+      "type": "text"
     }
   }
 }

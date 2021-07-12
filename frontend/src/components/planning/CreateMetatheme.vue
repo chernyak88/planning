@@ -19,12 +19,14 @@
           </el-input>
         </el-form-item>
         <el-form-item
+          v-if="!formLayout.zr && !formLayout.reg"
           label="Раздел"
           prop="metatheme_section"
         >
           <el-select
             v-model="form.metatheme_section"
             placeholder=""
+            filterable
             @change="handleChangeSection"
           >
             <el-option
@@ -34,6 +36,17 @@
               :value="item.id">
             </el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item
+          v-if="formLayout.zr || formLayout.reg"
+          label="Страна/Регион"
+          prop="country"
+        >
+          <el-input
+            v-model="form.country"
+            placeholder="Краткое название"
+          >
+          </el-input>
         </el-form-item>
         <el-form-item
           label="Начало"
@@ -64,7 +77,7 @@
           </el-date-picker>
         </el-form-item>
       </div>
-      <div class="form-row description">
+      <div class="form-row description" v-if="!formLayout.zr">
         <el-form-item
           label="Краткое описание"
           prop="short_description"
@@ -88,6 +101,7 @@
       </div>
       <div class="form-row">
         <el-form-item
+          v-if="!formLayout.zr && !formLayout.reg"
           label="Адрес"
           prop="address"
         >
@@ -99,10 +113,11 @@
           </el-input>
         </el-form-item>
         <el-form-item
+          v-if="!formLayout.zr && !formLayout.reg"
           label="Перегоны, включения"
           prop="metatheme_inclusion"
         >
-          <el-select v-model="form.metatheme_inclusions" multiple placeholder="">
+          <el-select v-model="form.metatheme_inclusions" multiple filterable placeholder="">
             <el-option
               v-for="item in metatheme_inclusions"
               :key="item.id"
@@ -122,7 +137,7 @@
           label="Эфир"
           prop="metatheme_aether"
         >
-          <el-select v-model="form.metatheme_aethers" multiple placeholder="">
+          <el-select v-model="form.metatheme_aethers" multiple filterable placeholder="">
             <el-option
               v-for="item in metatheme_aethers"
               :key="item.id"
@@ -135,7 +150,7 @@
           label="Эфирный план"
           prop="metatheme_inclusion"
         >
-          <el-select v-model="form.metatheme_aether_plans" multiple placeholder="">
+          <el-select v-model="form.metatheme_aether_plans" multiple filterable placeholder="">
             <el-option
               v-for="item in metatheme_aether_plans"
               :key="item.id"
@@ -148,6 +163,32 @@
             type="textarea"
             placeholder="Комментарий"
             v-model="form.comment_aether_plans"
+          >
+          </el-input>
+        </el-form-item>
+      </div>
+      <div class="form-row" v-if="formLayout.showStatus">
+        <el-form-item
+          label="Координация"
+          prop="status_coord"
+        >
+          <el-select v-model="form.status_coord" placeholder="">
+            <el-option
+              label="Без"
+              value="new">
+            </el-option>
+            <el-option
+              label="Требуется"
+              value="coord">
+            </el-option>
+          </el-select>
+          <el-input
+            v-if="form.status_coord === 'coord'"
+            class="comment"
+            style="width: 99%"
+            type="textarea"
+            placeholder="Комментарий"
+            v-model="form.comment_coord"
           >
           </el-input>
         </el-form-item>
@@ -206,7 +247,15 @@ export default {
       comment_inclusions: null,
       metatheme_aethers: null,
       metatheme_aether_plans: null,
-      comment_aether_plans: null
+      comment_aether_plans: null,
+      status_coord: 'new',
+      comment_coord: null,
+      country: null
+    },
+    formLayout: {
+      zr: false,
+      reg: false,
+      showStatus: false
     },
     rules: {
       name: [
@@ -251,6 +300,52 @@ export default {
       this.metatheme_sections.forEach( (item) => {
         if(item.id === id) this.$emit('handleChangeTitle', item.name)
       })
+      switch (id) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+        case 20:
+          this.formLayout.showStatus = true
+          break
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+          this.formLayout.reg = true
+          this.formLayout.showStatus = true
+          this.form.metatheme_inclusions = null
+          this.form.comment_inclusions = null
+          break
+        case 10:
+        case 11:
+        case 12:
+          this.formLayout.zr = true
+          this.formLayout.showStatus = false
+          this.form.short_description = null
+          this.form.description = null
+          this.form.address = null
+          this.form.metatheme_inclusions = null
+          this.form.comment_inclusions = null
+          this.form.status_coord = 'new'
+          this.form.comment_coord = null
+          break
+        case 21:
+        case 22:
+        case 23:
+        case 24:
+          this.formLayout.showStatus = false
+          this.form.status_coord = 'new'
+          break
+      }
     },
     checkDateStart() {
       if((!this.form.date_end) || (this.form.date_end && (this.form.date_end < this.form.date_start))) {
@@ -281,19 +376,16 @@ export default {
               comment_inclusions: this.form.comment_inclusions,
               metatheme_aethers: this.form.metatheme_aethers,
               metatheme_aether_plans: this.form.metatheme_aether_plans,
-              comment_aether_plans: this.form.comment_aether_plans
+              comment_aether_plans: this.form.comment_aether_plans,
+              status_coord: this.form.status_coord,
+              comment_coord: this.form.comment_coord,
+              country: this.form.country
             }
             await this.$store.dispatch('createMetatheme', formData)
             .then(() => {
               this.$emit('created')
               this.loading = false
               this.$message.success('Тема добавлена')
-              this.$refs[form].resetFields()
-              this.form.metatheme_inclusions = null
-              this.form.comment_inclusions = null
-              this.form.metatheme_aethers = null
-              this.form.metatheme_aether_plans = null
-              this.form.comment_aether_plans = null
             })
           } catch (e) {
             this.$message.error('Недостаточно прав для выполнения данной операции')
