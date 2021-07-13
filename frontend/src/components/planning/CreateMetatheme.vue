@@ -1,6 +1,8 @@
 <template>
   <div class="planning-create" v-loading="loading">
     <el-form
+      v-for="(form, index) in forms"
+      :key="index"
       :model="form"
       :rules="rules"
       ref="createMetaThemeForm"
@@ -59,7 +61,7 @@
             placeholder="Выберите дату и время"
             default-time="12:00:00"
             :picker-options = "pickerOptions"
-            @blur="checkDateStart">
+            @blur="checkDateStart(index)">
           </el-date-picker>
         </el-form-item>
         <el-form-item
@@ -73,7 +75,7 @@
             placeholder="Выберите дату и время"
             default-time="12:00:00"
             :picker-options = "pickerOptions"
-            @blur="checkDateEnd">
+            @blur="checkDateEnd(index)">
           </el-date-picker>
         </el-form-item>
       </div>
@@ -204,6 +206,13 @@
         Отменить
       </el-button>
       <el-button
+        v-if="formLayout.zr"
+        type="primary"
+        @click="clone"
+      >
+        Клонировать
+      </el-button>
+      <el-button
         type="primary"
         @click="handleSubmit('createMetaThemeForm')"
       >
@@ -235,23 +244,25 @@ export default {
         return time.getTime() < Date.now() - 8.64e7
       }
     },
-    form: {
-      name: null,
-      metatheme_section: null,
-      date_start: null,
-      date_end: null,
-      short_description: null,
-      description: null,
-      address: null,
-      metatheme_inclusions: null,
-      comment_inclusions: null,
-      metatheme_aethers: null,
-      metatheme_aether_plans: null,
-      comment_aether_plans: null,
-      status_coord: 'new',
-      comment_coord: null,
-      country: null
-    },
+    forms: [
+      {
+        name: null,
+        metatheme_section: null,
+        date_start: null,
+        date_end: null,
+        short_description: null,
+        description: null,
+        address: null,
+        metatheme_inclusions: null,
+        comment_inclusions: null,
+        metatheme_aethers: null,
+        metatheme_aether_plans: null,
+        comment_aether_plans: null,
+        status_coord: 'new',
+        comment_coord: null,
+        country: null
+      }
+    ],
     formLayout: {
       zr: false,
       reg: false,
@@ -297,7 +308,7 @@ export default {
   },
   methods: {
     handleChangeSection(id) {
-      this.metatheme_sections.forEach( (item) => {
+      this.metatheme_sections.forEach((item) => {
         if(item.id === id) this.$emit('handleChangeTitle', item.name)
       })
       switch (id) {
@@ -322,77 +333,104 @@ export default {
         case 9:
           this.formLayout.reg = true
           this.formLayout.showStatus = true
-          this.form.metatheme_inclusions = null
-          this.form.comment_inclusions = null
+          for(let i = 0; i < this.forms.length; i++) {
+            this.forms[i].metatheme_inclusions = null
+            this.forms[i].comment_inclusions = null
+          }
           break
         case 10:
         case 11:
         case 12:
           this.formLayout.zr = true
           this.formLayout.showStatus = false
-          this.form.short_description = null
-          this.form.description = null
-          this.form.address = null
-          this.form.metatheme_inclusions = null
-          this.form.comment_inclusions = null
-          this.form.status_coord = 'new'
-          this.form.comment_coord = null
+          for(let i = 0; i < this.forms.length; i++) {
+            this.forms[i].short_description = null
+            this.forms[i].description = null
+            this.forms[i].address = null
+            this.forms[i].metatheme_inclusions = null
+            this.forms[i].comment_inclusions = null
+            this.forms[i].status_coord = 'new'
+            this.forms[i].comment_coord = null
+          }
           break
         case 21:
         case 22:
         case 23:
         case 24:
           this.formLayout.showStatus = false
-          this.form.status_coord = 'new'
+          for(let i = 0; i < this.forms.length; i++) {
+            this.forms[i].status_coord = 'new'
+          }
           break
       }
     },
-    checkDateStart() {
-      if((!this.form.date_end) || (this.form.date_end && (this.form.date_end < this.form.date_start))) {
-        this.form.date_end = this.moment(this.form.date_start).add(4, 'hours').format()
+    checkDateStart(index) {
+      if((!this.forms[index].date_end) || (this.forms[index].date_end && (this.forms[index].date_end < this.forms[index].date_start))) {
+        this.forms[index].date_end = this.moment(this.forms[index].date_start).add(4, 'hours').format()
       }
     },
-    checkDateEnd() {
-      if (this.form.date_start && (this.form.date_end < this.form.date_start)) {
-        this.form.date_start = null
+    checkDateEnd(index) {
+      if (this.forms[index].date_start && (this.forms[index].date_end < this.forms[index].date_start)) {
+        this.forms[index].date_start = null
       }
+    },
+    clone() {
+      this.forms.push({
+        name: null,
+        metatheme_section: this.forms[0].metatheme_section,
+        date_start: null,
+        date_end: null,
+        short_description: null,
+        description: null,
+        address: null,
+        metatheme_inclusions: null,
+        comment_inclusions: null,
+        metatheme_aethers: null,
+        metatheme_aether_plans: null,
+        comment_aether_plans: null,
+        status_coord: 'new',
+        comment_coord: null,
+        country: null
+      })
     },
     handleSubmit(form) {
-     this.$refs[form].validate( async (valid) => {
-        if (!valid) {
-          return false
-        } else {
-          try {
-            this.loading = true
-            let formData = {
-              name: this.form.name,
-              metatheme_section: this.form.metatheme_section,
-              date_start: this.moment(this.form.date_start).format(),
-              date_end: this.moment(this.form.date_end).format(),
-              short_description: this.form.short_description,
-              description: this.form.description,
-              address: this.form.address,
-              metatheme_inclusions: this.form.metatheme_inclusions,
-              comment_inclusions: this.form.comment_inclusions,
-              metatheme_aethers: this.form.metatheme_aethers,
-              metatheme_aether_plans: this.form.metatheme_aether_plans,
-              comment_aether_plans: this.form.comment_aether_plans,
-              status_coord: this.form.status_coord,
-              comment_coord: this.form.comment_coord,
-              country: this.form.country
+      for(let i = 0; i < this.$refs[form].length; i++) {
+        this.$refs[form][i].validate( async (valid) => {
+          if (!valid) {
+            return false
+          } else {
+            try {
+              this.loading = true
+              let formData = {
+                name: this.forms[i].name,
+                metatheme_section: this.forms[i].metatheme_section,
+                date_start: this.moment(this.forms[i].date_start).format(),
+                date_end: this.moment(this.forms[i].date_end).format(),
+                short_description: this.forms[i].short_description,
+                description: this.forms[i].description,
+                address: this.forms[i].address,
+                metatheme_inclusions: this.forms[i].metatheme_inclusions,
+                comment_inclusions: this.forms[i].comment_inclusions,
+                metatheme_aethers: this.forms[i].metatheme_aethers,
+                metatheme_aether_plans: this.forms[i].metatheme_aether_plans,
+                comment_aether_plans: this.forms[i].comment_aether_plans,
+                status_coord: this.forms[i].status_coord,
+                comment_coord: this.forms[i].comment_coord,
+                country: this.forms[i].country
+              }
+              await this.$store.dispatch('createMetatheme', formData)
+              .then(() => {
+                this.$emit('created')
+                this.loading = false
+                this.$message.success('Тема добавлена')
+              })
+            } catch (e) {
+              this.$message.error('Недостаточно прав для выполнения данной операции')
+              console.log(e)
             }
-            await this.$store.dispatch('createMetatheme', formData)
-            .then(() => {
-              this.$emit('created')
-              this.loading = false
-              this.$message.success('Тема добавлена')
-            })
-          } catch (e) {
-            this.$message.error('Недостаточно прав для выполнения данной операции')
-            console.log(e)
           }
-        }
-      })
+        })
+      }
     }
   }
 }

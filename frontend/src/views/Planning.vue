@@ -213,6 +213,10 @@ export default {
   '$store.state.metathemes.date': function () {
     this.activeTab = 'all'
     this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
+   },
+  '$store.state.metathemes.metaUpdated': function () {
+    this.activeTab = 'all'
+    this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
    }
   },
   computed: {

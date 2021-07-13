@@ -5,6 +5,7 @@ import qs from 'qs'
 export default {
   state: {
     date: moment(new Date()).set({hour:0,minute:0,second:0,millisecond:0}).format(),
+    metaUpdated: false
   },
   actions: {
     async fetchMetathemes({commit, dispatch}, arr, params = {_sort: 'metatheme_section.id:asc'}) {
@@ -90,7 +91,10 @@ export default {
   },
   mutations: {
     setDate (state, payload) {
-      state.date = moment(payload).format()
+      state.date = moment(payload).set({hour:0,minute:0,second:0,millisecond:0}).format()
+    },
+    metathemesUpdated (state) {
+      state.metaUpdated = !state.metaUpdated
     }
   }
 }
