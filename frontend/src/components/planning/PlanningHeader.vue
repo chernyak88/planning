@@ -1,15 +1,15 @@
 <template>
     <div>
-      <el-dropdown>
+      <el-dropdown trigger="click" @command="range">
         <el-button type="primary" style="padding: 12px 5px; margin-right: 2px;">
           <i class="el-icon-date" style="font-size: 18px;"></i>
           <i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item>Сутки</el-dropdown-item>
-          <el-dropdown-item>Неделя</el-dropdown-item>
-          <el-dropdown-item>Месяц</el-dropdown-item>
-          <el-dropdown-item>Все</el-dropdown-item>
+          <el-dropdown-item command="day">Сутки</el-dropdown-item>
+          <el-dropdown-item command="week">Неделя</el-dropdown-item>
+          <el-dropdown-item command="month">Месяц</el-dropdown-item>
+          <el-dropdown-item command="all">Все</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-date-picker
@@ -68,10 +68,15 @@ export default {
       }
     }
   },
+  mounted() {
+    if (this.$route.query.date) {
+      const date = this.moment(this.$route.query.date, "DD-MM-YYYY")
+      this.$store.commit('setDate', this.moment(new Date(date)).format())
+    }
+  },
   methods: {
     handleChangeDate(newDate) {
       this.$store.commit('setDate', newDate)
-      console.log(this)
     },
     handleChangeTitle(newTitle) {
       this.createFormTitle = `Добавление новой темы в раздел ${newTitle}`
@@ -83,6 +88,9 @@ export default {
     addNewMetateheme() {
       this.createFormVisible = false
       this.$store.commit('metathemesUpdated')
+    },
+    range(newRange) {
+      this.$store.commit('setRange', newRange)
     }
   }
 }
@@ -92,11 +100,12 @@ export default {
 .planning-picker.el-input {
   width: 115px;
   margin-right: 10px;
-}
-.planning-picker.el-input .el-input__inner {
-  padding-right: 10px;
-  cursor: pointer;
-  background: #ecf5ff;
+
+  & .el-input__inner {
+    padding-right: 10px;
+    cursor: pointer;
+    background: #ecf5ff;
+  }
 }
 .el-date-picker.has-sidebar {
   width: 322px;

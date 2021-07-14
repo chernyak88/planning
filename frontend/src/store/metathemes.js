@@ -1,10 +1,12 @@
+import router from '../router'
 import moment from 'moment'
 import axios from 'axios'
 import qs from 'qs'
 
 export default {
   state: {
-    date: moment(new Date()).set({hour:0,minute:0,second:0,millisecond:0}).format(),
+    date: moment(new Date()).set({hour:0,minute:0,second:0,millisecond:0}).format(),    
+    range: 1,
     metaUpdated: false
   },
   actions: {
@@ -15,7 +17,7 @@ export default {
               [
                 { 'metatheme_section.id': arr },
                 { 'date_start_gt': this.state.metathemes.date },
-                { 'date_start_lt': moment(this.state.metathemes.date).add(1, 'days').format() }
+                { 'date_start_lt': moment(this.state.metathemes.date).add(this.state.metathemes.range, 'days').format() }
               ]
             ]
           }
@@ -92,6 +94,44 @@ export default {
   mutations: {
     setDate (state, payload) {
       state.date = moment(payload).set({hour:0,minute:0,second:0,millisecond:0}).format()
+      state.range = 1
+      router.push({ query: { date: moment(payload).format('DD-MM-YYYY') }}).catch(()=>{})
+    },
+    setRange (state, payload) {
+      switch (payload) {
+        case 'day':
+          state.range = 1
+          router.push({ query: { date: moment(state.date).format('DD-MM-YYYY') }}).catch(()=>{})
+          break
+        case 'week':
+          state.range = 7
+          router.push({
+            query: {
+              date: moment(state.date).format('DD-MM-YYYY'),
+              date_end: moment(state.date).add(state.range, 'days').format('DD-MM-YYYY')
+            }
+          }).catch(()=>{})
+          break
+        case 'month':
+          const daysInMonth = moment(state.date).daysInMonth()
+          state.range = daysInMonth
+          router.push({
+            query: {
+              date: moment(state.date).format('DD-MM-YYYY'),
+              date_end: moment(state.date).add(state.range, 'days').format('DD-MM-YYYY')
+            }
+          }).catch(()=>{})
+          break
+        case 'all':
+          state.range = 365000
+          router.push({
+            query: {
+              date: moment(state.date).format('DD-MM-YYYY'),
+              date_end: 'all'
+            }
+          }).catch(()=>{})
+          break
+      }
     },
     metathemesUpdated (state) {
       state.metaUpdated = !state.metaUpdated

@@ -436,36 +436,46 @@ export default {
 }
 </script>
 <style lang="scss">
-.planning-create .form-row {
-  display: flex;
-}
-.planning-create .form-row .el-form-item {
-  width: 25%;
+.planning-create {
 
-  &:last-child {
-    margin-right: 0;
-  }
-}
-.planning-create .form-row.description .el-form-item {
-  width: 50%;
+  & .form-row {
+    display: flex;
 
-  & .ql-container {
-    height: 150px;
+    & .el-form-item {
+      width: 25%;
+      
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    & .address.el-textarea .el-textarea__inner {
+      height: 100px !important;
+      resize: none;
+    }
+
+    & .comment.el-textarea .el-textarea__inner {
+      height: 60px !important;
+      resize: none;
+    }
   }
-}
-.planning-create .form-row .address.el-textarea .el-textarea__inner {
-  height: 100px !important;
-  resize: none;
-}
-.planning-create .form-row .comment.el-textarea .el-textarea__inner {
-  height: 60px !important;
-  resize: none;
-}
-.planning-create .el-form--label-top .el-form-item__label {
-  padding: 0;
-}
-.planning-create .dialog-footer {
-  display: block;
-  text-align: right;
+
+  & .form-row.description .el-form-item {
+    width: 50%;
+
+    & .ql-container {
+      height: 150px;
+    }
+  }
+
+  & .el-form--label-top .el-form-item__label {
+    padding: 0;
+  }
+
+  & .dialog-footer {
+    display: block;
+    text-align: right;
+  }
+  
 }
 </style>

@@ -207,16 +207,19 @@ export default {
     }
   },
   async mounted() {
-    this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
+    if (!this.$route.query.date) {
+      this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
+    }
   },
   watch: {
   '$store.state.metathemes.date': function () {
-    this.activeTab = 'all'
-    this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
+    this.rerender()
+   },
+  '$store.state.metathemes.range': function () {
+    this.rerender()
    },
   '$store.state.metathemes.metaUpdated': function () {
-    this.activeTab = 'all'
-    this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
+    this.rerender()
    }
   },
   computed: {
@@ -271,6 +274,10 @@ export default {
       this.metathemes = await this.$store.dispatch('fetchMetathemes', arr)
       this.loading = false
       console.log(this.metathemes)
+    },
+    rerender() {
+      this.activeTab = 'all'
+      this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
     }
   }
 }
@@ -281,82 +288,108 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 15px;
-}
-.planning-heading .search-field {
-  width: 320px;
-  margin-right: 20px;
+
+  & .search-field {
+    width: 320px;
+    margin-right: 20px;
+  }
 }
 .planning-table {
   overflow: inherit;
-}
-.planning-table .bold {
-  font-weight: bold;
-}
-.planning-table .centered {
-  text-align: center;
-}
-.planning-table .sticky {
-  position: sticky;
-  top: 0;
-  z-index: 2;
-}
-.planning-table .contents {
-  display: contents;
-}
-.planning-table th > .cell {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.planning-table .cell {
-  word-break: normal;
-}
-.planning-table .el-table__row--level-0 {
-  font-size: 20px;
-  background-color: rgba(120, 89, 223, 0.2);
-}
-.planning-table .el-table__row--level-0 td,
-.planning-table .no-data td {
-  text-align: center;
-}
-.planning-table .el-button--small {
-  padding: 7px 7px;
-}
-.planning-table .theme-name {
-  margin-bottom: 10px;
-}
-.planning-table .el-table__expand-icon {
-  transition: transform .2s ease-in-out;
-}
-.planning-table .el-table__expand-icon.rotate {
-  transform: rotate(90deg);
-}
-.planning-table .theme-icon {
-  color: #409EFF;
-  cursor: pointer;
-  margin-left: 5px;
-}
-.planning-table .el-tag {
-  display: block;
-  margin-bottom: 5px;
-}
-.planning-table .status-btn {
-  display: flex;
-}
-.planning-table .status-btn .el-button {
-  padding: 7px 7px;
-}
-.planning-table .status-btn .el-button:first-child {
-  border-radius: 3px 0 0 3px;
-}
-.planning-table .status-btn .el-button:last-child {
-  border-radius: 0 3px 3px 0;
-}
-.planning-table .status-btn .el-button+.el-button {
-  margin-left: 0;
-}
-.planning-table .theme-description {
-  background: #ecf5ff;
-  padding: 15px;
+
+  & .bold {
+    font-weight: bold;
+  }
+
+  & .centered {
+    text-align: center;
+  }
+
+  & .sticky {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  & .contents {
+    display: contents;
+  }
+
+  & th > .cell {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  & .cell {
+    word-break: normal;
+  }
+
+  & .el-table__row--level-0 {
+    font-size: 20px;
+    background-color: rgba(120, 89, 223, 0.2);
+
+    & td {
+      text-align: center;
+    }
+  }
+
+  & {
+    .no-data td {
+      text-align: center;
+    }
+  }
+
+  & .el-button--small {
+    padding: 7px 7px;
+  }
+
+  & .theme-name {
+    margin-bottom: 10px;
+  }
+
+  & .el-table__expand-icon {
+    transition: transform .2s ease-in-out;
+
+    &.rotate {
+      transform: rotate(90deg);
+    }
+  }
+
+  & .theme-icon {
+    color: #409EFF;
+    cursor: pointer;
+    margin-left: 5px;
+  }
+
+  & .el-tag {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  & .status-btn {
+    display: flex;
+
+    & .el-button {
+      padding: 7px 7px;
+
+      &:first-child {
+        border-radius: 3px 0 0 3px;
+      }
+
+      &:last-child {
+        border-radius: 0 3px 3px 0;
+      }
+
+      &+.el-button {
+        margin-left: 0;
+      }
+    }
+  }
+
+  & .theme-description {
+    background: #ecf5ff;
+    padding: 15px;
+  }
 }
 </style>
