@@ -6,18 +6,20 @@ import qs from 'qs'
 export default {
   state: {
     date: moment(new Date()).set({hour:0,minute:0,second:0,millisecond:0}).format(),    
-    range: 1,
-    metaUpdated: false
+    range: 0,
+    metaUpdated: false,
+    grouped: null,
+    filter: 'all'
   },
   actions: {
-    async fetchMetathemes({commit, dispatch}, arr, params = {_sort: 'metatheme_section.id:asc'}) {
+    async fetchMetathemes({commit, dispatch}, arr, params = {_sort: 'metatheme_section.id:asc,date_start:asc'}) {
       try {
         let query = qs.stringify({ _where: {
           _or: [
               [
                 { 'metatheme_section.id': arr },
                 { 'date_start_gt': this.state.metathemes.date },
-                { 'date_start_lt': moment(this.state.metathemes.date).add(this.state.metathemes.range, 'days').format() }
+                { 'date_start_lt': moment(this.state.metathemes.date).add(this.state.metathemes.range, 'days').set({hour:23,minute:59,second:59,millisecond:0}).format() }
               ]
             ]
           }
@@ -92,15 +94,21 @@ export default {
     }
   },
   mutations: {
+    setGrouped (state, payload) {
+      state.grouped = payload
+    },
+    setFilter (state, payload) {
+      state.filter = payload
+    },
     setDate (state, payload) {
       state.date = moment(payload).set({hour:0,minute:0,second:0,millisecond:0}).format()
-      state.range = 1
+      state.range = 0
       router.push({ query: { date: moment(payload).format('DD-MM-YYYY') }}).catch(()=>{})
     },
     setRange (state, payload) {
       switch (payload) {
         case 'day':
-          state.range = 1
+          state.range = 0
           router.push({ query: { date: moment(state.date).format('DD-MM-YYYY') }}).catch(()=>{})
           break
         case 'week':
@@ -108,7 +116,7 @@ export default {
           router.push({
             query: {
               date: moment(state.date).format('DD-MM-YYYY'),
-              date_end: moment(state.date).add(state.range, 'days').format('DD-MM-YYYY')
+              date_finish: moment(state.date).add(state.range, 'days').format('DD-MM-YYYY')
             }
           }).catch(()=>{})
           break
@@ -118,16 +126,16 @@ export default {
           router.push({
             query: {
               date: moment(state.date).format('DD-MM-YYYY'),
-              date_end: moment(state.date).add(state.range, 'days').format('DD-MM-YYYY')
+              date_finish: moment(state.date).add(state.range, 'days').format('DD-MM-YYYY')
             }
           }).catch(()=>{})
           break
         case 'all':
-          state.range = 365000
+          state.range = 165000
           router.push({
             query: {
               date: moment(state.date).format('DD-MM-YYYY'),
-              date_end: 'all'
+              date_finish: 'all'
             }
           }).catch(()=>{})
           break
