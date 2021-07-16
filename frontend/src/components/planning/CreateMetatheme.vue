@@ -60,6 +60,7 @@
             :editable="false"
             placeholder="Выберите дату и время"
             default-time="12:00:00"
+            format="dd-MM-yyyy HH:mm"
             :picker-options = "pickerOptions"
             @blur="checkDateStart(index)">
           </el-date-picker>
@@ -74,6 +75,7 @@
             :editable="false"
             placeholder="Выберите дату и время"
             default-time="12:00:00"
+            format="dd-MM-yyyy HH:mm"
             :picker-options = "pickerOptions"
             @blur="checkDateEnd(index)">
           </el-date-picker>

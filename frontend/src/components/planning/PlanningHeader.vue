@@ -41,8 +41,8 @@
         </el-option>
       </el-select>
       <el-button type="primary" @click="createFormVisible = true">Добавить тему</el-button>
-      <el-button type="danger">Срочный выезд!</el-button>
-      <el-button type="primary" icon="el-icon-refresh"></el-button>
+      <el-button type="danger" @click="createUrgentDepartureVisible = true">Срочный выезд!</el-button>
+      <el-button type="primary" icon="el-icon-refresh" @click="showEmployeesVisible = true"></el-button>
 
     <el-dialog
       :title="createFormTitle"
@@ -59,21 +59,55 @@
         @handleChangeTitle="handleChangeTitle"
       />
     </el-dialog>
+
+    <el-dialog
+      title='Создание Съемки в теме "Срочные выезды"'
+      width="950px"
+      :visible.sync="createUrgentDepartureVisible"
+      :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      @close="hideCreateUrgentDeparture"
+    >
+      <CreateUrgentDeparture
+        @hideCreateUrgentDeparture="hideCreateUrgentDeparture"
+        @created="addNewUrgentDeparture"
+      />
+    </el-dialog>
+
+    <el-dialog
+      class="show-employees-dialog"
+      :visible.sync="showEmployeesVisible"
+      :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      :show-close="false"
+    >
+      <ShowEmployees
+        @hideEmployees="hideEmployees"
+      />
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import CreateMetatheme from '@/components/planning/CreateMetatheme'
+import CreateUrgentDeparture from '@/components/planning/CreateUrgentDeparture'
+import ShowEmployees from '@/components/planning/ShowEmployees'
 
 export default {
   name: 'planningheader',
   components: {
-    CreateMetatheme
+    CreateMetatheme,
+    CreateUrgentDeparture,
+    ShowEmployees
   },
   data() {
     return {
       createFormVisible: false,
       createFormTitle: 'Добавление новой темы',
+      createUrgentDepartureVisible: false,
+      showEmployeesVisible: false,
       grouped: [],
       pickerOptions: {
         firstDayOfWeek: 1,
@@ -138,9 +172,18 @@ export default {
       this.createFormVisible = false
       this.createFormTitle = 'Добавление новой темы'
     },
+    hideCreateUrgentDeparture() {
+      this.createUrgentDepartureVisible = false
+    },
+    hideEmployees() {
+      this.showEmployeesVisible = false
+    },
     addNewMetateheme() {
       this.createFormVisible = false
       this.$store.commit('metathemesUpdated')
+    },
+    addNewUrgentDeparture() {
+      this.createUrgentDepartureVisible = false
     },
     range(newRange) {
       this.$store.commit('setRange', newRange)
@@ -207,5 +250,8 @@ export default {
   &::before {
     content: "\e7b9";
   }
+}
+.show-employees-dialog .el-dialog__header {
+  display: none;
 }
 </style>
