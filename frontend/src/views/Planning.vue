@@ -109,7 +109,7 @@
                         {{ theme.name }}
                       </span>
                       <el-tooltip class="item" effect="dark" content="Добавить тему" placement="bottom">
-                        <i class="el-icon-circle-plus theme-icon"></i>
+                        <i class="el-icon-circle-plus theme-icon" @click="showCreateForm(theme.metatheme_section)"></i>
                       </el-tooltip>
                       <el-tooltip class="item" effect="dark" content="Копировать тему" placement="bottom">
                         <i class="el-icon-document-copy theme-icon"></i>
@@ -187,14 +187,36 @@
         </tbody>
       </table>
     </div>
+
+    <el-dialog
+      :title="createFormTitle"
+      width="950px"
+      :visible.sync="createFormVisible"
+      :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      @close="hideCreateForm"
+    >
+      <CreateMetatheme
+        :curSectionId="curSectionId"
+        @hideCreateForm="hideCreateForm"
+        @created="addNewMetateheme"
+        @handleChangeTitle="handleChangeTitle"
+      />
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
+import CreateMetatheme from '@/components/planning/CreateMetatheme'
 import pdfMixin from '@/mixins/pdf.mixin.js'
 
 export default {
   name: 'planning',
+  components: {
+    CreateMetatheme
+  },
   mixins: [pdfMixin],
   data() {
     return {
@@ -202,6 +224,9 @@ export default {
       activeTab: 'all',
       metathemes: [],
       searchField: null,
+      createFormVisible: false,
+      createFormTitle: 'Добавление новой темы',
+      curSectionId: null,
       print: {
         id: "table",
         popTitle: 'Метатемы',
@@ -276,6 +301,22 @@ export default {
       this.$store.commit('setGrouped', Object.keys(this.grouped))
       this.loading = false
       console.log(this.metathemes)
+    },
+    showCreateForm(section) {
+      this.curSectionId = section.id
+      this.createFormTitle = `Добавление новой темы в раздел ${section.name}`
+      this.createFormVisible = true
+    },
+    hideCreateForm() {
+      this.createFormVisible = false
+      this.createFormTitle = 'Добавление новой темы'
+    },
+    handleChangeTitle(newTitle) {
+      this.createFormTitle = `Добавление новой темы в раздел ${newTitle}`
+    },
+    addNewMetateheme() {
+      this.createFormVisible = false
+      this.rerender()
     }
   }
 }

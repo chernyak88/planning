@@ -234,79 +234,98 @@ export default {
     VueEditor
   },
   mixins: [textEditorMixin],
-  data: () => ({
-    loading: true,
-    metatheme_sections: [],
-    metatheme_inclusions: [],
-    metatheme_aethers: [],
-    metatheme_aether_plans: [],
-    pickerOptions: {
-      firstDayOfWeek: 1,
-      disabledDate(time) {
-        return time.getTime() < Date.now() - 8.64e7
-      }
-    },
-    forms: [
-      {
-        name: null,
-        metatheme_section: null,
-        date_start: null,
-        date_end: null,
-        short_description: null,
-        description: null,
-        address: null,
-        metatheme_inclusions: null,
-        comment_inclusions: null,
-        metatheme_aethers: null,
-        metatheme_aether_plans: null,
-        comment_aether_plans: null,
-        status_coord: 'new',
-        comment_coord: null,
-        country: null
-      }
-    ],
-    formLayout: {
-      zr: false,
-      reg: false,
-      showStatus: false
-    },
-    rules: {
-      name: [
-        {
-          required: true,
-          message: "Введите название темы",
-          trigger: "blur",
-        }
-      ],
-      metatheme_section: [
-        {
-          required: true,
-          message: "Выберите раздел",
-          trigger: "change",
-        }
-      ],
-      date_start: [
-        {
-          required: true,
-          message: "Выберите дату и время",
-          trigger: "blur",
-        }
-      ],
-      date_end: [
-        {
-          required: true,
-          message: "Выберите дату и время",
-          trigger: "blur",
-        }
-      ],
+  props: {
+    curSectionId: {
+      type: Number,
+      required: false
     }
-  }),
+  },
+  data() {
+    return {
+      loading: true,
+      metatheme_sections: [],
+      metatheme_inclusions: [],
+      metatheme_aethers: [],
+      metatheme_aether_plans: [],
+      pickerOptions: {
+        firstDayOfWeek: 1,
+        disabledDate(time) {
+          return time.getTime() < Date.now() - 8.64e7
+        }
+      },
+      forms: [
+        {
+          name: null,
+          metatheme_section: null,
+          date_start: null,
+          date_end: null,
+          short_description: null,
+          description: null,
+          address: null,
+          metatheme_inclusions: null,
+          comment_inclusions: null,
+          metatheme_aethers: null,
+          metatheme_aether_plans: null,
+          comment_aether_plans: null,
+          status_coord: 'new',
+          comment_coord: null,
+          country: null
+        }
+      ],
+      formLayout: {
+        zr: false,
+        reg: false,
+        showStatus: false
+      },
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "Введите название темы",
+            trigger: "blur",
+          }
+        ],
+        metatheme_section: [
+          {
+            required: true,
+            message: "Выберите раздел",
+            trigger: "change",
+          }
+        ],
+        date_start: [
+          {
+            required: true,
+            message: "Выберите дату и время",
+            trigger: "blur",
+          }
+        ],
+        date_end: [
+          {
+            required: true,
+            message: "Выберите дату и время",
+            trigger: "blur",
+          }
+        ],
+      }
+    }
+  },
   async mounted() {
     this.metatheme_sections = await this.$store.dispatch('fetchMetathemeSections')
     this.metatheme_inclusions = await this.$store.dispatch('fetchMetathemeInclusions')
     this.metatheme_aethers = await this.$store.dispatch('fetchMetathemeAethers')
     this.metatheme_aether_plans = await this.$store.dispatch('fetchMetathemeAetherPlans')
     this.loading = false
+  },
+  watch: {
+    curSectionId: {
+      immediate: true,
+      handler: function () {
+        for(let i = 0; i < this.forms.length; i++) {
+          this.forms[i].metatheme_section = this.curSectionId
+        }
+        this.handleChangeSection(this.curSectionId)
+      }
+    }
   },
   methods: {
     handleChangeSection(id) {
@@ -327,12 +346,15 @@ export default {
         case 18:
         case 19:
         case 20:
+          this.formLayout.reg = false
+          this.formLayout.zr = false
           this.formLayout.showStatus = true
           break
         case 6:
         case 7:
         case 8:
         case 9:
+          this.formLayout.zr = false
           this.formLayout.reg = true
           this.formLayout.showStatus = true
           for(let i = 0; i < this.forms.length; i++) {
@@ -343,6 +365,7 @@ export default {
         case 10:
         case 11:
         case 12:
+          this.formLayout.reg = false
           this.formLayout.zr = true
           this.formLayout.showStatus = false
           for(let i = 0; i < this.forms.length; i++) {
