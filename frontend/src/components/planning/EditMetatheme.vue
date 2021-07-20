@@ -1,11 +1,9 @@
 <template>
-  <div class="planning-create" v-loading="loading">
+  <div class="planning-edit" v-loading="loading">
     <el-form
-      v-for="(form, index) in forms"
-      :key="index"
       :model="form"
       :rules="rules"
-      ref="createMetaThemeForm"
+      ref="editMetaThemeForm"
       :inline="true"
       label-position="top"
     >
@@ -62,7 +60,7 @@
             default-time="12:00:00"
             format="dd-MM-yyyy HH:mm"
             :picker-options = "pickerOptions"
-            @blur="checkDateStart(index)">
+            @blur="checkDateStart()">
           </el-date-picker>
         </el-form-item>
         <el-form-item
@@ -77,7 +75,7 @@
             default-time="12:00:00"
             format="dd-MM-yyyy HH:mm"
             :picker-options = "pickerOptions"
-            @blur="checkDateEnd(index)">
+            @blur="checkDateEnd()">
           </el-date-picker>
         </el-form-item>
       </div>
@@ -202,24 +200,35 @@
       slot="footer"
       class="dialog-footer"
     >
+      <el-popconfirm
+        title="Вы уверены?"
+        @confirm="deleteMetatheme()"
+      >
+        <el-button
+          slot="reference"
+          type="danger"
+        >
+          Удалить
+        </el-button>
+      </el-popconfirm>
       <el-button
-        @click="$emit('hideCreateForm')"
+        @click="$emit('hideEditForm')"
+        style="margin: 0 10px;"
       >
         Отменить
       </el-button>
-      <el-button
-        v-if="formLayout.zr"
-        type="primary"
-        @click="clone"
+      <el-popconfirm
+        title="Вы уверены?"
+        @confirm="handleSubmit('editMetaThemeForm')"
+        style="margin-right: 10px;"
       >
-        Клонировать
-      </el-button>
-      <el-button
-        type="primary"
-        @click="handleSubmit('createMetaThemeForm')"
-      >
-        Добавить
-      </el-button>
+        <el-button
+          slot="reference"
+          type="primary"
+        >
+          Изменить
+        </el-button>
+      </el-popconfirm>
     </span>
   </div>
 </template>
@@ -229,19 +238,15 @@ import { VueEditor } from 'vue2-editor'
 import textEditorMixin from '@/mixins/texteditor.mixin.js'
 
 export default {
-  name: 'createmetatheme',
+  name: 'editmetatheme',
   components: {
     VueEditor
   },
   mixins: [textEditorMixin],
   props: {
-    curSectionId: {
-      type: Number,
-      required: false
-    },
-    curTheme: {
+    editingTheme: {
       type: Object,
-      required: false
+      required: true
     }
   },
   data() {
@@ -252,30 +257,26 @@ export default {
       metatheme_aethers: [],
       metatheme_aether_plans: [],
       pickerOptions: {
-        firstDayOfWeek: 1,
-        disabledDate(time) {
-          return time.getTime() < Date.now() - 8.64e7
-        }
+        firstDayOfWeek: 1
       },
-      forms: [
-        {
-          name: null,
-          metatheme_section: null,
-          date_start: null,
-          date_end: null,
-          short_description: null,
-          description: null,
-          address: null,
-          metatheme_inclusions: null,
-          comment_inclusions: null,
-          metatheme_aethers: null,
-          metatheme_aether_plans: null,
-          comment_aether_plans: null,
-          status_coord: 'new',
-          comment_coord: null,
-          country: null
-        }
-      ],
+      form: {
+        id: null,
+        name: null,
+        metatheme_section: null,
+        date_start: null,
+        date_end: null,
+        short_description: null,
+        description: null,
+        address: null,
+        metatheme_inclusions: null,
+        comment_inclusions: null,
+        metatheme_aethers: null,
+        metatheme_aether_plans: null,
+        comment_aether_plans: null,
+        status_coord: 'new',
+        comment_coord: null,
+        country: null
+      },
       formLayout: {
         zr: false,
         reg: false,
@@ -321,51 +322,41 @@ export default {
     this.loading = false
   },
   watch: {
-    curSectionId: {
+    editingTheme: {
       immediate: true,
       handler: function () {
-      for(let i = 0; i < this.forms.length; i++) {
-        this.forms[i].metatheme_section = this.curSectionId
-      }
-        this.handleChangeSection(this.curSectionId)
-      }
-    },
-    curTheme: {
-      immediate: true,
-      handler: function () {
-        if (!this.curTheme) {
+        if (!this.editingTheme) {
           return
         }
         let metatheme_inclusions = []
         let metatheme_aethers = []
         let metatheme_aether_plans = []
-        for(let i = 0; i < this.curTheme.metatheme_inclusions.length; i++) {
-          metatheme_inclusions.push(this.curTheme.metatheme_inclusions[i].id)
+        for(let i = 0; i < this.editingTheme.metatheme_inclusions.length; i++) {
+          metatheme_inclusions.push(this.editingTheme.metatheme_inclusions[i].id)
         }
-        for(let i = 0; i < this.curTheme.metatheme_aethers.length; i++) {
-          metatheme_aethers.push(this.curTheme.metatheme_aethers[i].id)
+        for(let i = 0; i < this.editingTheme.metatheme_aethers.length; i++) {
+          metatheme_aethers.push(this.editingTheme.metatheme_aethers[i].id)
         }
-        for(let i = 0; i < this.curTheme.metatheme_aether_plans.length; i++) {
-          metatheme_aether_plans.push(this.curTheme.metatheme_aether_plans[i].id)
+        for(let i = 0; i < this.editingTheme.metatheme_aether_plans.length; i++) {
+          metatheme_aether_plans.push(this.editingTheme.metatheme_aether_plans[i].id)
         }
-        for(let i = 0; i < this.forms.length; i++) {
-          this.forms[i].name = this.curTheme.name
-          this.forms[i].metatheme_section = this.curTheme.metatheme_section.id
-          this.forms[i].date_start = this.curTheme.date_start
-          this.forms[i].date_end = this.curTheme.date_end
-          this.forms[i].short_description = this.curTheme.short_description
-          this.forms[i].description = this.curTheme.description
-          this.forms[i].address = this.curTheme.address
-          this.forms[i].metatheme_inclusions = metatheme_inclusions
-          this.forms[i].comment_inclusions = this.curTheme.comment_inclusions
-          this.forms[i].metatheme_aethers = metatheme_aethers
-          this.forms[i].metatheme_aether_plans = metatheme_aether_plans
-          this.forms[i].comment_aether_plans = this.curTheme.comment_aether_plans
-          this.forms[i].status_coord = this.curTheme.status_coord
-          this.forms[i].comment_coord = this.curTheme.comment_coord
-          this.forms[i].country = this.curTheme.country
-        }
-        this.handleChangeSection(this.curTheme.metatheme_section.id)
+        this.form.id = this.editingTheme.id
+        this.form.name = this.editingTheme.name
+        this.form.metatheme_section = this.editingTheme.metatheme_section.id
+        this.form.date_start = this.editingTheme.date_start
+        this.form.date_end = this.editingTheme.date_end
+        this.form.short_description = this.editingTheme.short_description
+        this.form.description = this.editingTheme.description
+        this.form.address = this.editingTheme.address
+        this.form.metatheme_inclusions = metatheme_inclusions
+        this.form.comment_inclusions = this.editingTheme.comment_inclusions
+        this.form.metatheme_aethers = metatheme_aethers
+        this.form.metatheme_aether_plans = metatheme_aether_plans
+        this.form.comment_aether_plans = this.editingTheme.comment_aether_plans
+        this.form.status_coord = this.editingTheme.status_coord
+        this.form.comment_coord = this.editingTheme.comment_coord
+        this.form.country = this.editingTheme.country
+        this.handleChangeSection(this.editingTheme.metatheme_section.id)
       }
     }
   },
@@ -399,10 +390,8 @@ export default {
           this.formLayout.zr = false
           this.formLayout.reg = true
           this.formLayout.showStatus = true
-          for(let i = 0; i < this.forms.length; i++) {
-            this.forms[i].metatheme_inclusions = null
-            this.forms[i].comment_inclusions = null
-          }
+          this.form.metatheme_inclusions = null
+          this.form.comment_inclusions = null
           break
         case 10:
         case 11:
@@ -410,98 +399,78 @@ export default {
           this.formLayout.reg = false
           this.formLayout.zr = true
           this.formLayout.showStatus = false
-          for(let i = 0; i < this.forms.length; i++) {
-            this.forms[i].short_description = null
-            this.forms[i].description = null
-            this.forms[i].address = null
-            this.forms[i].metatheme_inclusions = null
-            this.forms[i].comment_inclusions = null
-            this.forms[i].status_coord = 'new'
-            this.forms[i].comment_coord = null
-          }
+          this.form.short_description = null
+          this.form.description = null
+          this.form.address = null
+          this.form.metatheme_inclusions = null
+          this.form.comment_inclusions = null
+          this.form.status_coord = 'new'
+          this.form.comment_coord = null
           break
         case 21:
         case 22:
         case 23:
         case 24:
           this.formLayout.showStatus = false
-          for(let i = 0; i < this.forms.length; i++) {
-            this.forms[i].status_coord = 'new'
-          }
+          this.form.status_coord = 'new'
           break
       }
     },
-    checkDateStart(index) {
-      this.forms[index].date_end = this.moment(this.forms[index].date_start).add(4, 'hours').format()
+    checkDateStart() {
+      this.form.date_end = this.moment(this.form.date_start).add(4, 'hours').format()
     },
-    checkDateEnd(index) {
-      if (this.forms[index].date_start && (this.forms[index].date_end < this.forms[index].date_start)) {
-        this.forms[index].date_start = null
+    checkDateEnd() {
+      if (this.form.date_start && (this.form.date_end < this.form.date_start)) {
+        this.form.date_start = null
       }
-    },
-    clone() {
-      this.forms.push({
-        name: null,
-        metatheme_section: this.forms[0].metatheme_section,
-        date_start: null,
-        date_end: null,
-        short_description: null,
-        description: null,
-        address: null,
-        metatheme_inclusions: null,
-        comment_inclusions: null,
-        metatheme_aethers: null,
-        metatheme_aether_plans: null,
-        comment_aether_plans: null,
-        status_coord: 'new',
-        comment_coord: null,
-        country: null
-      })
     },
     handleSubmit(form) {
-      for(let i = 0; i < this.$refs[form].length; i++) {
-        this.$refs[form][i].validate( async (valid) => {
-          if (!valid) {
-            return false
-          } else {
-            try {
-              this.loading = true
-              let formData = {
-                name: this.forms[i].name,
-                metatheme_section: this.forms[i].metatheme_section,
-                date_start: this.moment(this.forms[i].date_start).format(),
-                date_end: this.moment(this.forms[i].date_end).format(),
-                short_description: this.forms[i].short_description,
-                description: this.forms[i].description,
-                address: this.forms[i].address,
-                metatheme_inclusions: this.forms[i].metatheme_inclusions,
-                comment_inclusions: this.forms[i].comment_inclusions,
-                metatheme_aethers: this.forms[i].metatheme_aethers,
-                metatheme_aether_plans: this.forms[i].metatheme_aether_plans,
-                comment_aether_plans: this.forms[i].comment_aether_plans,
-                status_coord: this.forms[i].status_coord,
-                comment_coord: this.forms[i].comment_coord,
-                country: this.forms[i].country
-              }
-              await this.$store.dispatch('createMetatheme', formData)
-              .then(() => {
-                this.$emit('created')
-                this.loading = false
-                this.$message.success('Тема добавлена')
-              })
-            } catch (e) {
-              this.$message.error('Недостаточно прав для выполнения данной операции')
-              console.log(e)
+      this.$refs[form].validate( async (valid) => {
+        if (!valid) {
+          return false
+        } else {
+          try {
+            this.loading = true
+            let formData = {
+              id: this.form.id,
+              name: this.form.name,
+              metatheme_section: this.form.metatheme_section,
+              date_start: this.moment(this.form.date_start).format(),
+              date_end: this.moment(this.form.date_end).format(),
+              short_description: this.form.short_description,
+              description: this.form.description,
+              address: this.form.address,
+              metatheme_inclusions: this.form.metatheme_inclusions,
+              comment_inclusions: this.form.comment_inclusions,
+              metatheme_aethers: this.form.metatheme_aethers,
+              metatheme_aether_plans: this.form.metatheme_aether_plans,
+              comment_aether_plans: this.form.comment_aether_plans,
+              status_coord: this.form.status_coord,
+              comment_coord: this.form.comment_coord,
+              country: this.form.country
             }
+            await this.$store.dispatch('editMetatheme', formData)
+            .then(() => {
+              this.$emit('edited')
+              this.loading = false
+              this.$message.success('Тема обновлена')
+            })
+          } catch (e) {
+            this.$message.error('Недостаточно прав для выполнения данной операции')
+            console.log(e)
           }
-        })
-      }
+        }
+      })
+    },
+    deleteMetatheme() {
+      this.$emit('hideEditForm')
+      console.log('deleted')
     }
   }
 }
 </script>
 <style lang="scss">
-.planning-create {
+.planning-edit {
 
   & .form-row {
     display: flex;

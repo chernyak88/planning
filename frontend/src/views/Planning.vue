@@ -9,6 +9,9 @@
         <el-tab-pane label="Зарубежка" name="foreign"></el-tab-pane>
         <el-tab-pane label="Продюсеры" name="producers"></el-tab-pane>
         <el-tab-pane label="IZ.TV" name="iztv"></el-tab-pane>
+        <el-tab-pane label="112" name="112"></el-tab-pane>
+        <el-tab-pane label="РенТВ" name="rentv"></el-tab-pane>
+        <el-tab-pane label="Газета IZ" name="gazetaiz"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="planning-heading">
@@ -59,10 +62,10 @@
         <thead>
           <tr class="sticky">
             <th colspan="1" rowspan="1" width="44"><div class="cell"></div></th>
-            <th colspan="1" rowspan="1" width="80" class="ascending">
+            <th colspan="1" rowspan="1" width="80" :class="sort">
               <div class="cell">
                 Нач.
-                <span class="caret-wrapper">
+                <span class="caret-wrapper" @click="handleChangeSort">
                   <i class="sort-caret ascending"></i>
                   <i class="sort-caret descending"></i>
                 </span>
@@ -86,7 +89,7 @@
             <tr class="el-table__row el-table__row--level-0">
               <td rowspan="1" colspan="8"><div class="cell bold">{{ section }}</div></td>
             </tr>
-            <tbody class="contents" v-for="theme in themes" :key="theme.id">
+            <tbody class="contents" v-for="theme in themes" :key="theme.id" @dblclick="showEditForm(theme)">
               <tr class="el-table__row el-table__row--level-1">
                 <td rowspan="1" colspan="1" class="el-table__expand-column">
                   <div class="cell">
@@ -112,10 +115,10 @@
                         <i class="el-icon-circle-plus theme-icon" @click="showCreateForm(theme.metatheme_section)"></i>
                       </el-tooltip>
                       <el-tooltip class="item" effect="dark" content="Копировать тему" placement="bottom">
-                        <i class="el-icon-document-copy theme-icon"></i>
+                        <i class="el-icon-document-copy theme-icon" @click="copyMetatheme(theme)"></i>
                       </el-tooltip>
                       <el-tooltip class="item" effect="dark" content="Редактировать тему" placement="bottom">
-                        <i class="el-icon-edit theme-icon"></i>
+                        <i class="el-icon-edit theme-icon" @click="showEditForm(theme)"></i>
                       </el-tooltip>
                       <el-tooltip class="item" effect="dark" content="Управление сотрудниками" placement="bottom">
                         <i class="el-icon-s-custom theme-icon"></i>
@@ -199,9 +202,26 @@
     >
       <CreateMetatheme
         :curSectionId="curSectionId"
+        :curTheme="curTheme"
         @hideCreateForm="hideCreateForm"
         @created="addNewMetateheme"
         @handleChangeTitle="handleChangeTitle"
+      />
+    </el-dialog>
+
+    <el-dialog
+      :title="editFormTitle"
+      width="950px"
+      :visible.sync="editFormVisible"
+      :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      @close="hideEditForm"
+    >
+      <EditMetatheme
+        :editingTheme="editingTheme"
+        @hideEditForm="hideEditForm"
+        @edited="editMetateheme"
       />
     </el-dialog>
 
@@ -210,12 +230,14 @@
 
 <script>
 import CreateMetatheme from '@/components/planning/CreateMetatheme'
+import EditMetatheme from '@/components/planning/EditMetatheme'
 import pdfMixin from '@/mixins/pdf.mixin.js'
 
 export default {
   name: 'planning',
   components: {
-    CreateMetatheme
+    CreateMetatheme,
+    EditMetatheme
   },
   mixins: [pdfMixin],
   data() {
@@ -224,9 +246,14 @@ export default {
       activeTab: 'all',
       metathemes: [],
       searchField: null,
+      sort: 'ascending',
       createFormVisible: false,
       createFormTitle: 'Добавление новой темы',
+      editFormVisible: false,
+      editFormTitle: 'Изменение темы',
       curSectionId: null,
+      curTheme: null,
+      editingTheme: null,
       print: {
         id: "table",
         popTitle: 'Метатемы',
@@ -252,6 +279,17 @@ export default {
     }
   },
   methods: {
+    async fetchMetathemes(arr) {
+      this.loading = true
+      this.metathemes = await this.$store.dispatch('fetchMetathemes', arr)
+      this.$store.commit('setGrouped', Object.keys(this.grouped))
+      this.loading = false
+      console.log(this.metathemes)
+    },
+    rerender() {
+      this.activeTab = 'all'
+      this.fetchMetathemes([])
+    },
     async exportToPdf() {
       this.loading = true
       try {
@@ -262,13 +300,10 @@ export default {
       }
       this.loading = false
     },
-    changeCoordStatus(id) {
-      console.log(id)
-    },
     handleTabClick(tab, event) {
       switch (tab.name) {
         case 'all':
-          this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
+          this.fetchMetathemes([])
           break
         case 'planning':
           this.fetchMetathemes([1,2,3])
@@ -288,19 +323,27 @@ export default {
         case 'iztv':
           this.fetchMetathemes([15,16])
           break
+        case '112':
+          this.fetchMetathemes([19,20])
+          break
+        case 'rentv':
+          this.fetchMetathemes([21])
+          break
+        case 'gazetaiz':
+          this.fetchMetathemes([24])
+          break
       }
       this.$store.commit('setFilter', 'all')
     },
-    rerender() {
-      this.activeTab = 'all'
-      this.fetchMetathemes([...Array(16)].map((e, i) => i + 1))
-    },
-    async fetchMetathemes(arr) {
-      this.loading = true
-      this.metathemes = await this.$store.dispatch('fetchMetathemes', arr)
-      this.$store.commit('setGrouped', Object.keys(this.grouped))
-      this.loading = false
-      console.log(this.metathemes)
+    handleChangeSort() {
+      if (this.sort === 'ascending') {
+        this.sort = 'descending'
+        this.$store.commit('setSort', 'desc')
+      } else {
+        this.sort = 'ascending'
+        this.$store.commit('setSort', 'asc')
+      }
+      this.rerender()
     },
     showCreateForm(section) {
       this.curSectionId = section.id
@@ -309,13 +352,35 @@ export default {
     },
     hideCreateForm() {
       this.createFormVisible = false
+      this.curTheme = null
       this.createFormTitle = 'Добавление новой темы'
     },
+    hideEditForm() {
+      this.editFormVisible = false
+    },
     handleChangeTitle(newTitle) {
-      this.createFormTitle = `Добавление новой темы в раздел ${newTitle}`
+      if (this.curTheme) {
+        this.createFormTitle = `Копирование темы ${this.curTheme.name} в раздел ${newTitle}`
+      } else {
+        this.createFormTitle = `Добавление новой темы в раздел ${newTitle}`
+      }
     },
     addNewMetateheme() {
       this.createFormVisible = false
+      this.rerender()
+    },
+    copyMetatheme(theme) {
+      this.curTheme = theme
+      this.createFormTitle = `Копирование темы ${theme.name} в раздел ${theme.metatheme_section.name}`
+      this.createFormVisible = true
+    },
+    showEditForm(theme) {
+      this.editingTheme = theme
+      this.editFormTitle = `Изменение темы ${theme.name}`
+      this.editFormVisible = true
+    },
+    editMetateheme() {
+      this.editFormVisible = false
       this.rerender()
     }
   }

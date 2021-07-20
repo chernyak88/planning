@@ -9,10 +9,11 @@ export default {
     range: 0,
     metaUpdated: false,
     grouped: null,
-    filter: 'all'
+    filter: 'all',
+    sort: 'asc'
   },
   actions: {
-    async fetchMetathemes({commit, dispatch}, arr, params = {_sort: 'metatheme_section.id:asc,date_start:asc'}) {
+    async fetchMetathemes({commit, dispatch}, arr, params = {_sort: `metatheme_section.id:asc,date_start:${this.state.metathemes.sort}`}) {
       try {
         let query = qs.stringify({ _where: {
           _or: [
@@ -91,6 +92,32 @@ export default {
       } catch (e) {
         throw e
       }
+    },
+    async editMetatheme({commit, dispatch}, obj) {
+      try {
+        return await axios.put(
+          `${this.state.url}/metathemes/${obj.id}`,
+          {
+            name: obj.name,
+            metatheme_section: obj.metatheme_section,
+            date_start: obj.date_start,
+            date_end: obj.date_end,
+            short_description: obj.short_description,
+            description: obj.description,
+            address: obj.address,
+            metatheme_inclusions: obj.metatheme_inclusions,
+            comment_inclusions: obj.comment_inclusions,
+            metatheme_aethers: obj.metatheme_aethers,
+            metatheme_aether_plans: obj.metatheme_aether_plans,
+            comment_aether_plans: obj.comment_aether_plans,
+            status_coord: obj.status_coord,
+            comment_coord: obj.comment_coord,
+            country: obj.country
+          }
+        )
+      } catch (e) {
+        throw e
+      }
     }
   },
   mutations: {
@@ -99,6 +126,9 @@ export default {
     },
     setFilter (state, payload) {
       state.filter = payload
+    },
+    setSort (state, payload) {
+      state.sort = payload
     },
     setDate (state, payload) {
       state.date = moment(payload).set({hour:0,minute:0,second:0,millisecond:0}).format()

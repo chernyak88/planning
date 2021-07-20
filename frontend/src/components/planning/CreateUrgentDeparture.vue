@@ -20,7 +20,7 @@
           </el-input>
         </el-form-item>
         <el-form-item
-          label="На месте"
+          label="Начало"
           prop="date_start"
         >
           <el-date-picker
@@ -41,6 +41,7 @@
         >
           <el-input
             v-model="form.address"
+            type="textarea"
           >
           </el-input>
         </el-form-item>
@@ -58,6 +59,12 @@
               :value="item.id">
             </el-option>
           </el-select>
+          <el-input
+            type="textarea"
+            placeholder="Комментарий"
+            v-model="form.comment_aether_plans"
+          >
+          </el-input>
         </el-form-item>
         <el-form-item
           label="Перегоны, включения"
@@ -71,6 +78,24 @@
               :value="item.id">
             </el-option>
           </el-select>
+          <el-input
+            type="textarea"
+            placeholder="Комментарий"
+            v-model="form.comment_inclusions"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item
+          label="Комментарий"
+          prop="comment"
+        >
+          <el-input
+            class="comment"
+            type="textarea"
+            placeholder="Комментарий"
+            v-model="form.comment"
+          >
+          </el-input>
         </el-form-item>
       </div>
       <div class="form-row">
@@ -89,6 +114,11 @@
         @click="$emit('hideCreateUrgentDeparture')"
       >
         Отменить
+      </el-button>
+      <el-button
+        type="primary"
+      >
+        Сотрудники
       </el-button>
       <el-button
         type="primary"
@@ -118,7 +148,10 @@ export default {
       date_start: new Date(),
       address: null,
       metatheme_aether_plans: null,
-      metatheme_inclusions: null
+      comment_aether_plans: null,
+      metatheme_inclusions: null,
+      comment_inclusions: null,
+      comment: null
     },
     rules: {
       name: [
@@ -158,6 +191,27 @@ export default {
     & .name, & .address {
       flex: 1;
     }
+
+    &:nth-child(3) {
+      & .el-form-item {
+        width: 33%;
+      }
+      & .el-select {
+        width: 100%;
+      }
+    }
+  }
+
+  & textarea {
+    resize: none;
+  }
+
+  & .comment textarea {
+    height: 94px;
+  }
+
+  & .address textarea {
+    height: 70px;
   }
 
   & .dialog-footer {

@@ -24,7 +24,7 @@
       >
       </el-date-picker>
       <el-select
-        v-if="grouped.length"
+        v-if="grouped.length > 1"
         v-model="$store.state.metathemes.filter"
         style="margin-right: 10px;"
         @change="handleChangeFilter"
@@ -42,7 +42,9 @@
       </el-select>
       <el-button type="primary" @click="createFormVisible = true">Добавить тему</el-button>
       <el-button type="danger" @click="createUrgentDepartureVisible = true">Срочный выезд!</el-button>
-      <el-button type="primary" icon="el-icon-refresh" @click="showEmployeesVisible = true"></el-button>
+      <el-tooltip class="item" effect="dark" content="Статус сотрудников" placement="bottom">
+        <el-button type="primary" icon="el-icon-user-solid" @click="showEmployeesVisible = true"></el-button>
+      </el-tooltip>
 
     <el-dialog
       :title="createFormTitle"
