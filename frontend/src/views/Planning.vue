@@ -9,7 +9,7 @@
         <el-tab-pane label="Зарубежка" name="foreign"></el-tab-pane>
         <el-tab-pane label="Продюсеры" name="producers"></el-tab-pane>
         <el-tab-pane label="IZ.TV" name="iztv"></el-tab-pane>
-        <el-tab-pane label="112" name="112"></el-tab-pane>
+        <el-tab-pane label="112" name="aether_112"></el-tab-pane>
         <el-tab-pane label="РенТВ" name="rentv"></el-tab-pane>
         <el-tab-pane label="Газета IZ" name="gazetaiz"></el-tab-pane>
       </el-tabs>
@@ -279,16 +279,16 @@ export default {
     }
   },
   methods: {
-    async fetchMetathemes(arr) {
+    async fetchMetathemes(group) {
       this.loading = true
-      this.metathemes = await this.$store.dispatch('fetchMetathemes', arr)
+      this.metathemes = await this.$store.dispatch('fetchMetathemes', group)
       this.$store.commit('setGrouped', Object.keys(this.grouped))
       this.loading = false
       console.log(this.metathemes)
     },
     rerender() {
       this.activeTab = 'all'
-      this.fetchMetathemes([])
+      this.fetchMetathemes()
     },
     async exportToPdf() {
       this.loading = true
@@ -303,34 +303,34 @@ export default {
     handleTabClick(tab, event) {
       switch (tab.name) {
         case 'all':
-          this.fetchMetathemes([])
+          this.fetchMetathemes()
           break
         case 'planning':
-          this.fetchMetathemes([1,2,3])
+          this.fetchMetathemes('planning')
           break
         case 'spb':
-          this.fetchMetathemes([4,5])
+          this.fetchMetathemes('spb')
           break
         case 'regions':
-          this.fetchMetathemes([6,7,8,9])
+          this.fetchMetathemes('regions')
           break
         case 'foreign':
-          this.fetchMetathemes([10,11,12])
+          this.fetchMetathemes('foreign')
           break
         case 'producers':
-          this.fetchMetathemes([13,14])
+          this.fetchMetathemes('producers')
           break
         case 'iztv':
-          this.fetchMetathemes([15,16])
+          this.fetchMetathemes('iztv')
           break
-        case '112':
-          this.fetchMetathemes([19,20])
+        case 'aether_112':
+          this.fetchMetathemes('aether_112')
           break
         case 'rentv':
-          this.fetchMetathemes([21])
+          this.fetchMetathemes('rentv')
           break
         case 'gazetaiz':
-          this.fetchMetathemes([24])
+          this.fetchMetathemes('gazetaiz')
           break
       }
       this.$store.commit('setFilter', 'all')

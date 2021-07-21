@@ -13,12 +13,12 @@ export default {
     sort: 'asc'
   },
   actions: {
-    async fetchMetathemes({commit, dispatch}, arr, params = {_sort: `metatheme_section.id:asc,date_start:${this.state.metathemes.sort}`}) {
+    async fetchMetathemes({commit, dispatch}, group, params = {_sort: `metatheme_section.id:asc,date_start:${this.state.metathemes.sort}`}) {
       try {
         let query = qs.stringify({ _where: {
           _or: [
               [
-                { 'metatheme_section.id': arr },
+                { 'metatheme_section.group': group },
                 { 'date_start_gt': this.state.metathemes.date },
                 { 'date_start_lt': moment(this.state.metathemes.date).add(this.state.metathemes.range, 'days').set({hour:23,minute:59,second:59,millisecond:0}).format() }
               ]
@@ -113,6 +113,18 @@ export default {
             status_coord: obj.status_coord,
             comment_coord: obj.comment_coord,
             country: obj.country
+          }
+        )
+      } catch (e) {
+        throw e
+      }
+    },
+    async deleteMetatheme({commit, dispatch}, id) {
+      try {
+        return await axios.put(
+          `${this.state.url}/metathemes/${id}`,
+          {
+            published_at: null
           }
         )
       } catch (e) {

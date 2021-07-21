@@ -31,13 +31,13 @@
         <span slot="title">Основные</span>
       </template>
       <el-menu-item index="/planning" :route="{ name: 'planning'}">
-        <span slot="title">Планирование</span>
+        <span slot="title">Отделы</span>
       </el-menu-item>
       <el-menu-item index="/coordination" :route="{ name: 'coordination'}">
         <span slot="title">Координация</span>
       </el-menu-item>
       <el-menu-item index="/producers" :route="{ name: 'producers'}">
-        <span slot="title">Продюссеры</span>
+        <span slot="title">Продюсеры</span>
       </el-menu-item>
     </el-submenu>
     <el-submenu index="/processes">

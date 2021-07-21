@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "metatheme_sections",
   "info": {
-    "name": "metatheme-section"
+    "name": "metatheme-section",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -18,6 +19,23 @@
       "via": "metatheme_section",
       "autoPopulate": false,
       "collection": "metatheme"
+    },
+    "group": {
+      "type": "enumeration",
+      "enum": [
+        "planning",
+        "spb",
+        "regions",
+        "foreign",
+        "producers",
+        "iztv",
+        "aether_112",
+        "rentv",
+        "gazetaiz",
+        "aether_iz",
+        "aether_5",
+        "aether_78"
+      ]
     }
   }
 }

@@ -7,7 +7,7 @@
         to="/planning"
         class="el-button el-button--primary"
       >
-        Планирование
+        Отделы
       </router-link>
       <router-link
         to="/coordination"

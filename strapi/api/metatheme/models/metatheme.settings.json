@@ -8,7 +8,7 @@
   "options": {
     "increments": true,
     "timestamps": true,
-    "draftAndPublish": false
+    "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
@@ -40,8 +40,8 @@
       "type": "richtext"
     },
     "metatheme_section": {
-      "model": "metatheme-section",
-      "via": "metathemes"
+      "via": "metathemes",
+      "model": "metatheme-section"
     },
     "metatheme_inclusions": {
       "collection": "metatheme-inclusion"

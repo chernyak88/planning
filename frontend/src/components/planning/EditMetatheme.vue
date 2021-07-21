@@ -315,7 +315,6 @@ export default {
     }
   },
   async mounted() {
-    this.metatheme_sections = await this.$store.dispatch('fetchMetathemeSections')
     this.metatheme_inclusions = await this.$store.dispatch('fetchMetathemeInclusions')
     this.metatheme_aethers = await this.$store.dispatch('fetchMetathemeAethers')
     this.metatheme_aether_plans = await this.$store.dispatch('fetchMetathemeAetherPlans')
@@ -325,9 +324,6 @@ export default {
     editingTheme: {
       immediate: true,
       handler: function () {
-        if (!this.editingTheme) {
-          return
-        }
         let metatheme_inclusions = []
         let metatheme_aethers = []
         let metatheme_aether_plans = []
@@ -361,41 +357,35 @@ export default {
     }
   },
   methods: {
-    handleChangeSection(id) {
+    async handleChangeSection(id) {
+      this.loading = true
+      let group = null
+      this.metatheme_sections = await this.$store.dispatch('fetchMetathemeSections')
       this.metatheme_sections.forEach((item) => {
-        if(item.id === id) this.$emit('handleChangeTitle', item.name)
+        if(item.id === id) {
+          group = item.group
+          this.$emit('handleChangeTitle', item.name)
+        }
       })
-      switch (id) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 13:
-        case 14:
-        case 15:
-        case 16:
-        case 17:
-        case 18:
-        case 19:
-        case 20:
+      switch (group) {
+        case 'planning':
+        case 'spb':
+        case 'producers':
+        case 'iztv':
+        case 'aether_78':
+        case 'aether_112':
           this.formLayout.reg = false
           this.formLayout.zr = false
           this.formLayout.showStatus = true
           break
-        case 6:
-        case 7:
-        case 8:
-        case 9:
+        case 'regions':
           this.formLayout.zr = false
           this.formLayout.reg = true
           this.formLayout.showStatus = true
           this.form.metatheme_inclusions = null
           this.form.comment_inclusions = null
           break
-        case 10:
-        case 11:
-        case 12:
+        case 'foreign':
           this.formLayout.reg = false
           this.formLayout.zr = true
           this.formLayout.showStatus = false
@@ -407,14 +397,14 @@ export default {
           this.form.status_coord = 'new'
           this.form.comment_coord = null
           break
-        case 21:
-        case 22:
-        case 23:
-        case 24:
+        default:
+          this.formLayout.reg = false
+          this.formLayout.zr = false
           this.formLayout.showStatus = false
           this.form.status_coord = 'new'
           break
       }
+      this.loading = false
     },
     checkDateStart() {
       this.form.date_end = this.moment(this.form.date_start).add(4, 'hours').format()
@@ -462,9 +452,19 @@ export default {
         }
       })
     },
-    deleteMetatheme() {
-      this.$emit('hideEditForm')
-      console.log('deleted')
+    async deleteMetatheme() {
+      try {
+        this.loading = true
+        await this.$store.dispatch('deleteMetatheme', this.form.id)
+        .then(() => {
+          this.$emit('edited')
+          this.loading = false
+          this.$message.success('Тема удалена')
+        })
+      } catch (e) {
+        this.$message.error('Недостаточно прав для выполнения данной операции')
+        console.log(e)
+      }
     }
   }
 }
