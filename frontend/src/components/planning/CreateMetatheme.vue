@@ -20,25 +20,8 @@
           >
           </el-input>
         </el-form-item>
-        <el-form-item
-          v-if="!formLayout.zr && !formLayout.reg"
-          label="Раздел"
-          prop="metatheme_section"
-        >
-          <el-select
-            v-model="form.metatheme_section"
-            placeholder=""
-            filterable
-            @change="handleChangeSection"
-          >
-            <el-option
-              v-for="item in metatheme_sections"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
+      </div>
+      <div class="form-row">
         <el-form-item
           v-if="formLayout.zr || formLayout.reg"
           label="Страна/Регион"
@@ -235,8 +218,8 @@ export default {
   },
   mixins: [textEditorMixin],
   props: {
-    curSectionId: {
-      type: Number,
+    curSection: {
+      type: Object,
       required: false
     },
     curTheme: {
@@ -247,7 +230,6 @@ export default {
   data() {
     return {
       loading: true,
-      metatheme_sections: [],
       metatheme_inclusions: [],
       metatheme_aethers: [],
       metatheme_aether_plans: [],
@@ -289,13 +271,6 @@ export default {
             trigger: "blur",
           }
         ],
-        metatheme_section: [
-          {
-            required: true,
-            message: "Выберите раздел",
-            trigger: "change",
-          }
-        ],
         date_start: [
           {
             required: true,
@@ -320,13 +295,16 @@ export default {
     this.loading = false
   },
   watch: {
-    curSectionId: {
+    curSection: {
       immediate: true,
       handler: function () {
-        for(let i = 0; i < this.forms.length; i++) {
-          this.forms[i].metatheme_section = this.curSectionId
+        if (!this.curSection) {
+          return
         }
-        this.handleChangeSection(this.curSectionId)
+        for(let i = 0; i < this.forms.length; i++) {
+          this.forms[i].metatheme_section = this.curSection.id
+        }
+        this.changeLayout(this.curSection.group)
       }
     },
     curTheme: {
@@ -364,21 +342,12 @@ export default {
           this.forms[i].comment_coord = this.curTheme.comment_coord
           this.forms[i].country = this.curTheme.country
         }
-        this.handleChangeSection(this.curTheme.metatheme_section.id)
+        this.changeLayout(this.curTheme.metatheme_section.group)
       }
     }
   },
   methods: {
-    async handleChangeSection(id) {
-      this.loading = true
-      let group = null
-      this.metatheme_sections = await this.$store.dispatch('fetchMetathemeSections')
-      this.metatheme_sections.forEach((item) => {
-        if(item.id === id) {
-          group = item.group
-          this.$emit('handleChangeTitle', item.name)
-        }
-      })
+    changeLayout(group) {
       switch (group) {
         case 'planning':
         case 'spb':
@@ -422,7 +391,6 @@ export default {
           }
           break
       }
-      this.loading = false
     },
     checkDateStart(index) {
       this.forms[index].date_end = this.moment(this.forms[index].date_start).add(4, 'hours').format()
@@ -495,49 +463,44 @@ export default {
 </script>
 <style lang="scss">
 .planning-create {
-
   & .form-row {
     display: flex;
-
     & .el-form-item {
       width: 25%;
-      
       &:last-child {
         margin-right: 0;
       }
     }
-
+    &:nth-child(1) .el-form-item {
+      width: 100%;
+    }
+    &:nth-child(2) .el-form-item {
+      width: auto;
+    }
     & .address.el-textarea .el-textarea__inner {
       height: 100px !important;
       resize: none;
     }
-
     & .comment.el-textarea .el-textarea__inner {
       height: 60px !important;
       resize: none;
     }
   }
-
   & .form-row.description .el-form-item {
     width: 50%;
-
     & .ql-container {
       height: 150px;
     }
   }
-
   & .el-form--label-top .el-form-item__label {
     padding: 0;
   }
-
   & .el-select {
     width: 100%;
   }
-
   & .dialog-footer {
     display: block;
     text-align: right;
   }
-  
 }
 </style>

@@ -18,25 +18,8 @@
           >
           </el-input>
         </el-form-item>
-        <el-form-item
-          v-if="!formLayout.zr && !formLayout.reg"
-          label="Раздел"
-          prop="metatheme_section"
-        >
-          <el-select
-            v-model="form.metatheme_section"
-            placeholder=""
-            filterable
-            @change="handleChangeSection"
-          >
-            <el-option
-              v-for="item in metatheme_sections"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
+      </div>
+      <div class="form-row">
         <el-form-item
           v-if="formLayout.zr || formLayout.reg"
           label="Страна/Регион"
@@ -57,7 +40,6 @@
             type="datetime"
             :editable="false"
             placeholder="Выберите дату и время"
-            default-time="12:00:00"
             format="dd-MM-yyyy HH:mm"
             :picker-options = "pickerOptions"
             @blur="checkDateStart()">
@@ -72,7 +54,6 @@
             type="datetime"
             :editable="false"
             placeholder="Выберите дату и время"
-            default-time="12:00:00"
             format="dd-MM-yyyy HH:mm"
             :picker-options = "pickerOptions"
             @blur="checkDateEnd()">
@@ -212,15 +193,14 @@
         </el-button>
       </el-popconfirm>
       <el-button
+        class="cancel-btn"
         @click="$emit('hideEditForm')"
-        style="margin: 0 10px;"
       >
         Отменить
       </el-button>
       <el-popconfirm
         title="Вы уверены?"
         @confirm="handleSubmit('editMetaThemeForm')"
-        style="margin-right: 10px;"
       >
         <el-button
           slot="reference"
@@ -246,13 +226,12 @@ export default {
   props: {
     editingTheme: {
       type: Object,
-      required: true
+      required: false
     }
   },
   data() {
     return {
       loading: true,
-      metatheme_sections: [],
       metatheme_inclusions: [],
       metatheme_aethers: [],
       metatheme_aether_plans: [],
@@ -290,13 +269,6 @@ export default {
             trigger: "blur",
           }
         ],
-        metatheme_section: [
-          {
-            required: true,
-            message: "Выберите раздел",
-            trigger: "change",
-          }
-        ],
         date_start: [
           {
             required: true,
@@ -324,6 +296,9 @@ export default {
     editingTheme: {
       immediate: true,
       handler: function () {
+        if (!this.editingTheme) {
+          return
+        }
         let metatheme_inclusions = []
         let metatheme_aethers = []
         let metatheme_aether_plans = []
@@ -352,21 +327,12 @@ export default {
         this.form.status_coord = this.editingTheme.status_coord
         this.form.comment_coord = this.editingTheme.comment_coord
         this.form.country = this.editingTheme.country
-        this.handleChangeSection(this.editingTheme.metatheme_section.id)
+        this.changeLayout(this.editingTheme.metatheme_section.group)
       }
     }
   },
   methods: {
-    async handleChangeSection(id) {
-      this.loading = true
-      let group = null
-      this.metatheme_sections = await this.$store.dispatch('fetchMetathemeSections')
-      this.metatheme_sections.forEach((item) => {
-        if(item.id === id) {
-          group = item.group
-          this.$emit('handleChangeTitle', item.name)
-        }
-      })
+    changeLayout(group) {
       switch (group) {
         case 'planning':
         case 'spb':
@@ -404,7 +370,6 @@ export default {
           this.form.status_coord = 'new'
           break
       }
-      this.loading = false
     },
     checkDateStart() {
       this.form.date_end = this.moment(this.form.date_start).add(4, 'hours').format()
@@ -471,49 +436,47 @@ export default {
 </script>
 <style lang="scss">
 .planning-edit {
-
   & .form-row {
     display: flex;
-
     & .el-form-item {
       width: 25%;
-      
       &:last-child {
         margin-right: 0;
       }
     }
-
+    &:nth-child(1) .el-form-item {
+      width: 100%;
+    }
+    &:nth-child(2) .el-form-item {
+      width: auto;
+    }
     & .address.el-textarea .el-textarea__inner {
       height: 100px !important;
       resize: none;
     }
-
     & .comment.el-textarea .el-textarea__inner {
       height: 60px !important;
       resize: none;
     }
   }
-
   & .form-row.description .el-form-item {
     width: 50%;
-
     & .ql-container {
       height: 150px;
     }
   }
-
   & .el-form--label-top .el-form-item__label {
     padding: 0;
   }
-
   & .el-select {
     width: 100%;
   }
-
   & .dialog-footer {
     display: block;
     text-align: right;
   }
-  
+  & .cancel-btn {
+    margin: 0 10px;
+  }
 }
 </style>

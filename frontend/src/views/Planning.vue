@@ -180,8 +180,118 @@
                 <td rowspan="1" colspan="8">
                   <div class="cell">
                     <p class="bold">Прибытие: <span style="font-weight: normal;">{{ moment(theme.date_start).format('YYYY-MM-DD HH:mm:ss') }}</span></p>
-                    <p class="bold">Подробнее:</p>
-                    <p class="theme-description" v-html="theme.description"></p>
+                    <p v-if="theme.description" class="bold">Подробнее:</p>
+                    <p v-if="theme.description" class="theme-description" v-html="theme.description"></p>
+                    <div class="el-table planning-table shooting-table el-table--border">
+                      <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
+                        <thead>
+                          <tr>
+                            <th colspan="1" rowspan="1" width="44"><div class="cell"></div></th>
+                            <th colspan="1" rowspan="1" width="80" class="ascending">
+                              <div class="cell">
+                                Нач.
+                                <span class="caret-wrapper">
+                                  <i class="sort-caret ascending"></i>
+                                  <i class="sort-caret descending"></i>
+                                </span>
+                              </div>
+                            </th>
+                            <th colspan="1" rowspan="1" width="88" class="ascending">
+                              <div class="cell">
+                                Окон.
+                                <span class="caret-wrapper">
+                                  <i class="sort-caret ascending"></i>
+                                  <i class="sort-caret descending"></i>
+                                </span>
+                              </div>
+                            </th>
+                            <th colspan="1" rowspan="1" width="350"><div class="cell">Группа выезда</div></th>
+                            <th colspan="1" rowspan="1"><div class="cell">Адрес</div></th>
+                            <th colspan="1" rowspan="1"><div class="cell">Корреспонденты</div></th>
+                            <th colspan="1" rowspan="1"><div class="cell">Съемочная группа</div></th>
+                            <th colspan="1" rowspan="1"><div class="cell">Машины</div></th>
+                            <th colspan="1" rowspan="1" width="80"><div class="cell">Статус</div></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr class="el-table__row el-table__row--level-1">
+                            <td rowspan="1" colspan="1" class="el-table__expand-column">
+                              <div class="cell">
+                                <div class="el-table__expand-icon">
+                                  <i class="el-icon el-icon-arrow-right"></i>
+                                </div>
+                              </div>
+                            </td>
+                            <td class="center" rowspan="1" colspan="1">
+                              <div class="cell bold">13:30</div>
+                              <div class="cell">22/07</div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                              <div class="cell bold">15:30</div>
+                              <div class="cell">22/07</div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                              <div class="cell">Группа выезда</div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                              <div class="cell">Адрес</div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                              <div class="cell centered">
+                                <el-link type="primary">добавить</el-link>
+                              </div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                              <div class="cell centered">
+                                <el-link type="primary">добавить</el-link>
+                              </div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                              <div class="cell centered">
+                                <el-link type="primary">добавить</el-link>
+                              </div>
+                            </td>
+                            <td rowspan="1" colspan="1">
+                              <div class="cell status-btn">
+                                <el-tooltip v-if="theme.status_coord === 'new'" class="item" effect="dark" content="Координация статус" placement="bottom">
+                                  <el-button type="info" size="mini" @click="theme.status_coord='coord'">
+                                    К <i class="el-icon-minus"></i>
+                                  </el-button>
+                                </el-tooltip>
+                                <el-tooltip v-if="theme.status_coord === 'coord'" class="item" effect="dark" content="Координация статус" placement="bottom">
+                                  <el-button type="warning" size="mini" @click="theme.status_coord='done'">
+                                    К <i class="el-icon-warning"></i>
+                                  </el-button>
+                                </el-tooltip>
+                                <el-tooltip v-if="theme.status_coord === 'done'" class="item" effect="dark" content="Координация статус" placement="bottom">
+                                  <el-button type="success" size="mini" @click="theme.status_coord='new'">
+                                    К <i class="el-icon-success"></i>
+                                  </el-button>
+                                </el-tooltip>
+                                <el-tooltip v-if="theme.status_log === false || theme.status_log === null" class="item" effect="dark" content="Аккредитация статус" placement="bottom">
+                                  <el-button type="info" size="mini" @click="theme.status_log=true">
+                                    А
+                                  </el-button>
+                                </el-tooltip>
+                                <el-tooltip v-if="theme.status_log === true" class="item" effect="dark" content="Аккредитация статус" placement="bottom">
+                                  <el-button type="success" size="mini" @click="theme.status_log=false">
+                                    А
+                                  </el-button>
+                                </el-tooltip>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr v-if="false">
+                            <td rowspan="1" colspan="9">
+                              <div class="cell">
+                                <p class="bold">Комплектовка:</p>
+                                <p class="bold">Транспорт:</p>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </td>
               </tr>
@@ -192,8 +302,8 @@
     </div>
 
     <el-dialog
+      class="planning-create-form"
       :title="createFormTitle"
-      width="950px"
       :visible.sync="createFormVisible"
       :destroy-on-close="true"
       :close-on-press-escape="false"
@@ -201,17 +311,16 @@
       @close="hideCreateForm"
     >
       <CreateMetatheme
-        :curSectionId="curSectionId"
+        :curSection="curSection"
         :curTheme="curTheme"
         @hideCreateForm="hideCreateForm"
         @created="addNewMetateheme"
-        @handleChangeTitle="handleChangeTitle"
       />
     </el-dialog>
 
     <el-dialog
+      class="planning-edit-form"
       :title="editFormTitle"
-      width="950px"
       :visible.sync="editFormVisible"
       :destroy-on-close="true"
       :close-on-press-escape="false"
@@ -248,10 +357,10 @@ export default {
       searchField: null,
       sort: 'ascending',
       createFormVisible: false,
-      createFormTitle: 'Добавление новой темы',
+      createFormTitle: null,
       editFormVisible: false,
-      editFormTitle: 'Изменение темы',
-      curSectionId: null,
+      editFormTitle: null,
+      curSection: null,
       curTheme: null,
       editingTheme: null,
       print: {
@@ -346,40 +455,38 @@ export default {
       this.rerender()
     },
     showCreateForm(section) {
-      this.curSectionId = section.id
-      this.createFormTitle = `Добавление новой темы в раздел ${section.name}`
+      this.curTheme = null
+      this.curSection = section
+      this.createFormTitle = `Добавление новой темы в раздел "${section.name}"`
       this.createFormVisible = true
     },
     hideCreateForm() {
-      this.createFormVisible = false
+      this.curSection = null
       this.curTheme = null
-      this.createFormTitle = 'Добавление новой темы'
-    },
-    hideEditForm() {
-      this.editFormVisible = false
-    },
-    handleChangeTitle(newTitle) {
-      if (this.curTheme) {
-        this.createFormTitle = `Копирование темы ${this.curTheme.name} в раздел ${newTitle}`
-      } else {
-        this.createFormTitle = `Добавление новой темы в раздел ${newTitle}`
-      }
+      this.createFormTitle = null
+      this.createFormVisible = false
     },
     addNewMetateheme() {
+      this.curSection = null
+      this.curTheme = null
       this.createFormVisible = false
       this.rerender()
     },
     copyMetatheme(theme) {
       this.curTheme = theme
-      this.createFormTitle = `Копирование темы ${theme.name} в раздел ${theme.metatheme_section.name}`
+      this.createFormTitle = `Копирование темы "${theme.name}" в раздел "${theme.metatheme_section.name}"`
       this.createFormVisible = true
     },
     showEditForm(theme) {
       this.editingTheme = theme
-      this.editFormTitle = `Изменение темы ${theme.name}`
+      this.editFormTitle = `Изменение темы "${theme.name}" в разделе "${theme.metatheme_section.name}"`
       this.editFormVisible = true
     },
+    hideEditForm() {
+      this.editFormVisible = false
+    },
     editMetateheme() {
+      this.editingTheme = null
       this.editFormVisible = false
       this.rerender()
     }
@@ -392,7 +499,6 @@ export default {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 15px;
-
   & .search-field {
     width: 320px;
     margin-right: 20px;
@@ -400,100 +506,87 @@ export default {
 }
 .planning-table {
   overflow: inherit;
-
   & .bold {
     font-weight: bold;
   }
-
   & .centered {
     text-align: center;
   }
-
   & .sticky {
     position: sticky;
     top: 0;
     z-index: 2;
   }
-
   & .contents {
     display: contents;
   }
-
   & th > .cell {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   & .cell {
     word-break: normal;
   }
-
   & .el-table__row--level-0 {
     font-size: 20px;
     background-color: rgba(120, 89, 223, 0.2);
-
     & td {
       text-align: center;
     }
   }
-
   & {
     .no-data td {
       text-align: center;
     }
   }
-
   & .el-button--small {
     padding: 7px 7px;
   }
-
   & .theme-name {
     margin-bottom: 10px;
   }
-
   & .el-table__expand-icon {
     transition: transform .2s ease-in-out;
-
     &.rotate {
       transform: rotate(90deg);
     }
   }
-
   & .theme-icon {
     color: #409EFF;
     cursor: pointer;
     margin-left: 5px;
   }
-
   & .el-tag {
     display: block;
     margin-bottom: 5px;
   }
-
   & .status-btn {
     display: flex;
-
     & .el-button {
       padding: 7px 7px;
-
       &:first-child {
         border-radius: 3px 0 0 3px;
       }
-
       &:last-child {
         border-radius: 0 3px 3px 0;
       }
-
       &+.el-button {
         margin-left: 0;
       }
     }
   }
-
   & .theme-description {
     background: #ecf5ff;
     padding: 15px;
   }
+  &.shooting-table th,
+  &.shooting-table td {
+    background: #ecf5ff;
+  }
+}
+.planning-create-form .el-dialog,
+.planning-edit-form .el-dialog {
+  width: 950px;
 }
 </style>

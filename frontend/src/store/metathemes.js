@@ -172,15 +172,6 @@ export default {
             }
           }).catch(()=>{})
           break
-        case 'all':
-          state.range = 165000
-          router.push({
-            query: {
-              date: moment(state.date).format('DD-MM-YYYY'),
-              date_finish: 'all'
-            }
-          }).catch(()=>{})
-          break
       }
     },
     metathemesUpdated (state) {

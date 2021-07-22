@@ -30,4 +30,42 @@ html, body, .app {
   margin: 0;
   padding: 0;
 }
+.el-dialog {
+  margin-top: 15px !important;
+}
+.el-date-picker.has-sidebar {
+  width: 322px;
+}
+.el-picker-panel [slot=sidebar]+.el-picker-panel__body, .el-picker-panel__sidebar+.el-picker-panel__body {
+  margin-left: 0;
+}
+.el-picker-panel__sidebar {
+  position: absolute;
+  top: 15px;
+  left: 65px;
+  bottom: 0;
+  width: 20px;
+  height: 20px;
+  border-right: none;
+  box-sizing: border-box;
+  padding-top: 0;
+  background-color: #FFF;
+  overflow: auto;
+}
+.el-picker-panel__shortcut {
+  display: block;
+  height: 100%;
+  font-family: element-icons!important;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  padding: 0;
+
+  &::before {
+    content: "\e7b9";
+  }
+}
 </style>
