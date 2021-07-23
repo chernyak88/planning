@@ -89,8 +89,8 @@
             <tr class="el-table__row el-table__row--level-0">
               <td rowspan="1" colspan="8"><div class="cell bold">{{ section }}</div></td>
             </tr>
-            <tbody class="contents" v-for="theme in themes" :key="theme.id" @dblclick="showEditForm(theme)">
-              <tr class="el-table__row el-table__row--level-1">
+            <tbody class="contents" v-for="theme in themes" :key="theme.id">
+              <tr class="el-table__row el-table__row--level-1" @dblclick="showEditForm(theme)">
                 <td rowspan="1" colspan="1" class="el-table__expand-column">
                   <div class="cell">
                     <div class="el-table__expand-icon" :class="{ rotate: theme.expand_row }" @click="theme.expand_row = !theme.expand_row">
@@ -182,116 +182,11 @@
                     <p class="bold">Прибытие: <span style="font-weight: normal;">{{ moment(theme.date_start).format('YYYY-MM-DD HH:mm:ss') }}</span></p>
                     <p v-if="theme.description" class="bold">Подробнее:</p>
                     <p v-if="theme.description" class="theme-description" v-html="theme.description"></p>
-                    <div class="el-table planning-table shooting-table el-table--border">
-                      <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
-                        <thead>
-                          <tr>
-                            <th colspan="1" rowspan="1" width="44"><div class="cell"></div></th>
-                            <th colspan="1" rowspan="1" width="80" class="ascending">
-                              <div class="cell">
-                                Нач.
-                                <span class="caret-wrapper">
-                                  <i class="sort-caret ascending"></i>
-                                  <i class="sort-caret descending"></i>
-                                </span>
-                              </div>
-                            </th>
-                            <th colspan="1" rowspan="1" width="88" class="ascending">
-                              <div class="cell">
-                                Окон.
-                                <span class="caret-wrapper">
-                                  <i class="sort-caret ascending"></i>
-                                  <i class="sort-caret descending"></i>
-                                </span>
-                              </div>
-                            </th>
-                            <th colspan="1" rowspan="1" width="350"><div class="cell">Группа выезда</div></th>
-                            <th colspan="1" rowspan="1"><div class="cell">Адрес</div></th>
-                            <th colspan="1" rowspan="1"><div class="cell">Корреспонденты</div></th>
-                            <th colspan="1" rowspan="1"><div class="cell">Съемочная группа</div></th>
-                            <th colspan="1" rowspan="1"><div class="cell">Машины</div></th>
-                            <th colspan="1" rowspan="1" width="80"><div class="cell">Статус</div></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr class="el-table__row el-table__row--level-1">
-                            <td rowspan="1" colspan="1" class="el-table__expand-column">
-                              <div class="cell">
-                                <div class="el-table__expand-icon">
-                                  <i class="el-icon el-icon-arrow-right"></i>
-                                </div>
-                              </div>
-                            </td>
-                            <td class="center" rowspan="1" colspan="1">
-                              <div class="cell bold">13:30</div>
-                              <div class="cell">22/07</div>
-                            </td>
-                            <td rowspan="1" colspan="1">
-                              <div class="cell bold">15:30</div>
-                              <div class="cell">22/07</div>
-                            </td>
-                            <td rowspan="1" colspan="1">
-                              <div class="cell">Группа выезда</div>
-                            </td>
-                            <td rowspan="1" colspan="1">
-                              <div class="cell">Адрес</div>
-                            </td>
-                            <td rowspan="1" colspan="1">
-                              <div class="cell centered">
-                                <el-link type="primary">добавить</el-link>
-                              </div>
-                            </td>
-                            <td rowspan="1" colspan="1">
-                              <div class="cell centered">
-                                <el-link type="primary">добавить</el-link>
-                              </div>
-                            </td>
-                            <td rowspan="1" colspan="1">
-                              <div class="cell centered">
-                                <el-link type="primary">добавить</el-link>
-                              </div>
-                            </td>
-                            <td rowspan="1" colspan="1">
-                              <div class="cell status-btn">
-                                <el-tooltip v-if="theme.status_coord === 'new'" class="item" effect="dark" content="Координация статус" placement="bottom">
-                                  <el-button type="info" size="mini" @click="theme.status_coord='coord'">
-                                    К <i class="el-icon-minus"></i>
-                                  </el-button>
-                                </el-tooltip>
-                                <el-tooltip v-if="theme.status_coord === 'coord'" class="item" effect="dark" content="Координация статус" placement="bottom">
-                                  <el-button type="warning" size="mini" @click="theme.status_coord='done'">
-                                    К <i class="el-icon-warning"></i>
-                                  </el-button>
-                                </el-tooltip>
-                                <el-tooltip v-if="theme.status_coord === 'done'" class="item" effect="dark" content="Координация статус" placement="bottom">
-                                  <el-button type="success" size="mini" @click="theme.status_coord='new'">
-                                    К <i class="el-icon-success"></i>
-                                  </el-button>
-                                </el-tooltip>
-                                <el-tooltip v-if="theme.status_log === false || theme.status_log === null" class="item" effect="dark" content="Аккредитация статус" placement="bottom">
-                                  <el-button type="info" size="mini" @click="theme.status_log=true">
-                                    А
-                                  </el-button>
-                                </el-tooltip>
-                                <el-tooltip v-if="theme.status_log === true" class="item" effect="dark" content="Аккредитация статус" placement="bottom">
-                                  <el-button type="success" size="mini" @click="theme.status_log=false">
-                                    А
-                                  </el-button>
-                                </el-tooltip>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr v-if="false">
-                            <td rowspan="1" colspan="9">
-                              <div class="cell">
-                                <p class="bold">Комплектовка:</p>
-                                <p class="bold">Транспорт:</p>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                    <el-button type="primary" size="mini" class="add-shooting-btn">Добавить группу</el-button>
+                    <PlanningShooting
+                      v-if="theme.shootings.length > 0"
+                      :shootings="theme.shootings"
+                    />
                   </div>
                 </td>
               </tr>
@@ -338,6 +233,7 @@
 </template>
 
 <script>
+import PlanningShooting from '@/components/planning/PlanningShooting'
 import CreateMetatheme from '@/components/planning/CreateMetatheme'
 import EditMetatheme from '@/components/planning/EditMetatheme'
 import pdfMixin from '@/mixins/pdf.mixin.js'
@@ -345,6 +241,7 @@ import pdfMixin from '@/mixins/pdf.mixin.js'
 export default {
   name: 'planning',
   components: {
+    PlanningShooting,
     CreateMetatheme,
     EditMetatheme
   },
@@ -580,9 +477,8 @@ export default {
     background: #ecf5ff;
     padding: 15px;
   }
-  &.shooting-table th,
-  &.shooting-table td {
-    background: #ecf5ff;
+  & .add-shooting-btn {
+    margin-bottom: 10px;
   }
 }
 .planning-create-form .el-dialog,

@@ -1,0 +1,69 @@
+{
+  "kind": "collectionType",
+  "collectionName": "shootings",
+  "info": {
+    "name": "shooting",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "text"
+    },
+    "reserved": {
+      "type": "enumeration",
+      "enum": [
+        "ordinary",
+        "reserve",
+        "urgently"
+      ],
+      "default": "ordinary"
+    },
+    "date_departure": {
+      "type": "datetime"
+    },
+    "date_arrival": {
+      "type": "datetime"
+    },
+    "date_start": {
+      "type": "datetime"
+    },
+    "date_end": {
+      "type": "datetime"
+    },
+    "date_return": {
+      "type": "datetime"
+    },
+    "address": {
+      "type": "text"
+    },
+    "metatheme_aether_plans": {
+      "collection": "metatheme-aether-plan"
+    },
+    "metatheme_inclusions": {
+      "collection": "metatheme-inclusion"
+    },
+    "comment": {
+      "type": "richtext"
+    },
+    "comment_tech": {
+      "type": "text"
+    },
+    "comment_car": {
+      "type": "text"
+    },
+    "metatheme": {
+      "model": "metatheme",
+      "via": "shootings"
+    },
+    "expand_row": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

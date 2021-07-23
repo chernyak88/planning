@@ -445,7 +445,16 @@ export default {
                 country: this.forms[i].country
               }
               await this.$store.dispatch('createMetatheme', formData)
-              .then(() => {
+              .then(async (res) => {
+                if (formData.status_coord === 'coord') {
+                  let shootingData = {
+                    name: formData.name,
+                    metatheme: res.data.id,
+                    date_start: formData.date_start,
+                    date_end: formData.date_end
+                  }
+                  await this.$store.dispatch('createShooting', shootingData)
+                }
                 this.$emit('created')
                 this.loading = false
                 this.$message.success('Тема добавлена')

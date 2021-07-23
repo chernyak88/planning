@@ -74,6 +74,10 @@
     },
     "comment_coord": {
       "type": "text"
+    },
+    "shootings": {
+      "via": "metatheme",
+      "collection": "shooting"
     }
   }
 }
