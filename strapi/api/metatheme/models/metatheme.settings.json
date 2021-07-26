@@ -63,7 +63,7 @@
     },
     "status_log": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "expand_row": {
       "type": "boolean",

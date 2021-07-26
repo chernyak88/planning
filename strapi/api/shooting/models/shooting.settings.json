@@ -58,8 +58,8 @@
       "type": "text"
     },
     "metatheme": {
-      "model": "metatheme",
-      "via": "shootings"
+      "via": "shootings",
+      "model": "metatheme"
     },
     "expand_row": {
       "type": "boolean",

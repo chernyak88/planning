@@ -450,8 +450,11 @@ export default {
                   let shootingData = {
                     name: formData.name,
                     metatheme: res.data.id,
+                    date_departure: formData.date_start,
+                    date_arrival: formData.date_start,
                     date_start: formData.date_start,
-                    date_end: formData.date_end
+                    date_end: formData.date_end,
+                    date_return: formData.date_end
                   }
                   await this.$store.dispatch('createShooting', shootingData)
                 }

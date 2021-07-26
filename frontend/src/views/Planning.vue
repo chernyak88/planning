@@ -182,10 +182,8 @@
                     <p class="bold">Прибытие: <span style="font-weight: normal;">{{ moment(theme.date_start).format('YYYY-MM-DD HH:mm:ss') }}</span></p>
                     <p v-if="theme.description" class="bold">Подробнее:</p>
                     <p v-if="theme.description" class="theme-description" v-html="theme.description"></p>
-                    <el-button type="primary" size="mini" class="add-shooting-btn">Добавить группу</el-button>
                     <PlanningShooting
-                      v-if="theme.shootings.length > 0"
-                      :shootings="theme.shootings"
+                      :theme="theme"
                     />
                   </div>
                 </td>
@@ -476,9 +474,6 @@ export default {
   & .theme-description {
     background: #ecf5ff;
     padding: 15px;
-  }
-  & .add-shooting-btn {
-    margin-bottom: 10px;
   }
 }
 .planning-create-form .el-dialog,
