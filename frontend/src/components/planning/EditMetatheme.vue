@@ -420,11 +420,14 @@ export default {
     async deleteMetatheme() {
       try {
         this.loading = true
+        for(let i = 0; i < this.editingTheme.shootings.length; i++) {
+          await this.$store.dispatch('deleteShooting', this.editingTheme.shootings[i].id)
+        }
         await this.$store.dispatch('deleteMetatheme', this.form.id)
         .then(() => {
           this.$emit('edited')
           this.loading = false
-          this.$message.success('Тема удалена')
+          this.$message.success('Тема и привязки успешно удалены')
         })
       } catch (e) {
         this.$message.error('Недостаточно прав для выполнения данной операции')

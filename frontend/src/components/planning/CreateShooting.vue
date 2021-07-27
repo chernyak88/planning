@@ -197,7 +197,9 @@ export default {
           metatheme_aether_plans.push(this.theme.metatheme_aether_plans[i].id)
         }
         this.form.metatheme_inclusions = metatheme_inclusions
+        this.form.comment_aether_plans = this.theme.comment_aether_plans
         this.form.metatheme_aether_plans = metatheme_aether_plans
+        this.form.comment_inclusions = this.theme.comment_inclusions
       }
     }
   },
@@ -212,11 +214,8 @@ export default {
             let formData = {
               name: this.form.name,
               metatheme: this.theme.id,
-              date_departure: this.moment(this.form.date_start).format(),
-              date_arrival: this.moment(this.form.date_start).format(),
               date_start: this.moment(this.form.date_start).format(),
               date_end: this.moment(this.form.date_start).add(4, 'hours').format(),
-              date_return: this.moment(this.form.date_start).add(4, 'hours').format(),
               address: this.form.address,
               metatheme_aether_plans: this.form.metatheme_aether_plans,
               comment_aether_plans: this.form.comment_aether_plans,

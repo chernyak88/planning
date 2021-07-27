@@ -8,12 +8,12 @@
     >
       Добавить группу
     </el-button>
-    <div class="el-table planning-shooting-table el-table--border" v-if="theme.shootings.length > 0">
+    <div class="el-table planning-shooting-table el-table--border" v-loading="loading" v-if="shootings.length > 0">
       <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
         <thead>
           <tr>
             <th colspan="1" rowspan="1" width="44"><div class="cell"></div></th>
-            <th colspan="1" rowspan="1" width="80" class="ascending">
+            <th colspan="1" rowspan="1" width="80" :class="dateStartClass" @click="dateStartSort">
               <div class="cell">
                 Нач.
                 <span class="caret-wrapper">
@@ -22,7 +22,7 @@
                 </span>
               </div>
             </th>
-            <th colspan="1" rowspan="1" width="88" class="ascending">
+            <th colspan="1" rowspan="1" width="88" :class="dateEndClass" @click="dateEndSort">
               <div class="cell">
                 Окон.
                 <span class="caret-wrapper">
@@ -39,7 +39,7 @@
             <th colspan="1" rowspan="1" width="100"><div class="cell">Статус</div></th>
           </tr>
         </thead>
-        <tbody v-for="item in theme.shootings" :key="item.id">
+        <tbody v-for="item in shootings" :key="item.id">
           <tr class="el-table__row el-table__row--level-1">
             <td rowspan="1" colspan="1" class="el-table__expand-column">
               <div class="cell">
@@ -49,12 +49,12 @@
               </div>
             </td>
             <td class="center" rowspan="1" colspan="1">
-              <div class="cell bold">{{ moment(item.date_start).format('HH:mm') }}</div>
-              <div class="cell">{{ moment(item.date_start).format('DD/MM') }}</div>
+              <div v-if="item.date_start" class="cell bold">{{ moment(item.date_start).format('HH:mm') }}</div>
+              <div v-if="item.date_start" class="cell">{{ moment(item.date_start).format('DD/MM') }}</div>
             </td>
             <td rowspan="1" colspan="1">
-              <div class="cell bold">{{ moment(item.date_end).format('HH:mm') }}</div>
-              <div class="cell">{{ moment(item.date_end).format('DD/MM') }}</div>
+              <div v-if="item.date_end" class="cell bold">{{ moment(item.date_end).format('HH:mm') }}</div>
+              <div v-if="item.date_end" class="cell">{{ moment(item.date_end).format('DD/MM') }}</div>
             </td>
             <td rowspan="1" colspan="1">
               <div class="cell shooting-name">
@@ -64,7 +64,7 @@
                     width="200"
                     trigger="hover"
                     :content="`${item.name} (${itemReserved(item.reserved)})`">
-                    <el-button slot="reference" type="warning">{{ item.name }} ({{ itemReserved(item.reserved) }})</el-button>
+                    <el-button slot="reference" type="warning" @click="showEditShootingForm(item)">{{ item.name }} ({{ itemReserved(item.reserved) }})</el-button>
                   </el-popover>
                 </el-tooltip>
                 <el-tooltip class="item" effect="dark" content="Добавить группу" placement="bottom">
@@ -73,7 +73,7 @@
                   </el-button>
                 </el-tooltip>
                 <el-tooltip class="item" effect="dark" content="Редактировать группу" placement="bottom">
-                  <el-button type="info" size="mini">
+                  <el-button type="info" size="mini" @click="showEditShootingForm(item)">
                     <i class="el-icon-edit"></i>
                   </el-button>
                 </el-tooltip>
@@ -139,15 +139,34 @@
         @created="addNewShooting"
       />
     </el-dialog>
+
+    <el-dialog
+      class="planning-shooting-edit-form"
+      :title="editFormTitle"
+      :visible.sync="editFormVisible"
+      :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      @close="hideEditShootingForm"
+    >
+      <EditShooting
+        :curShooting="curShooting"
+        @hideEditShootingForm="hideEditShootingForm"
+        @edited="editShooting"
+      />
+    </el-dialog>
   </div>
 </template>
 <script>
+import qs from 'qs'
 import CreateShooting from '@/components/planning/CreateShooting'
+import EditShooting from '@/components/planning/EditShooting'
 
 export default {
   name: 'planningshooting',
   components: {
-    CreateShooting
+    CreateShooting,
+    EditShooting
   },
   props: {
     theme: {
@@ -157,11 +176,79 @@ export default {
   },
   data() {
     return {
+      loading: true,
+      shootings: [],
       createFormVisible: false,
-      createFormTitle: null
+      createFormTitle: null,
+      editFormVisible: false,
+      editFormTitle: null,
+      curShooting: null,
+      dateStartClass: 'ascending',
+      dateEndClass: null
     }
   },
+  async mounted() {
+    await this.fetchShootings()
+    this.loading = false
+  },
   methods: {
+    async fetchShootings() {
+      let query = qs.stringify({ _where: {
+        _or: [[{ 'metatheme.id': this.theme.id }]]}
+      })
+      this.shootings = await this.$store.dispatch('fetchShootings', query)
+    },
+    showCreateShootingForm(theme) {
+      this.createFormTitle = `Создание Съемки в теме "${theme.name}"`
+      this.createFormVisible = true
+    },
+    showEditShootingForm(item) {
+      this.curShooting = item
+      this.editFormTitle = `Изменение Съемки "${item.name}"`
+      this.editFormVisible = true
+    },
+    hideCreateShootingForm() {
+      this.createFormTitle = null
+      this.createFormVisible = false
+    },
+    hideEditShootingForm() {
+      this.editFormTitle = null
+      this.editFormVisible = false
+    },
+    addNewShooting() {
+      this.createFormTitle = null
+      this.createFormVisible = false
+      this.fetchShootings()
+    },
+    editShooting() {
+      this.editFormTitle = null
+      this.editFormVisible = false
+      this.fetchShootings()
+    },
+    dateStartSort() {
+      this.dateEndClass = null
+      if (this.dateStartClass === 'ascending') {
+        this.dateStartClass = 'descending'
+        this.$store.commit('setSortShootings', 'date_start:desc')
+        this.fetchShootings()
+      } else {
+        this.dateStartClass = 'ascending'
+        this.$store.commit('setSortShootings', 'date_start:asc')
+        this.fetchShootings()
+      }
+    },
+    dateEndSort() {
+      this.dateStartClass = null
+      if (this.dateEndClass === 'ascending') {
+        this.dateEndClass = 'descending'
+        this.$store.commit('setSortShootings', 'date_end:desc')
+        this.fetchShootings()
+      } else {
+        this.dateEndClass = 'ascending'
+        this.$store.commit('setSortShootings', 'date_end:asc')
+        this.fetchShootings()
+      }
+    },
     itemReserved(reserved) {
       switch (reserved) {
         case 'ordinary':
@@ -171,18 +258,6 @@ export default {
         case 'urgently':
           return 'Срочно'
       }
-    },
-    showCreateShootingForm(theme) {
-      this.createFormTitle = `Создание Съемки в теме "${theme.name}"`
-      this.createFormVisible = true
-    },
-    hideCreateShootingForm() {
-      this.createFormTitle = null
-      this.createFormVisible = false
-    },
-    addNewShooting() {
-      this.createFormTitle = null
-      this.createFormVisible = false
     }
   }
 }
@@ -215,7 +290,8 @@ export default {
 .planning-shooting-add-btn {
   margin-bottom: 10px;
 }
-.planning-shooting-create-form .el-dialog {
+.planning-shooting-create-form .el-dialog,
+.planning-shooting-edit-form .el-dialog {
   width: 950px;
 }
 </style>

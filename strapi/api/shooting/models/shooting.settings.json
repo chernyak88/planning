@@ -64,6 +64,12 @@
     "expand_row": {
       "type": "boolean",
       "default": false
+    },
+    "comment_aether_plans": {
+      "type": "richtext"
+    },
+    "comment_inclusions": {
+      "type": "richtext"
     }
   }
 }

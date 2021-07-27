@@ -15,7 +15,13 @@ export default {
     EmptyLayout,
     MainLayout
   },
+  mounted() {
+    this.$store.commit('setUserRole', this.userRole)
+  },
   computed: {
+    userRole() {
+      localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).role.name : null
+    },
     layout() {
       return (this.$route.meta.layout || 'empty') + '-layout'
     }

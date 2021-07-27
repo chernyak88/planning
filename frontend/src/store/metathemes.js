@@ -139,7 +139,7 @@ export default {
     setFilter (state, payload) {
       state.filter = payload
     },
-    setSort (state, payload) {
+    setSortMetathemes (state, payload) {
       state.sort = payload
     },
     setDate (state, payload) {

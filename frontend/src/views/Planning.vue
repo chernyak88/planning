@@ -342,10 +342,10 @@ export default {
     handleChangeSort() {
       if (this.sort === 'ascending') {
         this.sort = 'descending'
-        this.$store.commit('setSort', 'desc')
+        this.$store.commit('setSortMetathemes', 'desc')
       } else {
         this.sort = 'ascending'
-        this.$store.commit('setSort', 'asc')
+        this.$store.commit('setSortMetathemes', 'asc')
       }
       this.rerender()
     },
