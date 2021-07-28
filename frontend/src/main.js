@@ -7,6 +7,7 @@ import VueCookie from 'vue-cookie'
 import Print from 'vue-print-nb'
 import moment from 'moment'
 import App from './App.vue'
+import NoData from './components/app/NoData'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
@@ -16,6 +17,8 @@ Vue.config.productionTip = false
 Vue.use(ElementUI, { locale })
 Vue.use(VueCookie)
 Vue.use(Print)
+
+Vue.component('NoData', NoData)
 
 Vue.prototype.moment = moment
 Vue.prototype.$http = axios

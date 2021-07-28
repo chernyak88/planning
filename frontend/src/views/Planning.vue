@@ -62,7 +62,7 @@
         <thead>
           <tr class="sticky">
             <th colspan="1" rowspan="1" width="44"><div class="cell"></div></th>
-            <th colspan="1" rowspan="1" width="80" :class="sort">
+            <th colspan="1" rowspan="1" width="80" :class="sortClass">
               <div class="cell">
                 Нач.
                 <span class="caret-wrapper" @click="handleChangeSort">
@@ -80,8 +80,12 @@
           </tr>
         </thead>
         <tbody v-if="metathemes.length === 0">
-          <tr class="el-table__row no-data">
-            <td rowspan="1" colspan="8"><div class="cell">Нет данных</div></td>
+          <tr class="el-table__row">
+            <td rowspan="1" colspan="8" class="centered">
+              <div class="cell">
+                <NoData />
+              </div>
+            </td>
           </tr>
         </tbody>
         <tbody v-else v-for="(themes, section) in grouped" :key="section">
@@ -106,7 +110,7 @@
                   <div class="cell">
                     <div class="bold theme-name">
                       <el-tooltip class="item" effect="dark" content="Поменять тему местами" placement="bottom">
-                        <el-button icon="el-icon-sort" type="info" size="small"></el-button>
+                        <el-button icon="el-icon-sort" :class="{ red: theme.replaced }" type="info" size="small" @click="replaceMetatheme(theme)"></el-button>
                       </el-tooltip>
                       <span>
                         {{ theme.name }}
@@ -250,7 +254,7 @@ export default {
       activeTab: 'all',
       metathemes: [],
       searchField: null,
-      sort: 'ascending',
+      sortClass: '',
       createFormVisible: false,
       createFormTitle: null,
       editFormVisible: false,
@@ -283,16 +287,16 @@ export default {
     }
   },
   methods: {
-    async fetchMetathemes(group) {
+    async fetchMetathemes(group, params) {
       this.loading = true
-      this.metathemes = await this.$store.dispatch('fetchMetathemes', group)
+      this.metathemes = await this.$store.dispatch('fetchMetathemes', {group, params})
       this.$store.commit('setGrouped', Object.keys(this.grouped))
       this.loading = false
       console.log(this.metathemes)
     },
     rerender() {
-      this.activeTab = 'all'
-      this.fetchMetathemes()
+      this.sortClass = ''
+      this.activeTab === 'all' ? this.fetchMetathemes() : this.fetchMetathemes(this.activeTab)
     },
     async exportToPdf() {
       this.loading = true
@@ -305,49 +309,45 @@ export default {
       this.loading = false
     },
     handleTabClick(tab, event) {
-      switch (tab.name) {
-        case 'all':
-          this.fetchMetathemes()
-          break
-        case 'planning':
-          this.fetchMetathemes('planning')
-          break
-        case 'spb':
-          this.fetchMetathemes('spb')
-          break
-        case 'regions':
-          this.fetchMetathemes('regions')
-          break
-        case 'foreign':
-          this.fetchMetathemes('foreign')
-          break
-        case 'producers':
-          this.fetchMetathemes('producers')
-          break
-        case 'iztv':
-          this.fetchMetathemes('iztv')
-          break
-        case 'aether_112':
-          this.fetchMetathemes('aether_112')
-          break
-        case 'rentv':
-          this.fetchMetathemes('rentv')
-          break
-        case 'gazetaiz':
-          this.fetchMetathemes('gazetaiz')
-          break
-      }
+      this.sortClass = ''
+      tab.name === 'all' ? this.fetchMetathemes() : this.fetchMetathemes(tab.name)
       this.$store.commit('setFilter', 'all')
     },
     handleChangeSort() {
-      if (this.sort === 'ascending') {
-        this.sort = 'descending'
-        this.$store.commit('setSortMetathemes', 'desc')
-      } else {
-        this.sort = 'ascending'
-        this.$store.commit('setSortMetathemes', 'asc')
+      let activeTab
+      let params
+      this.activeTab !== 'all' ? activeTab = this.activeTab : activeTab = undefined
+      switch (this.sortClass) {
+        case '':
+          this.sortClass = 'ascending'
+          params = {
+            _sort: `metatheme_section.id:asc,date_start:asc`
+          }
+          this.fetchMetathemes(activeTab, params)
+          break
+        case 'ascending':
+          this.sortClass = 'descending'
+          params = {
+            _sort: `metatheme_section.id:asc,date_start:desc`
+          }
+          this.fetchMetathemes(activeTab, params)
+          break
+        case 'descending':
+          this.sortClass = ''
+          this.fetchMetathemes(activeTab)
+          break
       }
-      this.rerender()
+    },
+    replaceMetatheme(theme) {
+      let replacedTheme
+      for (let i = 0; i < this.metathemes.length; i++) {
+        if (this.metathemes[i].replaced) {
+          replacedTheme = this.metathemes[i]
+        }
+      }
+      if (!replacedTheme) {
+        this.$set(theme, 'replaced', true)
+      }
     },
     showCreateForm(section) {
       this.curTheme = null
@@ -415,6 +415,10 @@ export default {
   & .contents {
     display: contents;
   }
+  & .red {
+    background-color: red;
+    border-color: red;
+  }
   & th > .cell {
     white-space: nowrap;
     overflow: hidden;
@@ -427,11 +431,6 @@ export default {
     font-size: 20px;
     background-color: rgba(120, 89, 223, 0.2);
     & td {
-      text-align: center;
-    }
-  }
-  & {
-    .no-data td {
       text-align: center;
     }
   }

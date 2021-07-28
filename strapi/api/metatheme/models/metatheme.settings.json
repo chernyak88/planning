@@ -78,6 +78,9 @@
     "shootings": {
       "via": "metatheme",
       "collection": "shooting"
+    },
+    "sortParam": {
+      "type": "biginteger"
     }
   }
 }

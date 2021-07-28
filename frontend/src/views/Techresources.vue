@@ -98,6 +98,11 @@
       stripe
       @sort-change="sortByColumn"
     >
+      <template
+        slot="empty"
+      >
+        <NoData />
+      </template>
       <el-table-column
         type="expand"
       >

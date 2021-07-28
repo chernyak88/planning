@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="app">
+    <el-backtop target=".app"></el-backtop>
     <component :is="layout">
       <router-view/>
     </component>
@@ -35,6 +36,16 @@ html, body, .app {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+}
+.app {
+  height: 100px;
+  overflow: auto;
+}
+.el-backtop, .el-backtop:hover {
+  background-color: #409EFF;
+}
+.el-backtop, .el-calendar-table td.is-today {
+  color: #FFF;
 }
 .el-dialog {
   margin-top: 15px !important;

@@ -9,11 +9,10 @@ export default {
     range: 0,
     metaUpdated: false,
     grouped: null,
-    filter: 'all',
-    sort: 'asc'
+    filter: 'all'
   },
   actions: {
-    async fetchMetathemes({commit, dispatch}, group, params = {_sort: `metatheme_section.id:asc,date_start:${this.state.metathemes.sort}`}) {
+    async fetchMetathemes({commit, dispatch}, {group, params = {_sort: `metatheme_section.id:asc,sortParam:asc`}}) {
       try {
         let query = qs.stringify({ _where: {
           _or: [
@@ -138,9 +137,6 @@ export default {
     },
     setFilter (state, payload) {
       state.filter = payload
-    },
-    setSortMetathemes (state, payload) {
-      state.sort = payload
     },
     setDate (state, payload) {
       state.date = moment(payload).set({hour:0,minute:0,second:0,millisecond:0}).format()
