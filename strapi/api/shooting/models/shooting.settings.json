@@ -61,10 +61,6 @@
       "via": "shootings",
       "model": "metatheme"
     },
-    "expand_row": {
-      "type": "boolean",
-      "default": false
-    },
     "comment_aether_plans": {
       "type": "richtext"
     },

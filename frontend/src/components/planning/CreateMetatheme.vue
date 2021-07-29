@@ -446,6 +446,7 @@ export default {
               }
               await this.$store.dispatch('createMetatheme', formData)
               .then(async (res) => {
+                await this.$store.dispatch('editMetatheme', {id: res.data.id, sortParam: res.data.id})
                 if (formData.status_coord === 'coord') {
                   let shootingData = {
                     name: formData.name,

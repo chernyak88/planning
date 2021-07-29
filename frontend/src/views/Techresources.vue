@@ -93,6 +93,7 @@
     <el-table
       id="table"
       ref="table"
+      class="techresources-table"
       :data="techresources"
       border
       stripe

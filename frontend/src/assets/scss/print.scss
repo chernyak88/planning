@@ -1,0 +1,58 @@
+@media print {
+  .no-print,
+  .el-button,
+  [class*=" el-icon-"], [class^=el-icon-] {
+      display: none;
+  }
+  th, td {
+      font-size: 13px;
+      color: #000;
+      border: 1px solid #000;
+      padding: 5px;
+  }
+  .el-table__header {
+      display: block;
+      padding: 10px;
+      & tr.metatheme-section-print {
+      text-align: center;
+      background: #ccc !important;
+      }
+      & .el-tag {
+      display: block;
+      background-color: #fff !important;
+      border-color: #fff !important;
+      color: #000;
+      }
+  }
+  .techresources-table {
+      width: 965px;
+      border: 1px solid #000;
+      & .caret-wrapper,
+      & .el-table_1_column_1,
+      & .el-table_1_column_7,
+      & .el-table__expanded-cell {
+      display: none;
+      }
+      & .el-table__header {
+      padding: 0;
+      margin: 0;
+      }
+      & colgroup col {
+      &:nth-child(1) {
+          width: 40px;
+      }
+      &:nth-child(2) {
+          width: 320px;
+      }
+      &:nth-child(3) {
+          width: 300px;
+      }
+      &:nth-child(4) {
+          width: 150px;
+      }
+      &:nth-child(5) {
+          width: 150px;
+      }
+    }
+  }
+}

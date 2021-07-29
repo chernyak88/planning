@@ -65,10 +65,6 @@
       "type": "boolean",
       "default": true
     },
-    "expand_row": {
-      "type": "boolean",
-      "default": false
-    },
     "country": {
       "type": "string"
     },

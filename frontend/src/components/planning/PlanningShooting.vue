@@ -43,7 +43,7 @@
           <tr class="el-table__row el-table__row--level-1">
             <td rowspan="1" colspan="1" class="el-table__expand-column">
               <div class="cell">
-                <div class="el-table__expand-icon" :class="{ rotate: item.expand_row }" @click="item.expand_row = !item.expand_row">
+                <div class="el-table__expand-icon" :class="{ rotate: item.expand_row }" @click="showExpandRow(item)">
                   <i class="el-icon el-icon-arrow-right"></i>
                 </div>
               </div>
@@ -197,6 +197,9 @@ export default {
         _or: [[{ 'metatheme.id': this.theme.id }]]}
       })
       this.shootings = await this.$store.dispatch('fetchShootings', query)
+    },
+    showExpandRow(item) {
+      item.expand_row ? this.$set(item, 'expand_row', false) : this.$set(item, 'expand_row', true)
     },
     showCreateShootingForm(theme) {
       this.createFormTitle = `Создание Съемки в теме "${theme.name}"`

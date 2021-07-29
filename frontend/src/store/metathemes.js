@@ -111,7 +111,9 @@ export default {
             comment_aether_plans: obj.comment_aether_plans,
             status_coord: obj.status_coord,
             comment_coord: obj.comment_coord,
-            country: obj.country
+            status_log: obj.status_log,
+            country: obj.country,
+            sortParam: obj.sortParam
           }
         )
       } catch (e) {

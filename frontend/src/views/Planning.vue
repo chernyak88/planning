@@ -61,7 +61,7 @@
       <table id="table" ref="table" cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
         <thead>
           <tr class="sticky">
-            <th colspan="1" rowspan="1" width="44"><div class="cell"></div></th>
+            <th colspan="1" rowspan="1" width="44" class="no-print"><div class="cell"></div></th>
             <th colspan="1" rowspan="1" width="80" :class="sortClass">
               <div class="cell">
                 Нач.
@@ -76,7 +76,7 @@
             <th colspan="1" rowspan="1"><div class="cell">Корреспонденты</div></th>
             <th colspan="1" rowspan="1"><div class="cell">Эф план</div></th>
             <th colspan="1" rowspan="1"><div class="cell">Перегоны, включения</div></th>
-            <th colspan="1" rowspan="1" width="80"><div class="cell">Статус</div></th>
+            <th colspan="1" rowspan="1" width="80" class="no-print"><div class="cell">Статус</div></th>
           </tr>
         </thead>
         <tbody v-if="metathemes.length === 0">
@@ -90,14 +90,14 @@
         </tbody>
         <tbody v-else v-for="(themes, section) in grouped" :key="section">
           <template v-if="$store.state.metathemes.filter === section || $store.state.metathemes.filter === 'all'">
-            <tr class="el-table__row el-table__row--level-0">
+            <tr class="el-table__row el-table__row--level-0 metatheme-section-print">
               <td rowspan="1" colspan="8"><div class="cell bold">{{ section }}</div></td>
             </tr>
             <tbody class="contents" v-for="theme in themes" :key="theme.id">
               <tr class="el-table__row el-table__row--level-1" @dblclick="showEditForm(theme)">
-                <td rowspan="1" colspan="1" class="el-table__expand-column">
+                <td rowspan="1" colspan="1" class="el-table__expand-column no-print">
                   <div class="cell">
-                    <div class="el-table__expand-icon" :class="{ rotate: theme.expand_row }" @click="theme.expand_row = !theme.expand_row">
+                    <div class="el-table__expand-icon" :class="{ rotate: theme.expand_row }" @click="showExpandRow(theme)">
                       <i class="el-icon el-icon-arrow-right"></i>
                     </div>
                   </div>
@@ -150,7 +150,7 @@
                     <el-tag size="mini" v-for="item in theme.metatheme_aethers" :key="'A'+item.id">{{ item.name }}</el-tag>
                   </div>
                 </td>
-                <td rowspan="1" colspan="1">
+                <td rowspan="1" colspan="1" class="no-print">
                   <div class="cell status-btn">
                     <el-tooltip v-if="theme.status_coord === 'new'" class="item" effect="dark" content="Координация статус" placement="bottom">
                       <el-button type="info" size="mini" @click="theme.status_coord='coord'">
@@ -167,20 +167,18 @@
                         К <i class="el-icon-success"></i>
                       </el-button>
                     </el-tooltip>
-                    <el-tooltip v-if="theme.status_log === false || theme.status_log === null" class="item" effect="dark" content="Лог" placement="bottom">
-                      <el-button type="info" size="mini" @click="theme.status_log=true">
-                        Л
-                      </el-button>
-                    </el-tooltip>
-                    <el-tooltip v-if="theme.status_log === true" class="item" effect="dark" content="Лог" placement="bottom">
-                      <el-button type="success" size="mini" @click="theme.status_log=false">
+                    <el-tooltip class="item" effect="dark" content="Лог" placement="bottom">
+                      <el-button
+                        :class="{ 'el-button--success': theme.status_log, 'el-button--info': !theme.status_log }"
+                        size="mini"
+                        @click="handleChangeLogStatus(theme)">
                         Л
                       </el-button>
                     </el-tooltip>
                   </div>
                 </td>
               </tr>
-              <tr v-if="theme.expand_row === true">
+              <tr v-if="theme.expand_row === true" class="no-print">
                 <td rowspan="1" colspan="8">
                   <div class="cell">
                     <p class="bold">Прибытие: <span style="font-weight: normal;">{{ moment(theme.date_start).format('YYYY-MM-DD HH:mm:ss') }}</span></p>
@@ -263,8 +261,8 @@ export default {
       curTheme: null,
       editingTheme: null,
       print: {
-        id: "table",
-        popTitle: 'Метатемы',
+        id: 'table',
+        popTitle: 'Метатемы'
       }
     }
   },
@@ -338,7 +336,7 @@ export default {
           break
       }
     },
-    replaceMetatheme(theme) {
+    async replaceMetatheme(theme) {
       let replacedTheme
       for (let i = 0; i < this.metathemes.length; i++) {
         if (this.metathemes[i].replaced) {
@@ -347,6 +345,47 @@ export default {
       }
       if (!replacedTheme) {
         this.$set(theme, 'replaced', true)
+      } else if (replacedTheme && theme.id === replacedTheme.id) {
+        this.$set(theme, 'replaced', false)
+      } else if (replacedTheme && theme.id !== replacedTheme.id && theme.metatheme_section.id !== replacedTheme.metatheme_section.id) {
+        this.$set(theme, 'replaced', false)
+        this.$set(replacedTheme, 'replaced', false)
+        this.$message.error('Менять сортировку можно только в рамках одного раздела')
+      } else {
+        try {
+          this.loading = true
+          const themeSortParam = theme.sortParam
+          const replacedThemeSortParam = replacedTheme.sortParam
+          await this.$store.dispatch('editMetatheme', {id: theme.id, sortParam: replacedThemeSortParam})
+          await this.$store.dispatch('editMetatheme', {id: replacedTheme.id, sortParam: themeSortParam})
+          .then(() => {
+            this.loading = false
+            this.rerender()
+            this.$message.success('Сортировка изменена')
+          })
+        } catch (e) {
+          this.$message.error('Недостаточно прав для выполнения данной операции')
+          console.log(e)
+        }
+      }
+    },
+    showExpandRow(theme) {
+      theme.expand_row ? this.$set(theme, 'expand_row', false) : this.$set(theme, 'expand_row', true)
+    },
+    async handleChangeLogStatus(theme) {
+      try {
+        this.loading = true
+        let status
+        theme.status_log ? status = false : status = true
+        await this.$store.dispatch('editMetatheme', {id: theme.id, status_log: status})
+        .then(() => {
+          this.loading = false
+          this.rerender()
+          status ? this.$message.success('Тема отправлена в Лог') : this.$message.success('Тема удалена из Лога')
+        })
+      } catch (e) {
+        this.$message.error('Недостаточно прав для выполнения данной операции')
+        console.log(e)
       }
     },
     showCreateForm(section) {
@@ -416,8 +455,8 @@ export default {
     display: contents;
   }
   & .red {
-    background-color: red;
-    border-color: red;
+    background-color: #ff4747;
+    border-color: #ff4747;
   }
   & th > .cell {
     white-space: nowrap;
