@@ -14,6 +14,9 @@
         <el-tab-pane label="Газета IZ" name="gazetaiz"></el-tab-pane>
       </el-tabs>
     </div>
+    <!-- <draggable group="people" @start="drag=true" @end="drag=false">
+      <div v-for="element in Object.keys(grouped)" :key="element">{{element}}</div>
+    </draggable> -->
     <div class="planning-heading">
       <el-input
         size="medium"
@@ -57,8 +60,8 @@
         </el-button>
       </el-tooltip>
     </div>
-    <div class="el-table planning-table el-table--border">
-      <table id="table" ref="table" cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
+    <div ref="table" class="el-table planning-table el-table--border">
+      <table id="table" cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
         <thead>
           <tr class="sticky">
             <th colspan="1" rowspan="1" width="44" class="no-print"><div class="cell"></div></th>
@@ -233,6 +236,7 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import PlanningShooting from '@/components/planning/PlanningShooting'
 import CreateMetatheme from '@/components/planning/CreateMetatheme'
 import EditMetatheme from '@/components/planning/EditMetatheme'
@@ -241,6 +245,7 @@ import pdfMixin from '@/mixins/pdf.mixin.js'
 export default {
   name: 'planning',
   components: {
+    draggable,
     PlanningShooting,
     CreateMetatheme,
     EditMetatheme

@@ -1,0 +1,95 @@
+.planning-table.pdf-view {
+  border: 1px solid #000;
+  &.el-table--border::after,
+  &.el-table--border::before,
+  &.el-table--group::after,
+  &.el-table--group::before,
+  &.el-table::before,
+  &.el-table::after {
+    display: none;
+  }
+  & .no-print,
+  & .el-button,
+  & .caret-wrapper,
+  & [class*=" el-icon-"], [class^=el-icon-] {
+    display: none;
+  }
+  & th, td {
+    font-size: 13px;
+    color: #000;
+    border: 1px solid #000;
+  }
+  & .el-table__header {
+    & tr.metatheme-section-print {
+      display: flex;
+      justify-content: center;
+      width: 1028px;
+      border: 1px solid #000;
+      background: #ccc !important;
+      & td {
+        border: none;
+      }
+    }
+    & tr th:nth-child(2) {
+      width: 60px;
+    }
+    & tr th:nth-child(3) {
+      width: 341px;
+    }
+    & tr th:nth-child(4) {
+      width: 150px;
+    }
+    & tr th:nth-child(5) {
+      width: 135px;
+    }
+    & tr th:nth-child(6) {
+      width: 164px;
+    }
+    & tr th:nth-child(7) {
+      width: 180px;
+    }
+    & .el-tag {
+      display: block;
+      background-color: #fff !important;
+      border-color: #fff !important;
+      color: #000;
+    }
+  }
+}
+.techresources-table.pdf-view {
+  width: 965px;
+  border: 1px solid #000;
+  & th, td {
+    font-size: 13px;
+    color: #000;
+    border: 1px solid #000;
+    padding: 5px;
+  }
+  & .caret-wrapper,
+  & .el-table_1_column_1,
+  & .el-table_1_column_7,
+  & .el-table__expanded-cell {
+    display: none;
+  }
+  & .el-table__header {
+    padding: 0;
+    margin: 0;
+  }
+  & colgroup col {
+    &:nth-child(1) {
+      width: 50px;
+    }
+    &:nth-child(2) {
+      width: 320px;
+    }
+    &:nth-child(3) {
+      width: 300px;
+    }
+    &:nth-child(4) {
+      width: 150px;
+    }
+    &:nth-child(5) {
+      width: 150px;
+    }
+  }
+}
