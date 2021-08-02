@@ -5,6 +5,7 @@ import locations from './locations'
 import techresources from './techresources'
 import metathemes from './metathemes'
 import shootings from './shootings'
+import log from './log'
 
 Vue.use(Vuex)
 
@@ -27,6 +28,7 @@ export default new Vuex.Store({
     locations,
     techresources,
     metathemes,
-    shootings
+    shootings,
+    log
   }
 })

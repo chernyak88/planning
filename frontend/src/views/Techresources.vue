@@ -329,7 +329,7 @@ export default {
     async exportToPdf() {
       this.loading = true
       try {
-        await this.exportToPdfMixin(this.$refs.table.$el, 'techresources')
+        await this.exportToPdfMixin(this.$refs.table.$el, 'Техресурсы')
       } catch (e) {
         console.log(e)
         this.$message.error('Ошибка экспорта')

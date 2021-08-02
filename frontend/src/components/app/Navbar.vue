@@ -1,9 +1,12 @@
 <template>
-  <el-row :gutter="20">
-    <el-col :span="24" v-if="$route.path === '/planning'">
+  <el-row>
+    <el-col v-if="$route.path === '/planning'">
       <PlanningHeader />
     </el-col>
-    <el-col :span="logoutWidth">
+    <el-col v-if="$route.path === '/log'">
+      <LogHeader />
+    </el-col>
+    <el-col>
       <el-badge :value="32" class="badge" v-if="$route.path === '/planning'">
         <i class="el-icon-message-solid"></i>
       </el-badge>
@@ -22,18 +25,17 @@
 
 <script>
 import PlanningHeader from '@/components/planning/PlanningHeader'
+import LogHeader from '@/components/log/LogHeader'
 
 export default {
   components: {
-    PlanningHeader
+    PlanningHeader,
+    LogHeader
   },
   computed: {
     name() {
       let user = JSON.parse(localStorage.getItem("user"))
       return user.email
-    },
-    logoutWidth() {
-      return this.$route.path === '/planning' ? 12 : 24
     }
   },
   methods: {
@@ -50,6 +52,12 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
+}
+.el-col:first-child {
+  flex: 1;
+}
+.el-col-24 {
+  width: auto;
 }
 .el-col:last-child {
   justify-content: flex-end;

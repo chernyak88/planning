@@ -14,9 +14,6 @@
         <el-tab-pane label="Газета IZ" name="gazetaiz"></el-tab-pane>
       </el-tabs>
     </div>
-    <!-- <draggable group="people" @start="drag=true" @end="drag=false">
-      <div v-for="element in Object.keys(grouped)" :key="element">{{element}}</div>
-    </draggable> -->
     <div class="planning-heading">
       <el-input
         size="medium"
@@ -236,7 +233,7 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable'
+import qs from 'qs'
 import PlanningShooting from '@/components/planning/PlanningShooting'
 import CreateMetatheme from '@/components/planning/CreateMetatheme'
 import EditMetatheme from '@/components/planning/EditMetatheme'
@@ -245,7 +242,6 @@ import pdfMixin from '@/mixins/pdf.mixin.js'
 export default {
   name: 'planning',
   components: {
-    draggable,
     PlanningShooting,
     CreateMetatheme,
     EditMetatheme
@@ -292,19 +288,32 @@ export default {
   methods: {
     async fetchMetathemes(group, params) {
       this.loading = true
-      this.metathemes = await this.$store.dispatch('fetchMetathemes', {group, params})
+      const query = qs.stringify({ _where: {
+        _or: [
+            [
+              { 'metatheme_section.group': group },
+              { 'date_start_gte': this.$store.state.metathemes.date },
+              { 'date_start_lte': this.moment(this.$store.state.metathemes.date).add(this.$store.state.metathemes.range, 'days').set({hour:23,minute:59,second:59,millisecond:0}).format() }
+            ]
+          ]
+        }
+      })
+      this.metathemes = await this.$store.dispatch('fetchMetathemes', {query, params})
       this.$store.commit('setGrouped', Object.keys(this.grouped))
       this.loading = false
       console.log(this.metathemes)
     },
     rerender() {
+      let params = {
+        _sort: `metatheme_section.id:asc,sortParam:asc`
+      }
       this.sortClass = ''
-      this.activeTab === 'all' ? this.fetchMetathemes() : this.fetchMetathemes(this.activeTab)
+      this.activeTab === 'all' ? this.fetchMetathemes(undefined, params) : this.fetchMetathemes(this.activeTab, params)
     },
     async exportToPdf() {
       this.loading = true
       try {
-        await this.exportToPdfMixin(this.$refs.table, 'metathemes')
+        await this.exportToPdfMixin(this.$refs.table, 'Метатемы')
       } catch (e) {
         console.log(e)
         this.$message.error('Ошибка экспорта')

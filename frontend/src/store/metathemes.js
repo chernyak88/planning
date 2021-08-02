@@ -1,29 +1,18 @@
 import router from '../router'
 import moment from 'moment'
 import axios from 'axios'
-import qs from 'qs'
 
 export default {
   state: {
-    date: moment(new Date()).set({hour:0,minute:0,second:0,millisecond:0}).format(),    
+    date: moment(new Date()).set({hour:0,minute:0,second:0,millisecond:0}).format(),
     range: 0,
     metaUpdated: false,
     grouped: null,
     filter: 'all'
   },
   actions: {
-    async fetchMetathemes({commit, dispatch}, {group, params = {_sort: `metatheme_section.id:asc,sortParam:asc`}}) {
+    async fetchMetathemes({commit, dispatch}, {query = '', params = {_sort: `metatheme_section.id:asc`}}) {
       try {
-        let query = qs.stringify({ _where: {
-          _or: [
-              [
-                { 'metatheme_section.group': group },
-                { 'date_start_gt': this.state.metathemes.date },
-                { 'date_start_lt': moment(this.state.metathemes.date).add(this.state.metathemes.range, 'days').set({hour:23,minute:59,second:59,millisecond:0}).format() }
-              ]
-            ]
-          }
-        })
         const response = await axios({
           method: 'get',
           url: `${this.state.url}/metathemes?${query}`,
