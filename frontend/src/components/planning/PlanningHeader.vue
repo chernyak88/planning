@@ -104,6 +104,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import CreateMetatheme from '@/components/planning/CreateMetatheme'
 import CreateUrgentDeparture from '@/components/planning/CreateUrgentDeparture'
 import ShowEmployees from '@/components/planning/ShowEmployees'
@@ -161,7 +162,17 @@ export default {
       this.$store.commit('setDate', this.moment(new Date(date)).format())
       this.$store.commit('metathemesUpdated')
     }
-    this.metatheme_sections = await this.$store.dispatch('fetchMetathemeSections')
+    const query = qs.stringify({ _where: {
+      _or: [
+          [
+            { 'group_ne': 'aether_5' },
+            { 'group_ne': 'aether_iz' },
+            { 'group_ne': 'aether_78' }
+          ]
+        ]
+      }
+    })
+    this.metatheme_sections = await this.$store.dispatch('fetchMetathemeSections', {query})
   },
   watch: {
   '$store.state.metathemes.grouped': function () {

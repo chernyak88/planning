@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "logs",
+  "info": {
+    "name": "log",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "themes": {
+      "type": "json"
+    },
+    "logDate": {
+      "type": "string",
+      "unique": true
+    },
+    "uid": {
+      "type": "uid",
+      "targetField": "logDate"
+    }
+  }
+}

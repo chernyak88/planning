@@ -56,6 +56,52 @@
     }
   }
 }
+
+.log-saved-table.pdf-view {
+  & .no-print {
+    display: none;
+  }
+  & th, td {
+    font-size: 13px;
+    color: #000;
+    border: 1px solid #000;
+    padding: 0;
+  }
+  & .el-table__header {
+    & tr.metatheme-section-print {
+      display: flex;
+      justify-content: center;
+      width: 1028px;
+      border: 1px solid #000;
+      background: #ccc !important;
+      & td {
+        border: none;
+      }
+    }
+    & tr th:nth-child(2) {
+      width: 500px;
+    }
+    & tr th:nth-child(3) {
+      width: 60px;
+    }
+    & tr th:nth-child(4) {
+      width: 130px;
+    }
+    & tr th:nth-child(5) {
+      width: 130px;
+    }
+    & tr th:nth-child(6) {
+      width: 130px;
+    }
+    & .el-tag {
+      display: block;
+      background-color: #fff !important;
+      border-color: #fff !important;
+      color: #000;
+    }
+  }
+}
+
 .techresources-table.pdf-view {
   width: 965px;
   border: 1px solid #000;

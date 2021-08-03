@@ -19,7 +19,7 @@
         to="/producers"
         class="el-button el-button--primary"
       >
-        Продюссеры
+        Продюсеры
       </router-link>
     </div>
     <div class="block">

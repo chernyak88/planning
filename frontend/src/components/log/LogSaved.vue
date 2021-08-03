@@ -1,24 +1,43 @@
 <template>
   <div v-loading="loading">
-    <div class="log-tabs">
-      <el-tabs v-model="activeTab" @tab-click="handleTabClick">
-        <el-tab-pane label="Все" name="all"></el-tab-pane>
-        <el-tab-pane label="Планирование" name="planning"></el-tab-pane>
-        <el-tab-pane label="Санкт-Петербург" name="spb"></el-tab-pane>
-        <el-tab-pane label="Регионы" name="regions"></el-tab-pane>
-        <el-tab-pane label="Зарубежка" name="foreign"></el-tab-pane>
-        <el-tab-pane label="Продюсеры" name="producers"></el-tab-pane>
-        <el-tab-pane label="IZ.TV" name="iztv"></el-tab-pane>
-        <el-tab-pane label="112" name="aether_112"></el-tab-pane>
-        <el-tab-pane label="РенТВ" name="rentv"></el-tab-pane>
-        <el-tab-pane label="Газета IZ" name="gazetaiz"></el-tab-pane>
-      </el-tabs>
+    <h1>Лог от {{$route.params.logDate}}</h1>
+    <div class="log-saved-heading">
+      <el-page-header @back="$router.push(`/log`)">
+      </el-page-header>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="Экспорт в PDF"
+      >
+        <el-button
+          class="pdf"
+          type="danger"
+          icon="el-icon-document"
+          size="medium"
+          @click="exportToPdf"
+        >
+        </el-button>
+      </el-tooltip>
+      <el-tooltip
+        class="item"
+        effect="dark"
+        content="Печать"
+      >
+        <el-button
+          v-print="print"
+          class="print"
+          type="primary"
+          icon="el-icon-printer"
+          size="medium"
+        >
+        </el-button>
+      </el-tooltip>
     </div>
-    <div class="el-table log-table el-table--border">
-      <table cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
+    <div ref="table" class="el-table log-saved-table el-table--border">
+      <table id="table" cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
         <thead>
           <tr class="sticky">
-            <th colspan="1" rowspan="1" width="44"><div class="cell"></div></th>
+            <th colspan="1" rowspan="1" width="44" class="no-print"><div class="cell"></div></th>
             <th colspan="1" rowspan="1"><div class="cell">Тема</div></th>
             <th colspan="1" rowspan="1" width="75"><div class="cell">Начало</div></th>
             <th colspan="1" rowspan="1" width="150"><div class="cell">Перегоны,<br>включения</div></th>
@@ -26,7 +45,7 @@
             <th colspan="1" rowspan="1" width="150"><div class="cell">Эф план</div></th>
           </tr>
         </thead>
-        <tbody v-if="metathemes.length === 0">
+        <tbody v-if="!metathemes || metathemes.length === 0">
           <tr class="el-table__row">
             <td rowspan="1" colspan="6" class="centered">
               <div class="cell">
@@ -42,7 +61,7 @@
             </tr>
             <tbody class="contents" v-for="theme in themes" :key="theme.id">
               <tr class="el-table__row el-table__row--level-1">
-                <td rowspan="1" colspan="1" class="el-table__expand-column">
+                <td rowspan="1" colspan="1" class="el-table__expand-column no-print">
                   <div class="cell">
                     <div class="el-table__expand-icon" :class="{ rotate: theme.expand_row }" @click="showExpandRow(theme)">
                       <i class="el-icon el-icon-arrow-right"></i>
@@ -82,7 +101,7 @@
                   </div>
                 </td>
               </tr>
-              <tr v-if="theme.expand_row === true">
+              <tr v-if="theme.expand_row === true" class="no-print">
                 <td rowspan="1" colspan="6">
                   <div class="cell">
                     <p class="theme-description" v-html="theme.description"></p>
@@ -100,23 +119,28 @@
 
 <script>
 import qs from 'qs'
+import pdfMixin from '@/mixins/pdf.mixin.js'
 
 export default {
-  name: 'log',
+  name: 'logsaved',
+  mixins: [pdfMixin],
   data() {
     return {
       loading: true,
-      activeTab: 'all',
-      metathemes: []
+      metathemes: [],
+      print: {
+        id: 'table',
+        popTitle: 'Известия_Лог'
+      }
     }
   },
   async mounted() {
-    this.rerender()
-  },
-  watch: {
-  '$store.state.log.logDate': function () {
-    this.rerender()
-   }
+    const query = qs.stringify({ _where: {_or: [[{ 'logDate': this.$route.params.logDate }]]}})
+    const response = await this.$store.dispatch('fetchLogs', query)
+    if (response.length) {
+      this.metathemes = response[0].themes
+    }
+    this.loading = false
   },
   computed: {
     grouped() {
@@ -127,33 +151,15 @@ export default {
     }
   },
   methods: {
-    async fetchMetathemes(group, params) {
+    async exportToPdf() {
       this.loading = true
-      const query = qs.stringify({ _where: {
-        _or: [
-            [
-              { 'metatheme_section.group': group },
-              { 'metatheme_section.group_ne': 'aether_5' },
-              { 'metatheme_section.group_ne': 'aether_iz' },
-              { 'metatheme_section.group_ne': 'aether_78' },
-              { 'status_log': true },
-              { 'date_start_lte': this.moment(this.$store.state.log.logDate).set({hour:23,minute:59,second:59,millisecond:0}).format() },
-              { 'date_end_gte': this.moment(this.$store.state.log.logDate).set({hour:0,minute:0,second:0,millisecond:0}).format() }
-            ]
-          ]
-        }
-      })
-      this.metathemes = await this.$store.dispatch('fetchMetathemes', {query, params})
-      this.loading = false
-    },
-    rerender() {
-      let params = {
-        _sort: `metatheme_section.id:asc,sortParam:asc`
+      try {
+        await this.exportToPdfMixin(this.$refs.table, 'Известия_Лог')
+      } catch (e) {
+        console.log(e)
+        this.$message.error('Ошибка экспорта')
       }
-      this.activeTab === 'all' ? this.fetchMetathemes(undefined, params) : this.fetchMetathemes(this.activeTab, params)
-    },
-    handleTabClick(tab, event) {
-      tab.name === 'all' ? this.fetchMetathemes() : this.fetchMetathemes(tab.name)
+      this.loading = false
     },
     showExpandRow(theme) {
       theme.expand_row ? this.$set(theme, 'expand_row', false) : this.$set(theme, 'expand_row', true)
@@ -163,7 +169,16 @@ export default {
 </script>
 
 <style lang="scss">
-.log-table {
+.log-saved-heading {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+  & .el-page-header {
+    flex: 1;
+    align-items: center;
+  }
+}
+.log-saved-table {
   overflow: inherit;
   & .bold {
     font-weight: bold;

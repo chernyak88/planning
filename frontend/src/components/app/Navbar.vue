@@ -1,9 +1,9 @@
 <template>
   <el-row>
-    <el-col v-if="$route.path === '/planning'">
+    <el-col v-if="$route.path === '/planning' || $route.path === '/planning/'">
       <PlanningHeader />
     </el-col>
-    <el-col v-if="$route.path === '/log'">
+    <el-col v-if="$route.path === '/log' || $route.path === '/log/'">
       <LogHeader />
     </el-col>
     <el-col>

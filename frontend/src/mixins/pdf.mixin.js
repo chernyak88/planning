@@ -3,7 +3,7 @@ import html2pdf from 'html2pdf.js'
 export default {
   methods: {
     async exportToPdfMixin(el, filename = 'output') {
-        const curDate = new Date().toLocaleString().replace(', ', '_').replace(/\./g, '-').replace(/\:/g, '-')
+        const curDate = this.moment(new Date()).format('YYYY-MM-DD_HH-mm')
 
         let pdfContent = el.cloneNode(true)
         pdfContent.classList.add('pdf-view')
@@ -12,7 +12,7 @@ export default {
 
         const opt = {
           margin: 12,
-          filename: `${filename}_${curDate}`,
+          filename: `${filename}__${curDate}`,
           image: { type: 'jpeg', quality: 1 },
           html2canvas:  { scale: 3 },
           jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }

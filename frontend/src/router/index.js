@@ -81,6 +81,13 @@ const routes = [
     beforeEnter: ifAuthenticated,
   },
   {
+    path: '/log/:logDate',
+    name: 'logsaved',
+    meta: {layout: 'main'},
+    component: () => import('../components/log/LogSaved.vue'),
+    beforeEnter: ifAuthenticated,
+  },
+  {
     path: '/employee',
     name: 'employee',
     meta: {layout: 'main'},

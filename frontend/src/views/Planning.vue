@@ -94,7 +94,7 @@
               <td rowspan="1" colspan="8"><div class="cell bold">{{ section }}</div></td>
             </tr>
             <tbody class="contents" v-for="theme in themes" :key="theme.id">
-              <tr class="el-table__row el-table__row--level-1" @dblclick="showEditForm(theme)">
+              <tr class="el-table__row el-table__row--level-1">
                 <td rowspan="1" colspan="1" class="el-table__expand-column no-print">
                   <div class="cell">
                     <div class="el-table__expand-icon" :class="{ rotate: theme.expand_row }" @click="showExpandRow(theme)">
@@ -106,7 +106,7 @@
                   <div class="cell bold">{{ moment(theme.date_start).format('HH:mm') }}</div>
                   <div class="cell">{{ moment(theme.date_start).format('DD/MM') }}</div>
                 </td>
-                <td rowspan="1" colspan="1">
+                <td rowspan="1" colspan="1" @dblclick="showEditForm(theme)">
                   <div class="cell">
                     <div class="bold theme-name">
                       <el-tooltip class="item" effect="dark" content="Поменять тему местами" placement="bottom">
@@ -292,6 +292,9 @@ export default {
         _or: [
             [
               { 'metatheme_section.group': group },
+              { 'metatheme_section.group_ne': 'aether_5' },
+              { 'metatheme_section.group_ne': 'aether_iz' },
+              { 'metatheme_section.group_ne': 'aether_78' },
               { 'date_start_gte': this.$store.state.metathemes.date },
               { 'date_start_lte': this.moment(this.$store.state.metathemes.date).add(this.$store.state.metathemes.range, 'days').set({hour:23,minute:59,second:59,millisecond:0}).format() }
             ]
@@ -301,7 +304,6 @@ export default {
       this.metathemes = await this.$store.dispatch('fetchMetathemes', {query, params})
       this.$store.commit('setGrouped', Object.keys(this.grouped))
       this.loading = false
-      console.log(this.metathemes)
     },
     rerender() {
       let params = {

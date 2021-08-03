@@ -11,7 +11,7 @@
         @change="handleChangeDate"
       >
       </el-date-picker>
-      <el-tooltip class="item" effect="dark" content="Настройки вывода" placement="bottom">
+      <el-tooltip class="item" effect="dark" content="Настройки вывода на печать" placement="bottom">
         <el-button
           class="log-header__settings-btn"
           type="warning"
@@ -21,9 +21,9 @@
         </el-button>
       </el-tooltip>
       <el-button
-        class="log-header__savelog-btn"
+        v-if="$store.state.log.logDate === moment(new Date()).set({hour:0,minute:0,second:0,millisecond:0}).format()"
         type="warning"
-        @click="saveLog"
+        @click="saveLog(moment(new Date()).format('DD-MM-YYYY'))"
       >
         Сохранить лог
       </el-button>
@@ -36,7 +36,7 @@
         :editable="false"
         :clearable="false"
         format="dd-MM-yyyy"
-        :picker-options="pickerOptions"
+        :picker-options="pickerOptionsLoadLog"
         @change="loadLog"
       >
       </el-date-picker>
@@ -59,7 +59,7 @@
 
       <el-dialog
         class="log-header__show-settings"
-        title="Настройки вывода"
+        title="Настройки вывода на печать"
         :visible.sync="logSettingsVisible"
         :destroy-on-close="true"
         :close-on-press-escape="false"
@@ -68,7 +68,7 @@
       >
         <LogSettings
           @hideLogSettings="hideLogSettings"
-          @changeLogSettings="changeLogSettings"
+          @changeLogSettings="hideLogSettings"
         />
       </el-dialog>
 
@@ -90,6 +90,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 import LogSettings from '@/components/log/LogSettings'
 import CreateUrgentDeparture from '@/components/planning/CreateUrgentDeparture'
 
@@ -101,7 +102,6 @@ export default {
   },
   data() {
     return {
-      loadLogDate: null,
       pickerOptions: {
         firstDayOfWeek: 1,
         shortcuts: [{
@@ -111,6 +111,20 @@ export default {
           }
         }]
       },
+      pickerOptionsLoadLog: {
+        firstDayOfWeek: 1,
+        disabledDate(time) {
+          return time.getTime() > Date.now()
+        },
+        shortcuts: [{
+          text: '',
+          onClick(picker) {
+            picker.$emit('pick', new Date())
+          }
+        }]
+      },
+      loadLogDate: null,
+      logMetathemes: null,
       logSettingsVisible: false,
       createUrgentDepartureVisible: false,
     }
@@ -131,10 +145,66 @@ export default {
     handleChangeDate(newDate) {
       this.$store.commit('setLogDate', newDate)
     },
-    saveLog() {
-      this.$message.success('Лог сохранен')
+    async saveLog(date) {
+      this.loading = true
+      let queryLog = qs.stringify({ _where: {
+        _or: [
+            [
+              { 'metatheme_section.group_ne': 'aether_5' },
+              { 'metatheme_section.group_ne': 'aether_iz' },
+              { 'metatheme_section.group_ne': 'aether_78' },
+              { 'status_log': true },
+              { 'date_start_lte': this.moment(this.$store.state.log.logDate).set({hour:23,minute:59,second:59,millisecond:0}).format() },
+              { 'date_end_gte': this.moment(this.$store.state.log.logDate).set({hour:0,minute:0,second:0,millisecond:0}).format() }
+            ]
+          ]
+        }
+      })
+      const params = {
+        _sort: `metatheme_section.sortLogParam:asc,sortParam:asc`
+      }
+      this.logMetathemes = await this.$store.dispatch('fetchMetathemes', {query: queryLog, params})
+
+      const query = qs.stringify({ _where: {_or: [[{ 'logDate': date }]]}})
+      const response = await this.$store.dispatch('fetchLogs', query)
+      if (!response.length) {
+        try {
+          let data = {
+            logDate: date,
+            themes: this.logMetathemes
+          }
+          await this.$store.dispatch('saveLog', data)
+          .then(() => {
+            this.loading = false
+            this.$router.push(`/log/${date}`)
+            this.$message.success('Лог сохранен')
+          })
+        } catch (e) {
+          this.$message.error('Недостаточно прав для выполнения данной операции')
+          console.log(e)
+        }
+      } else {
+        try {
+          let data = {
+            id: response[0].id,
+            logDate: date,
+            themes: this.logMetathemes
+          }
+          await this.$store.dispatch('updateLog', data)
+          .then(() => {
+            this.loading = false
+            this.$router.push(`/log/${date}`)
+            this.$message.success('Лог сохранен')
+          })
+        } catch (e) {
+          this.$message.error('Недостаточно прав для выполнения данной операции')
+          console.log(e)
+        }
+      }
     },
     loadLog() {
+      const date = this.moment(this.loadLogDate).format('DD-MM-YYYY')
+      this.$router.push(`/log/${date}`)
       this.loadLogDate = null
     },
     hideLogSettings() {
@@ -142,9 +212,6 @@ export default {
     },
     hideCreateUrgentDeparture() {
       this.createUrgentDepartureVisible = false
-    },
-    changeLogSettings() {
-      this.logSettingsVisible = false
     },
     addNewUrgentDeparture() {
       this.createUrgentDepartureVisible = false
@@ -168,15 +235,10 @@ export default {
     }
   }
   &__settings-btn {
-    border-radius: 3px 0 0 3px;
     padding: 12px 10px;
-    margin-right: 1px;
     &+.el-button {
-      margin-left: 0;
+      margin-left: 5px;
     }
-  }
-  &__savelog-btn {
-    border-radius: 0 3px 3px 0;
   }
   &__picker_loadlog.el-date-editor {
     width: 130px;

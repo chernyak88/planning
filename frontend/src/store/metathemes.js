@@ -11,7 +11,7 @@ export default {
     filter: 'all'
   },
   actions: {
-    async fetchMetathemes({commit, dispatch}, {query = '', params = {_sort: `metatheme_section.id:asc`}}) {
+    async fetchMetathemes({commit, dispatch}, {query = '', params = {_sort: `metatheme_section.id:asc`}} = {}) {
       try {
         const response = await axios({
           method: 'get',
@@ -23,9 +23,13 @@ export default {
         throw e
       }
     },
-    async fetchMetathemeSections() {
+    async fetchMetathemeSections({commit, dispatch}, {query = '', params = {_sort: `id:asc`}} = {}) {
       try {
-        const response = await axios.get(`${this.state.url}/metatheme-sections`)
+        const response = await axios({
+          method: 'get',
+          url: `${this.state.url}/metatheme-sections?${query}`,
+          params: params
+        })
         return response.data
       } catch (e) {
         throw e
@@ -103,6 +107,20 @@ export default {
             status_log: obj.status_log,
             country: obj.country,
             sortParam: obj.sortParam
+          }
+        )
+      } catch (e) {
+        throw e
+      }
+    },
+    async editMetathemeSection({commit, dispatch}, obj) {
+      try {
+        return await axios.put(
+          `${this.state.url}/metatheme-sections/${obj.id}`,
+          {
+            name: obj.name,
+            group: obj.group,
+            sortLogParam: obj.sortLogParam
           }
         )
       } catch (e) {

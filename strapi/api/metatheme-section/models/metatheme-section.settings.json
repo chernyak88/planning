@@ -16,8 +16,8 @@
       "type": "string"
     },
     "metathemes": {
-      "via": "metatheme_section",
       "autoPopulate": false,
+      "via": "metatheme_section",
       "collection": "metatheme"
     },
     "group": {
@@ -36,6 +36,9 @@
         "aether_5",
         "aether_78"
       ]
+    },
+    "sortLogParam": {
+      "type": "integer"
     }
   }
 }
