@@ -8,7 +8,7 @@ module.exports = strapi => {
         if (ctx.request.method === 'GET' && !ctx.request.url.includes('/count') && ctx.req.user) {
           strapi.services.syslog.create({
             contentType: 'request',
-            name: decodeURIComponent(ctx.request.url),
+            name: ctx.request.url.split('?')[0],
             action: 'get',
             author: ctx.req.user.email || ctx.req.user.username
           });

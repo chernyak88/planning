@@ -68,10 +68,11 @@
     padding: 0;
   }
   & .el-table__header {
+    border: 1px solid #000;
     & tr.metatheme-section-print {
       display: flex;
       justify-content: center;
-      width: 1028px;
+      width: 1027px;
       border: 1px solid #000;
       background: #ccc !important;
       & td {
@@ -80,18 +81,6 @@
     }
     & tr th:nth-child(2) {
       width: 500px;
-    }
-    & tr th:nth-child(3) {
-      width: 60px;
-    }
-    & tr th:nth-child(4) {
-      width: 130px;
-    }
-    & tr th:nth-child(5) {
-      width: 130px;
-    }
-    & tr th:nth-child(6) {
-      width: 130px;
     }
     & .el-tag {
       display: block;

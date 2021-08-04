@@ -173,7 +173,7 @@ export default {
   }
   & .sticky {
     position: sticky;
-    top: 0;
+    top: 60px;
     z-index: 2;
   }
   & .contents {

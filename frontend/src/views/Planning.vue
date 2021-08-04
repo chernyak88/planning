@@ -28,7 +28,7 @@
         >
         </el-button>
       </el-input>
-      <el-tooltip
+      <!-- <el-tooltip
         class="item"
         effect="dark"
         content="Экспорт в PDF"
@@ -55,7 +55,7 @@
           size="medium"
         >
         </el-button>
-      </el-tooltip>
+      </el-tooltip> -->
     </div>
     <div ref="table" class="el-table planning-table el-table--border">
       <table id="table" cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
@@ -451,7 +451,7 @@ export default {
   margin-bottom: 15px;
   & .search-field {
     width: 320px;
-    margin-right: 20px;
+    // margin-right: 20px;
   }
 }
 .planning-table {
@@ -464,7 +464,7 @@ export default {
   }
   & .sticky {
     position: sticky;
-    top: 0;
+    top: 60px;
     z-index: 2;
   }
   & .contents {

@@ -34,7 +34,7 @@
       </el-tooltip>
     </div>
     <div ref="table" class="el-table log-saved-table el-table--border">
-      <table id="table" cellspacing="0" cellpadding="0" border="0" class="el-table__header" style="width: 100%;">
+      <table id="table" cellspacing="0" cellpadding="0" border="0" class="el-table__header log-saved-table__print" style="width: 100%;">
         <thead>
           <tr class="sticky">
             <th colspan="1" rowspan="1" width="44" class="no-print"><div class="cell"></div></th>
@@ -188,7 +188,7 @@ export default {
   }
   & .sticky {
     position: sticky;
-    top: 0;
+    top: 60px;
     z-index: 2;
   }
   & .contents {

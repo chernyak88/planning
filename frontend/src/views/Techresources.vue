@@ -36,7 +36,7 @@
           >
           </el-button>
         </el-input>
-        <el-tooltip
+        <!-- <el-tooltip
           class="item"
           effect="dark"
           content="Экспорт в PDF"
@@ -63,7 +63,7 @@
             size="medium"
           >
           </el-button>
-        </el-tooltip>
+        </el-tooltip> -->
         <el-dropdown
           size="medium"
           split-button type="primary"
@@ -149,7 +149,6 @@
       >
       </el-table-column>
       <el-table-column
-        data-html2canvas-ignore
         v-if="columnsFilter.actionColumn"
         label="Действие"
         width="90"
