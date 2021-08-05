@@ -34,9 +34,13 @@ export default {
         throw e
       }
     },
-    async fetchEmployeesRoles() {
+    async fetchEmployeesRoles({commit, dispatch}, {query = '', params = {_sort: `name:asc`}} = {}) {
       try {
-        const response = await axios.get(`${this.state.url}/employee-roles`)
+        const response = await axios({
+          method: 'get',
+          url: `${this.state.url}/employee-roles?${query}`,
+          params: params
+        })
         return response.data
       } catch (e) {
         throw e
@@ -48,9 +52,12 @@ export default {
           `${this.state.url}/employees`,
           {
             name: obj.name,
-            type: obj.type,
-            status: obj.status,
+            surname: obj.surname,
+            patronymic: obj.patronymic,
+            phone: obj.phone,
+            phone_2: obj.phone_2,
             location: obj.location,
+            employee_role: obj.employee_role,
             comment: obj.comment
           }
         )
@@ -64,9 +71,16 @@ export default {
           `${this.state.url}/employees/${obj.id}`,
           {
             name: obj.name,
-            type: obj.type,
-            status: obj.status,
+            surname: obj.surname,
+            patronymic: obj.patronymic,
+            birthdate: obj.birthdate,
+            phone: obj.phone,
+            phone_2: obj.phone_2,
+            rank: obj.rank,
+            employee_role: obj.employee_role,
             location: obj.location,
+            passport: obj.passport,
+            foreign_passport: obj.foreign_passport,
             comment: obj.comment
           }
         )

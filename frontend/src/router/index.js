@@ -63,7 +63,7 @@ const routes = [
     path: '/employeeschedule',
     name: 'employeeschedule',
     meta: {layout: 'main'},
-    component: () => import('../views/Employeeschedule.vue'),
+    component: () => import('../views/EmployeeSchedule.vue'),
     beforeEnter: ifAuthenticated,
   },
   {
@@ -92,6 +92,13 @@ const routes = [
     name: 'employee',
     meta: {layout: 'main'},
     component: () => import('../views/Employee.vue'),
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: '/employee/:id',
+    name: 'employeecalendar',
+    meta: {layout: 'main'},
+    component: () => import('../components/employees/EmployeeCalendar.vue'),
     beforeEnter: ifAuthenticated,
   },
   {

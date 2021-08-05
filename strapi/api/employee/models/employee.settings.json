@@ -38,6 +38,15 @@
     },
     "employee_role": {
       "model": "employee-role"
+    },
+    "phone_2": {
+      "type": "string"
+    },
+    "birthdate": {
+      "type": "string"
+    },
+    "rank": {
+      "type": "string"
     }
   }
 }

@@ -1,98 +1,114 @@
 <template>
-  <div>
+  <div class="employee-create">
     <el-form
       :model="form"
       :rules="rules"
-      ref="createEmplyeeForm"
+      ref="createEmployeeForm"
+      :inline="true"
+      label-position="top"
     >
-      <el-form-item
-        label="Имя"
-        prop="name"
-        :label-width="formLabelWidth"
-      >
-        <el-input
-          v-model="form.name"
+      <div class="form-row">
+        <el-form-item
+          label="Фамилия"
+          prop="surname"
         >
-        </el-input>
-      </el-form-item>
-      <el-form-item
-        label="Фамилия"
-        prop="surname"
-        :label-width="formLabelWidth"
-      >
-        <el-input
-          v-model="form.surname"
+          <el-input
+            v-model="form.surname"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item
+          label="Имя"
+          prop="name"
         >
-        </el-input>
-      </el-form-item>
-      <el-form-item
-        label="Отчество"
-        prop="patronymic"
-        :label-width="formLabelWidth"
-      >
-        <el-input
-          v-model="form.patronymic"
+          <el-input
+            v-model="form.name"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item
+          label="Отчество"
+          prop="patronymic"
         >
-        </el-input>
-      </el-form-item>
-      <el-form-item
-        label="Телефон"
-        prop="phone"
-        :label-width="formLabelWidth"
-      >
-        <el-input
-          v-model="form.phone"
-          suffix-icon="el-icon-phone"
-          placeholder="8 (999)-999-99-99"
-          v-mask="'# (###)-###-##-##'"
+          <el-input
+            v-model="form.patronymic"
+          >
+          </el-input>
+        </el-form-item>
+      </div>
+      <div class="form-row">
+        <el-form-item
+          label="Телефон"
+          prop="phone"
         >
-        </el-input>
-      </el-form-item>
-      <el-form-item
-        label="Роль"
-        prop="employee_role"
-        :label-width="formLabelWidth"
-      >
-        <el-select
-          v-model="form.employee_role"
-          placeholder="Выберите роль"
+          <el-input
+            v-model="form.phone"
+            suffix-icon="el-icon-phone"
+            placeholder="+7 999 999-99-99"
+            v-mask="'+7 ### ###-##-##'"
+            @focus="phoneFocus"
+          >
+          </el-input>
+          <el-checkbox
+            v-model="phone_2"
+          >
+            Дополнительный телефон
+          </el-checkbox>
+          <el-input
+            v-if="phone_2"
+            v-model="form.phone_2"
+            suffix-icon="el-icon-phone"
+            placeholder="+7 999 999-99-99"
+            v-mask="'+7 ### ###-##-##'"
+            @focus="phoneFocus"
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item
+          label="Роль"
+          prop="employee_role"
         >
-          <el-option
-            v-for="role in roles"
-            :key="role.id"
-            :label="role.name"
-            :value="role.id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item
-        label="Локация"
-        prop="location"
-        :label-width="formLabelWidth"
-      >
-        <el-select
-          v-model="form.location"
-          placeholder="Выберите локацию"
+          <el-select
+            v-model="form.employee_role"
+            placeholder="Выберите роль"
+          >
+            <el-option
+              v-for="role in roles"
+              :key="role.id"
+              :label="role.name"
+              :value="role.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="Локация"
+          prop="location"
         >
-          <el-option
-            v-for="location in locations"
-            :key="location.id"
-            :label="location.name"
-            :value="location.id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item
-        label="Общий комментарий"
-        prop="comment"
-        :label-width="formLabelWidth"
-      >
-        <vue-editor
-          v-model="form.comment"
-          :editorToolbar="textEditorToolbar"
+          <el-select
+            v-model="form.location"
+            placeholder="Выберите локацию"
+          >
+            <el-option
+              v-for="location in locations"
+              :key="location.id"
+              :label="location.name"
+              :value="location.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </div>
+      <div class="form-row">
+        <el-form-item
+          label="Общий комментарий"
+          prop="comment"
         >
-        </vue-editor>
-      </el-form-item>
+          <vue-editor
+            v-model="form.comment"
+            :editorToolbar="textEditorToolbar"
+          >
+          </vue-editor>
+        </el-form-item>
+      </div>
     </el-form>
     <span
       slot="footer"
@@ -103,18 +119,18 @@
       >
         Отмена
       </el-button>
-      <!-- <el-button
+      <el-button
         type="primary"
-        @click="handleSubmit('createEmplyeeForm')"
+        @click="handleSubmit('createEmployeeForm')"
       >
         Добавить
-      </el-button> -->
+      </el-button>
     </span>
   </div>
 </template>
 
 <script>
-import {mask} from 'vue-the-mask'
+import { mask } from 'vue-the-mask'
 import { VueEditor } from 'vue2-editor'
 import textEditorMixin from '@/mixins/texteditor.mixin.js'
 
@@ -130,16 +146,17 @@ export default {
   data: () => ({
     roles: [],
     locations: [],
+    phone_2: false,
     form: {
       name: null,
       surname: null,
       patronymic: null,
       phone: null,
+      phone_2: null,
       employee_role: null,
       location: null,
       comment: null
     },
-    formLabelWidth: '150px',
     rules: {
       name: [
         {
@@ -152,13 +169,6 @@ export default {
         {
           required: true,
           message: "Введите фамилию",
-          trigger: "blur",
-        }
-      ],
-      type: [
-        {
-          required: true,
-          message: "Введите тип ресурса",
           trigger: "blur",
         }
       ],
@@ -182,7 +192,21 @@ export default {
     this.roles = await this.$store.dispatch('fetchEmployeesRoles')
     this.locations = await this.$store.dispatch('fetchLocations')
   },
+  watch: {
+    phone_2: {
+      handler: function () {
+        if (!this.phone_2) {
+          this.form.phone_2 = null
+        }
+      }
+    },
+  },
   methods: {
+    phoneFocus(e) {
+      if (!e.srcElement.value) {
+        e.srcElement.value = '+7 '
+      }
+    },
     handleSubmit(form) {
      this.$refs[form].validate( async (valid) => {
         if (!valid) {
@@ -191,9 +215,12 @@ export default {
           try {
             let formData = {
               name: this.form.name,
-              type: this.form.type,
-              status: this.form.status,
+              surname: this.form.surname,
+              patronymic: this.form.patronymic,
+              phone: this.form.phone,
+              phone_2: this.form.phone_2,
               location: this.form.location,
+              employee_role: this.form.employee_role,
               comment: this.form.comment
             }
             await this.$store.dispatch('createEmployee', formData)
@@ -212,3 +239,26 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.employee-create {
+  & .el-form--label-top .el-form-item__label {
+    padding: 0;
+  }
+  & .form-row {
+    display: flex;
+    & .el-form-item {
+      width: 33%;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+    &:last-child .el-form-item {
+      width: 100%;
+    }
+  }
+  .el-checkbox__label {
+    padding-left: 5px;
+    font-size: 12px;
+  }
+}
+</style>

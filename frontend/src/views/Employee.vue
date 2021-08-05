@@ -63,10 +63,12 @@
       </div>
     </div>
     <el-table
+      ref="table"
       :data="employees"
       border
       stripe
       @sort-change="sortByColumn"
+      @filter-change="filterByColumn"
     >
       <template
         slot="empty"
@@ -106,6 +108,8 @@
         label="Локация"
         prop="location.name"
         sortable="custom"
+        :filters="[{ text: 'Москва', value: 'Москва' }, { text: 'Санкт-Петербург', value: 'Санкт-Петербург' }, { text: 'Регионы', value: 'Регионы' }, { text: 'Мир', value: 'Мир' }]"
+        :filter-multiple="false"
       >
       </el-table-column>
       <el-table-column
@@ -113,14 +117,19 @@
         label="Роль"
         prop="employee_role.name"
         sortable="custom"
+        :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
+        :filter-multiple="false"
       >
       </el-table-column>
       <el-table-column
         v-if="columnsFilter.phoneColumn"
         label="Телефон"
         prop="phone"
+        :formatter="formatPhoneColumn"
         sortable="custom"
-        width="145"
+        width="140"
+        :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
+        :filter-multiple="false"
       >
       </el-table-column>
       <el-table-column
@@ -149,22 +158,17 @@
           <el-tooltip
             class="item"
             effect="dark"
-            content="Удалить"
+            content="Календарь сотрудника"
             placement="bottom"
           >
-            <el-popconfirm
-              title="Вы уверены?"
-              @confirm="deleteEmployee(scope.row.id)"
+            <el-button
+              type="success"
+              icon="el-icon-date"
+              size="mini"
+              circle
+              @click="$router.push(`/employee/${scope.row.id}`)"
             >
-              <el-button
-                slot="reference"
-                type="danger"
-                icon="el-icon-delete"
-                size="mini"
-                circle
-              >
-              </el-button>
-            </el-popconfirm>
+            </el-button>
           </el-tooltip>
         </template>
       </el-table-column>
@@ -185,21 +189,27 @@
     <el-dialog
       title="Добавление сотрудника"
       :visible.sync="createFormVisible"
+      :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <CreateEmployee
         @hideCreateForm="hideCreateForm"
-        @created="addNewEmployee"
+        @created="updateEmployee"
       />
     </el-dialog>
 
     <el-dialog
       title="Редактирование информации"
       :visible.sync="editFormVisible"
+      :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <EditEmployee
         :currentEmployee="currentEmployee"
         @hideEditForm="hideEditForm"
-        @edited="editEmployee"
+        @edited="updateEmployee"
       />
     </el-dialog>
   </div>
@@ -226,9 +236,12 @@ export default {
       searchField: null,
       queries: {
         start: 0,
-        limit: 50,
+        limit: 20,
         sort: 'id:asc',
-        filter: null
+        filter: null,
+        locationFilter: null,
+        roleFilter: null,
+        phoneFilter: null
       },
       pagination: {
         page: +this.$route.query.page || 1,
@@ -263,6 +276,11 @@ export default {
       const patronymic = row.patronymic ? row.patronymic : ''
       return `${surname} ${name} ${patronymic}`
     },
+    formatPhoneColumn(row) {
+      const phone = row.phone ? row.phone : ''
+      const phone_2 = row.phone_2 ? row.phone_2 : ''
+      return `${phone} ${phone_2}`
+    },
     hideCreateForm() {
       this.createFormVisible = false
     },
@@ -290,6 +308,20 @@ export default {
       const total = await this.$http.get(`${this.$store.state.url}/employees/count`)
       this.pagination.total = total.data
     },
+    filterByColumn() {
+      const columns = this.$refs.table.columns
+      for (let i = 0; i < columns.length; i++) {
+        if (columns[i].property === 'location.name') {
+          this.queries.locationFilter = columns[i].filteredValue[0]
+        }
+        if (columns[i].property === 'employee_role.name') {
+          this.queries.roleFilter = columns[i].filteredValue[0]
+        }
+        if (columns[i].property === 'phone') {
+          this.queries.phoneFilter = columns[i].filteredValue[0]
+        }
+      }
+    },
     sortByColumn(column) {
       if (column.order === 'ascending') {
         this.queries.sort = `${column.prop}:asc`
@@ -313,7 +345,7 @@ export default {
               { 'location.name_contains': this.queries.filter },
               { 'employee_role.name_contains': this.queries.filter },
               { 'phone_contains': this.queries.filter }
-            ]
+            ],
           }
         })
         const total = await this.$http.get(`${this.$store.state.url}/employees/count?${query}`)
@@ -331,29 +363,14 @@ export default {
       this.employees = employees.data
       this.loading = false
     },
-    addNewEmployee() {
-      this.createFormVisible = false
-      this.loading = true
-      this.fetchEmployees()
-      this.loading = false
-    },
-    async deleteEmployee(id) {
-      try {
-        await this.$store.dispatch('deleteEmployee', id)
-        this.fetchEmployee()
-        this.$message.success('Сотрудник удален')
-      } catch (e) {
-        this.$message.error('Недостаточно прав для выполнения данной операции')
-        console.log(e)
-      }
-    },
     async fetchEmployeeById(id) {
       this.loading = true
       this.currentEmployee = await this.$store.dispatch('fetchEmployeeById', id)
       this.loading = false
       this.editFormVisible = true
     },
-    editEmployee() {
+    updateEmployee() {
+      this.createFormVisible = false
       this.editFormVisible = false
       this.loading = true
       this.fetchEmployees()
@@ -385,15 +402,9 @@ export default {
   & .add {
     margin-left: 10px;
   }
-  & .print {
-    margin-right: 20px;
-  }
   & .search-field {
     width: 320px;
     margin-right: 20px;
-  }
-  & .edit {
-    margin-right: 10px;
   }
   & .el-pagination {
     margin-top: 30px;
