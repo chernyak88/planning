@@ -188,7 +188,7 @@ export default {
   }
   & .sticky {
     position: sticky;
-    top: 60px;
+    top: 0;
     z-index: 2;
   }
   & .contents {
