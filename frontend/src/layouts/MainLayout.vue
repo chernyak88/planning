@@ -50,6 +50,10 @@ export default {
 }
 .header {
     border-bottom: solid 1px #e6e6e6;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 3;
 }
 .el-aside {
     overflow: hidden;

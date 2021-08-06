@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'producers',
+  name: 'urgentdepartures',
   data() {
     return {
       loading: false
@@ -15,6 +15,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 </style>

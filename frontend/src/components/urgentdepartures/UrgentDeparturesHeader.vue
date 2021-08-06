@@ -1,6 +1,6 @@
 <template>
-    <div class="planning-header">
-      <el-dropdown trigger="click" @command="range" class="planning-header__dropdown">
+    <div class="urgent-departures-header">
+      <el-dropdown trigger="click" @command="range" class="urgent-departures-header__dropdown">
         <el-button type="primary">
           <i class="el-icon-date"></i>
           <i class="el-icon-arrow-down el-icon--right"></i>
@@ -12,7 +12,7 @@
         </el-dropdown-menu>
       </el-dropdown>
       <el-date-picker
-        class="planning-header__picker"
+        class="urgent-departures-header__picker"
         v-model="$store.state.metathemes.date"
         type="date"
         :editable="false"
@@ -23,7 +23,7 @@
       >
       </el-date-picker>
       <el-select
-        class="planning-header__filter"
+        class="urgent-departures-header__filter"
         v-if="grouped.length > 1"
         v-model="$store.state.metathemes.filter"
         @change="handleChangeFilter"
@@ -40,7 +40,7 @@
         </el-option>
       </el-select>
       <el-select
-        class="planning-header__addtheme"
+        class="urgent-departures-header__addtheme"
         value=""
         placeholder="Добавить тему"
         @change="handleChangeMetatheme($event)"
@@ -53,12 +53,9 @@
         </el-option>
       </el-select>
       <el-button type="danger" @click="createUrgentDepartureVisible = true">Срочный выезд!</el-button>
-      <el-tooltip class="item" effect="dark" content="Статус сотрудников" placement="bottom">
-        <el-button type="primary" icon="el-icon-user-solid" @click="showEmployeesVisible = true"></el-button>
-      </el-tooltip>
 
     <el-dialog
-      class="planning-header__create-metatheme"
+      class="urgent-departures-header__create-metatheme"
       :title="createFormTitle"
       :visible.sync="createFormVisible"
       :destroy-on-close="true"
@@ -74,7 +71,7 @@
     </el-dialog>
 
     <el-dialog
-      class="planning-header__create-departure"
+      class="urgent-departures-header__create-departure"
       title='Создание Съемки в теме "Срочные выезды"'
       :visible.sync="createUrgentDepartureVisible"
       :destroy-on-close="true"
@@ -87,19 +84,6 @@
         @created="addNewUrgentDeparture"
       />
     </el-dialog>
-
-    <el-dialog
-      class="planning-header__show-employees"
-      :visible.sync="showEmployeesVisible"
-      :destroy-on-close="true"
-      :close-on-press-escape="false"
-      :close-on-click-modal="false"
-      :show-close="false"
-    >
-      <ShowEmployees
-        @hideEmployees="hideEmployees"
-      />
-    </el-dialog>
   </div>
 </template>
 
@@ -107,21 +91,18 @@
 import qs from 'qs'
 import CreateMetatheme from '@/components/planning/CreateMetatheme'
 import CreateUrgentDeparture from '@/components/planning/CreateUrgentDeparture'
-import ShowEmployees from '@/components/planning/ShowEmployees'
 
 export default {
-  name: 'planningheader',
+  name: 'urgentdeparturesheader',
   components: {
     CreateMetatheme,
-    CreateUrgentDeparture,
-    ShowEmployees
+    CreateUrgentDeparture
   },
   data() {
     return {
       createFormVisible: false,
       createFormTitle: null,
       createUrgentDepartureVisible: false,
-      showEmployeesVisible: false,
       metatheme_sections: [],
       curSection: null,
       grouped: [],
@@ -204,9 +185,6 @@ export default {
     hideCreateUrgentDeparture() {
       this.createUrgentDepartureVisible = false
     },
-    hideEmployees() {
-      this.showEmployeesVisible = false
-    },
     addNewMetateheme() {
       this.curSection = null
       this.createFormVisible = false
@@ -232,7 +210,7 @@ export default {
 </script>
 
 <style lang="scss">
-.planning-header {
+.urgent-departures-header {
   &__dropdown.el-dropdown .el-button {
     padding: 12px 5px;
     margin-right: 2px;
@@ -274,9 +252,5 @@ export default {
   &__create-departure .el-dialog {
     width: 950px;
   }
-  &__show-employees .el-dialog__header {
-    display: none;
-  }
 }
-
 </style>

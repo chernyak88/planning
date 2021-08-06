@@ -7,6 +7,17 @@ html, body, .app {
 body {
   -webkit-print-color-adjust: exact !important;
 }
+.sticky {
+  position: sticky;
+  top: 60px;
+  z-index: 2;
+}
+.v-modal {
+  display: none;
+}
+.el-dialog__wrapper {
+  background: rgba(0, 0, 0, 0.5);
+}
 .app {
   height: 100px;
   overflow: auto;

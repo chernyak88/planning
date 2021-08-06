@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading">
+  <div v-loading="loading" class="techresources">
     <div class="heading">
       <div class="heading__left">
         <h1>Технические ресурсы</h1>
@@ -93,7 +93,6 @@
     <el-table
       id="table"
       ref="table"
-      class="techresources-table"
       :data="techresources"
       border
       stripe
@@ -210,6 +209,9 @@
     <el-dialog
       title="Добавление ресурса"
       :visible.sync="createFormVisible"
+      :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <CreateTechresource
         @hideCreateForm="hideCreateForm"
@@ -220,6 +222,9 @@
     <el-dialog
       title="Редактирование ресурса"
       :visible.sync="editFormVisible"
+      :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <EditTechresource
         :currentTechresource="currentTechresource"
@@ -397,34 +402,44 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  &__left {
+<style lang="scss">
+.techresources {
+  & .heading {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+
+    &__left {
+      display: flex;
+      align-items: center;
+    }
   }
-}
-.add {
-  margin-left: 10px;
-}
-.pdf {
-  margin-right: 10px;
-}
-.print {
-  margin-right: 20px;
-}
-.search-field {
-  width: 320px;
-  margin-right: 20px;
-}
-.edit {
-  margin-right: 10px;
-}
-.el-pagination {
-  margin-top: 30px;
+  & .el-table {
+    overflow: inherit;
+    &__header-wrapper {
+      position: sticky;
+      top: 60px;
+      z-index: 2;
+    }
+  }
+  & .add {
+    margin-left: 10px;
+  }
+  & .pdf {
+    margin-right: 10px;
+  }
+  & .print {
+    margin-right: 20px;
+  }
+  & .search-field {
+    width: 320px;
+    margin-right: 20px;
+  }
+  & .edit {
+    margin-right: 10px;
+  }
+  & .el-pagination {
+    margin-top: 30px;
+  }
 }
 </style>

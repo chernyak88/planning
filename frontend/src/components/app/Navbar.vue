@@ -3,6 +3,9 @@
     <el-col v-if="$route.path === '/planning' || $route.path === '/planning/'">
       <PlanningHeader />
     </el-col>
+    <el-col v-if="$route.path === '/urgentdepartures' || $route.path === '/urgentdepartures/'">
+      <UrgentDeparturesHeader />
+    </el-col>
     <el-col v-if="$route.path === '/log' || $route.path === '/log/'">
       <LogHeader />
     </el-col>
@@ -25,11 +28,13 @@
 
 <script>
 import PlanningHeader from '@/components/planning/PlanningHeader'
+import UrgentDeparturesHeader from '@/components/urgentdepartures/UrgentDeparturesHeader'
 import LogHeader from '@/components/log/LogHeader'
 
 export default {
   components: {
     PlanningHeader,
+    UrgentDeparturesHeader,
     LogHeader
   },
   computed: {

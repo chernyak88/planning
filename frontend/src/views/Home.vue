@@ -16,10 +16,10 @@
         Координация
       </router-link>
       <router-link
-        to="/producers"
+        to="/urgentdepartures"
         class="el-button el-button--primary"
       >
-        Продюсеры
+        Срочные выезды
       </router-link>
     </div>
     <div class="block">

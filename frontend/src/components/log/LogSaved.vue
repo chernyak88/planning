@@ -186,11 +186,6 @@ export default {
   & .centered {
     text-align: center;
   }
-  & .sticky {
-    position: sticky;
-    top: 0;
-    z-index: 2;
-  }
   & .contents {
     display: contents;
   }

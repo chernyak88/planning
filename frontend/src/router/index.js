@@ -53,10 +53,10 @@ const routes = [
     beforeEnter: ifAuthenticated,
   },
   {
-    path: '/producers',
-    name: 'producers',
+    path: '/urgentdepartures',
+    name: 'urgentdepartures',
     meta: {layout: 'main'},
-    component: () => import('../views/Producers.vue'),
+    component: () => import('../views/UrgentDepartures.vue'),
     beforeEnter: ifAuthenticated,
   },
   {

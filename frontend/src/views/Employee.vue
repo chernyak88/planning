@@ -108,7 +108,7 @@
         label="Локация"
         prop="location.name"
         sortable="custom"
-        :filters="[{ text: 'Москва', value: 'Москва' }, { text: 'Санкт-Петербург', value: 'Санкт-Петербург' }, { text: 'Регионы', value: 'Регионы' }, { text: 'Мир', value: 'Мир' }]"
+        :filters="locationFilterValues"
         :filter-multiple="false"
       >
       </el-table-column>
@@ -117,7 +117,7 @@
         label="Роль"
         prop="employee_role.name"
         sortable="custom"
-        :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
+        :filters="roleFilterValues"
         :filter-multiple="false"
       >
       </el-table-column>
@@ -128,8 +128,6 @@
         :formatter="formatPhoneColumn"
         sortable="custom"
         width="140"
-        :filters="[{ text: 'Home', value: 'Home' }, { text: 'Office', value: 'Office' }]"
-        :filter-multiple="false"
       >
       </el-table-column>
       <el-table-column
@@ -240,9 +238,10 @@ export default {
         sort: 'id:asc',
         filter: null,
         locationFilter: null,
-        roleFilter: null,
-        phoneFilter: null
+        roleFilter: null
       },
+      locationFilterValues: [],
+      roleFilterValues: [],
       pagination: {
         page: +this.$route.query.page || 1,
         total: 0
@@ -257,8 +256,11 @@ export default {
     }
   },
   async mounted() {
+    this.loading = true
     const total = await this.$http.get(`${this.$store.state.url}/employees/count`)
     this.pagination.total = total.data
+    await this.getFilterValues()
+    this.loading = false
   },
   watch: {
     queries: {
@@ -300,6 +302,9 @@ export default {
         this.$router.push(`${this.$route.path}?page=1`)
         this.pagination.page = 1
       }
+      this.queries.locationFilter = null
+      this.queries.roleFilter = null
+      this.$refs.table.clearFilter()
       this.queries.filter = this.searchField
     },
     async clearFilter() {
@@ -307,6 +312,34 @@ export default {
       this.queries.filter = null
       const total = await this.$http.get(`${this.$store.state.url}/employees/count`)
       this.pagination.total = total.data
+    },
+    async getFilterValues() {
+      await this.$http({
+        method: 'get',
+        url: `${this.$store.state.url}/employees`, 
+        params: {
+          _limit: -1
+        }
+      }).then((res) => {
+        const locationFilterValues = []
+        const roleFilterValues = []
+        res.data.forEach(function(item) {
+          locationFilterValues.push(item.location.name)
+          roleFilterValues.push(item.employee_role.name)
+        })
+        const uniqueLocationFilterValues = Array.from(new Set(locationFilterValues)).sort()
+        const uniqueRoleFilterValues = Array.from(new Set(roleFilterValues)).sort()
+        locationFilterValues.length = 0
+        roleFilterValues.length = 0
+        uniqueLocationFilterValues.forEach(function(item) {
+          locationFilterValues.push({text: item, value: item})
+        })
+        uniqueRoleFilterValues.forEach(function(item) {
+          roleFilterValues.push({text: item, value: item})
+        })
+        this.locationFilterValues = locationFilterValues
+        this.roleFilterValues = roleFilterValues
+      })
     },
     filterByColumn() {
       const columns = this.$refs.table.columns
@@ -317,10 +350,13 @@ export default {
         if (columns[i].property === 'employee_role.name') {
           this.queries.roleFilter = columns[i].filteredValue[0]
         }
-        if (columns[i].property === 'phone') {
-          this.queries.phoneFilter = columns[i].filteredValue[0]
-        }
       }
+      if (!this.queries.locationFilter && !this.queries.roleFilter) {
+        this.$refs.table.clearFilter()
+        this.clearFilter()
+      }
+      this.searchField = null
+      this.queries.filter = null
     },
     sortByColumn(column) {
       if (column.order === 'ascending') {
@@ -344,9 +380,20 @@ export default {
               { 'patronymic_contains': this.queries.filter },
               { 'location.name_contains': this.queries.filter },
               { 'employee_role.name_contains': this.queries.filter },
-              { 'phone_contains': this.queries.filter }
+              { 'phone_contains': this.queries.filter },
+              { 'phone_2_contains': this.queries.filter }
             ],
           }
+        })
+        const total = await this.$http.get(`${this.$store.state.url}/employees/count?${query}`)
+        this.pagination.total = total.data
+      }
+      if (this.queries.locationFilter || this.queries.roleFilter) {
+        query = qs.stringify({
+          _where: [
+            { 'location.name_contains': this.queries.locationFilter },
+            { 'employee_role.name_contains': this.queries.roleFilter }
+          ]
         })
         const total = await this.$http.get(`${this.$store.state.url}/employees/count?${query}`)
         this.pagination.total = total.data
@@ -393,6 +440,19 @@ export default {
     }
   }
   & .el-table {
+    overflow: inherit;
+    &__header-wrapper {
+      position: sticky;
+      top: 60px;
+      z-index: 2;
+    }
+    &__column-filter-trigger {
+      margin-left: 15px;
+      & i {
+        font-size: 20px;
+        vertical-align: middle;
+      }
+    }
     & .comment {
       background-color: #ecf5ff;
       padding: 10px;

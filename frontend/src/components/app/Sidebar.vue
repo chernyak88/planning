@@ -36,8 +36,8 @@
       <el-menu-item index="/coordination" :route="{ name: 'coordination'}">
         <span slot="title">Координация</span>
       </el-menu-item>
-      <el-menu-item index="/producers" :route="{ name: 'producers'}">
-        <span slot="title">Продюсеры</span>
+      <el-menu-item index="/urgentdepartures" :route="{ name: 'urgentdepartures'}">
+        <span slot="title">Срочные выезды</span>
       </el-menu-item>
     </el-submenu>
     <el-submenu index="/processes">
@@ -96,6 +96,8 @@ export default {
 <style lang="scss" scoped>
 .sidebar {
   height: 100%;
+  position: fixed;
+  max-width: 249px;
 }
 .el-menu-item i, .el-submenu__title i {
   margin-right: 22px !important;

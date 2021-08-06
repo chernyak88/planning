@@ -50,12 +50,6 @@
           {{ btn.text }}
         </el-button>
       </el-button-group>
-      <el-button
-        type="danger"
-        @click="createUrgentDepartureVisible = true"
-      >
-        Срочный выезд!
-      </el-button>
 
       <el-dialog
         class="log-header__show-settings"
@@ -71,34 +65,17 @@
           @changeLogSettings="hideLogSettings"
         />
       </el-dialog>
-
-      <el-dialog
-        class="log-header__create-departure"
-        title='Создание Съемки в теме "Срочные выезды"'
-        :visible.sync="createUrgentDepartureVisible"
-        :destroy-on-close="true"
-        :close-on-press-escape="false"
-        :close-on-click-modal="false"
-        @close="hideCreateUrgentDeparture"
-      >
-      <CreateUrgentDeparture
-        @hideCreateUrgentDeparture="hideCreateUrgentDeparture"
-        @created="addNewUrgentDeparture"
-      />
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import qs from 'qs'
 import LogSettings from '@/components/log/LogSettings'
-import CreateUrgentDeparture from '@/components/planning/CreateUrgentDeparture'
 
 export default {
   name: 'logheader',
   components: {
-    LogSettings,
-    CreateUrgentDeparture
+    LogSettings
   },
   data() {
     return {
@@ -126,7 +103,6 @@ export default {
       loadLogDate: null,
       logMetathemes: null,
       logSettingsVisible: false,
-      createUrgentDepartureVisible: false,
     }
   },
   computed: {
@@ -209,12 +185,6 @@ export default {
     },
     hideLogSettings() {
       this.logSettingsVisible = false
-    },
-    hideCreateUrgentDeparture() {
-      this.createUrgentDepartureVisible = false
-    },
-    addNewUrgentDeparture() {
-      this.createUrgentDepartureVisible = false
     }
   },
   beforeDestroy() {
@@ -272,9 +242,6 @@ export default {
   }
   &__show-settings .el-dialog {
     width: 500px;
-  }
-  &__create-departure .el-dialog {
-    width: 950px;
   }
 }
 </style>

@@ -7,6 +7,7 @@ import metathemes from './metathemes'
 import shootings from './shootings'
 import log from './log'
 import employees from './employees'
+import urgentdepartures from './urgentdepartures'
 
 Vue.use(Vuex)
 
@@ -31,6 +32,7 @@ export default new Vuex.Store({
     metathemes,
     shootings,
     log,
-    employees
+    employees,
+    urgentdepartures
   }
 })
