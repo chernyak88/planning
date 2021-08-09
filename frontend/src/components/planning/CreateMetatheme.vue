@@ -456,7 +456,8 @@ export default {
                     metatheme_aether_plans: formData.metatheme_aether_plans,
                     comment_aether_plans: formData.comment_aether_plans,
                     metatheme_inclusions: formData.metatheme_inclusions,
-                    comment_inclusions: formData.comment_inclusions
+                    comment_inclusions: formData.comment_inclusions,
+                    auto_create: true
                   }
                   await this.$store.dispatch('createShooting', shootingData)
                 }

@@ -6,14 +6,14 @@
           <i class="el-icon-arrow-down el-icon--right"></i>
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item command="day" :class="{ 'is-disabled': $store.state.metathemes.range === 0 }">Сутки</el-dropdown-item>
-          <el-dropdown-item command="week" :class="{ 'is-disabled': $store.state.metathemes.range === 7 }">Неделя</el-dropdown-item>
-          <el-dropdown-item command="month" :class="{ 'is-disabled': $store.state.metathemes.range > 7 }">Месяц</el-dropdown-item>
+          <el-dropdown-item command="day" :class="{ 'is-disabled': $store.state.urgentdepartures.rangeUrgentDepartures === 0 }">Сутки</el-dropdown-item>
+          <el-dropdown-item command="week" :class="{ 'is-disabled': $store.state.urgentdepartures.rangeUrgentDepartures === 7 }">Неделя</el-dropdown-item>
+          <el-dropdown-item command="month" :class="{ 'is-disabled': $store.state.urgentdepartures.rangeUrgentDepartures > 7 }">Месяц</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
       <el-date-picker
         class="urgent-departures-header__picker"
-        v-model="$store.state.metathemes.date"
+        v-model="$store.state.urgentdepartures.dateUrgentDepartures"
         type="date"
         :editable="false"
         :clearable="false"
@@ -22,23 +22,6 @@
         @change="handleChangeDate"
       >
       </el-date-picker>
-      <el-select
-        class="urgent-departures-header__filter"
-        v-if="grouped.length > 1"
-        v-model="$store.state.metathemes.filter"
-        @change="handleChangeFilter"
-      >
-        <el-option
-          label="Все"
-          value="all">
-        </el-option>
-        <el-option
-          v-for="item in grouped"
-          :key="item"
-          :label="item"
-          :value="item">
-        </el-option>
-      </el-select>
       <el-select
         class="urgent-departures-header__addtheme"
         value=""
@@ -66,7 +49,7 @@
       <CreateMetatheme
         :curSection="curSection"
         @hideCreateForm="hideCreateForm"
-        @created="addNewMetateheme"
+        @created="hideCreateForm"
       />
     </el-dialog>
 
@@ -88,9 +71,8 @@
 </template>
 
 <script>
-import qs from 'qs'
 import CreateMetatheme from '@/components/planning/CreateMetatheme'
-import CreateUrgentDeparture from '@/components/planning/CreateUrgentDeparture'
+import CreateUrgentDeparture from '@/components/urgentdepartures/CreateUrgentDeparture'
 
 export default {
   name: 'urgentdeparturesheader',
@@ -105,7 +87,6 @@ export default {
       createUrgentDepartureVisible: false,
       metatheme_sections: [],
       curSection: null,
-      grouped: [],
       pickerOptions: {
         firstDayOfWeek: 1,
         shortcuts: [{
@@ -124,50 +105,31 @@ export default {
       const diff = date_finish.diff(date, 'days')
       switch (true) {
         case diff >= 0 && diff <= 1:
-          this.$store.commit('setDate', this.moment(new Date(date)).format())
+          this.$store.commit('setDateUrgentDepartures', this.moment(new Date(date)).format())
           break
         case diff > 1 && diff <= 7:
-          this.$store.commit('setDate', this.moment(new Date(date)).format())
-          this.$store.commit('setRange', 'week')
+          this.$store.commit('setDateUrgentDepartures', this.moment(new Date(date)).format())
+          this.$store.commit('setRangeUrgentDepartures', 'week')
           break
         case diff > 7:
-          this.$store.commit('setDate', this.moment(new Date(date)).format())
-          this.$store.commit('setRange', 'month')
+          this.$store.commit('setDateUrgentDepartures', this.moment(new Date(date)).format())
+          this.$store.commit('setRangeUrgentDepartures', 'month')
           break
         default:
-          this.$store.commit('setDate', this.moment(new Date()).format())
+          this.$store.commit('setDateUrgentDepartures', this.moment(new Date()).format())
       }
-      this.$store.commit('metathemesUpdated')
+      this.$store.commit('urgentDeparturesUpdated')
     } else if (this.$route.query.date) {
       const date = this.moment(this.$route.query.date, "DD-MM-YYYY")
-      this.$store.commit('setDate', this.moment(new Date(date)).format())
-      this.$store.commit('metathemesUpdated')
+      this.$store.commit('setDateUrgentDepartures', this.moment(new Date(date)).format())
+      this.$store.commit('urgentDeparturesUpdated')
     }
-    const query = qs.stringify({ _where: {
-      _or: [
-          [
-            { 'group_ne': 'aether_5' },
-            { 'group_ne': 'aether_iz' },
-            { 'group_ne': 'aether_78' }
-          ]
-        ]
-      }
-    })
-    this.metatheme_sections = await this.$store.dispatch('fetchMetathemeSections', {query})
-  },
-  watch: {
-  '$store.state.metathemes.grouped': function () {
-    this.grouped = this.$store.state.metathemes.grouped
-   }
+    this.metatheme_sections = await this.$store.dispatch('fetchMetathemeSections')
   },
   methods: {
     handleChangeDate(newDate) {
-      this.$store.commit('setDate', newDate)
-      this.$store.commit('metathemesUpdated')
-      this.$store.commit('setFilter', 'all')
-    },
-    handleChangeFilter(newFilter) {
-      this.$store.commit('setFilter', newFilter)
+      this.$store.commit('setDateUrgentDepartures', newDate)
+      this.$store.commit('urgentDeparturesUpdated')
     },
     handleChangeMetatheme(id) {
       this.metatheme_sections.forEach((item) => {
@@ -185,22 +147,17 @@ export default {
     hideCreateUrgentDeparture() {
       this.createUrgentDepartureVisible = false
     },
-    addNewMetateheme() {
-      this.curSection = null
-      this.createFormVisible = false
-      this.$store.commit('metathemesUpdated')
-    },
     addNewUrgentDeparture() {
       this.createUrgentDepartureVisible = false
+      this.$store.commit('urgentDeparturesUpdated')
     },
     range(newRange) {
-      this.$store.commit('setRange', newRange)
-      this.$store.commit('metathemesUpdated')
-      this.$store.commit('setFilter', 'all')
+      this.$store.commit('setRangeUrgentDepartures', newRange)
+      this.$store.commit('urgentDeparturesUpdated')
     }
   },
   beforeDestroy() {
-    this.$store.commit('setDate', this.moment(new Date()).format())
+    this.$store.commit('setDateUrgentDepartures', this.moment(new Date()).format())
     let query = Object.assign({}, this.$route.query)
     delete query.date
     delete query.date_finish
@@ -226,10 +183,6 @@ export default {
       cursor: pointer;
       background: #ecf5ff;
     }
-  }
-  &__filter {
-    width: 200px;
-    margin-right: 10px;
   }
   &__addtheme {
     width: 145px;

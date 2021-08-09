@@ -106,7 +106,7 @@
 <script>
 import qs from 'qs'
 import CreateMetatheme from '@/components/planning/CreateMetatheme'
-import CreateUrgentDeparture from '@/components/planning/CreateUrgentDeparture'
+import CreateUrgentDeparture from '@/components/urgentdepartures/CreateUrgentDeparture'
 import ShowEmployees from '@/components/planning/ShowEmployees'
 
 export default {

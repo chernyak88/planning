@@ -1,8 +1,8 @@
 {
   "kind": "collectionType",
-  "collectionName": "shootings",
+  "collectionName": "urgent_departures",
   "info": {
-    "name": "shooting",
+    "name": "urgentDepartures",
     "description": ""
   },
   "options": {
@@ -22,7 +22,7 @@
         "reserve",
         "urgently"
       ],
-      "default": "ordinary"
+      "default": "urgently"
     },
     "date_departure": {
       "type": "datetime"
@@ -42,12 +42,6 @@
     "address": {
       "type": "text"
     },
-    "metatheme_aether_plans": {
-      "collection": "metatheme-aether-plan"
-    },
-    "metatheme_inclusions": {
-      "collection": "metatheme-inclusion"
-    },
     "comment": {
       "type": "richtext"
     },
@@ -57,19 +51,17 @@
     "comment_car": {
       "type": "text"
     },
-    "metatheme": {
-      "via": "shootings",
-      "model": "metatheme"
-    },
     "comment_aether_plans": {
       "type": "richtext"
     },
     "comment_inclusions": {
       "type": "richtext"
     },
-    "auto_create": {
-      "type": "boolean",
-      "default": false
+    "metatheme_aether_plans": {
+      "collection": "metatheme-aether-plan"
+    },
+    "metatheme_inclusions": {
+      "collection": "metatheme-inclusion"
     }
   }
 }

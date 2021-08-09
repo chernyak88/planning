@@ -23,6 +23,14 @@ export default {
         throw e
       }
     },
+    async fetchMetathemeById({commit, dispatch}, id) {
+      try {
+        const response = await axios.get(`${this.state.url}/metathemes/${id}`)
+        return response.data
+      } catch (e) {
+        throw e
+      }
+    },
     async fetchMetathemeSections({commit, dispatch}, {query = '', params = {_sort: `id:asc`}} = {}) {
       try {
         const response = await axios({

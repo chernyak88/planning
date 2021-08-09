@@ -37,7 +37,8 @@ export default {
             comment_inclusions: obj.comment_inclusions,
             comment: obj.comment,
             comment_tech: obj.comment_tech,
-            comment_car: obj.comment_car
+            comment_car: obj.comment_car,
+            auto_create: obj.auto_create
           }
         )
       } catch (e) {

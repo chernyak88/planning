@@ -232,6 +232,7 @@ export default {
   data() {
     return {
       loading: true,
+      theme: null,
       metatheme_inclusions: [],
       metatheme_aethers: [],
       metatheme_aether_plans: [],
@@ -295,39 +296,40 @@ export default {
   watch: {
     editingTheme: {
       immediate: true,
-      handler: function () {
+      handler: async function () {
         if (!this.editingTheme) {
           return
         }
+        this.theme = await this.$store.dispatch('fetchMetathemeById', this.editingTheme.id)
         let metatheme_inclusions = []
         let metatheme_aethers = []
         let metatheme_aether_plans = []
-        for(let i = 0; i < this.editingTheme.metatheme_inclusions.length; i++) {
-          metatheme_inclusions.push(this.editingTheme.metatheme_inclusions[i].id)
+        for(let i = 0; i < this.theme.metatheme_inclusions.length; i++) {
+          metatheme_inclusions.push(this.theme.metatheme_inclusions[i].id)
         }
-        for(let i = 0; i < this.editingTheme.metatheme_aethers.length; i++) {
-          metatheme_aethers.push(this.editingTheme.metatheme_aethers[i].id)
+        for(let i = 0; i < this.theme.metatheme_aethers.length; i++) {
+          metatheme_aethers.push(this.theme.metatheme_aethers[i].id)
         }
-        for(let i = 0; i < this.editingTheme.metatheme_aether_plans.length; i++) {
-          metatheme_aether_plans.push(this.editingTheme.metatheme_aether_plans[i].id)
+        for(let i = 0; i < this.theme.metatheme_aether_plans.length; i++) {
+          metatheme_aether_plans.push(this.theme.metatheme_aether_plans[i].id)
         }
-        this.form.id = this.editingTheme.id
-        this.form.name = this.editingTheme.name
-        this.form.metatheme_section = this.editingTheme.metatheme_section.id
-        this.form.date_start = this.editingTheme.date_start
-        this.form.date_end = this.editingTheme.date_end
-        this.form.short_description = this.editingTheme.short_description
-        this.form.description = this.editingTheme.description
-        this.form.address = this.editingTheme.address
+        this.form.id = this.theme.id
+        this.form.name = this.theme.name
+        this.form.metatheme_section = this.theme.metatheme_section.id
+        this.form.date_start = this.theme.date_start
+        this.form.date_end = this.theme.date_end
+        this.form.short_description = this.theme.short_description
+        this.form.description = this.theme.description
+        this.form.address = this.theme.address
         this.form.metatheme_inclusions = metatheme_inclusions
-        this.form.comment_inclusions = this.editingTheme.comment_inclusions
+        this.form.comment_inclusions = this.theme.comment_inclusions
         this.form.metatheme_aethers = metatheme_aethers
         this.form.metatheme_aether_plans = metatheme_aether_plans
-        this.form.comment_aether_plans = this.editingTheme.comment_aether_plans
-        this.form.status_coord = this.editingTheme.status_coord
-        this.form.comment_coord = this.editingTheme.comment_coord
-        this.form.country = this.editingTheme.country
-        this.changeLayout(this.editingTheme.metatheme_section.group)
+        this.form.comment_aether_plans = this.theme.comment_aether_plans
+        this.form.status_coord = this.theme.status_coord
+        this.form.comment_coord = this.theme.comment_coord
+        this.form.country = this.theme.country
+        this.changeLayout(this.theme.metatheme_section.group)
       }
     }
   },
@@ -386,6 +388,15 @@ export default {
         } else {
           try {
             this.loading = true
+            for(let i = 0; i < this.theme.shootings.length; i++) {
+              if (this.theme.shootings[i].auto_create && this.theme.shootings[i].name === this.theme.name) {
+                let shootingData = {
+                  id: this.theme.shootings[i].id,
+                  name: this.form.name
+                }
+                await this.$store.dispatch('editShooting', shootingData)
+              }
+            }
             let formData = {
               id: this.form.id,
               name: this.form.name,
@@ -420,8 +431,8 @@ export default {
     async deleteMetatheme() {
       try {
         this.loading = true
-        for(let i = 0; i < this.editingTheme.shootings.length; i++) {
-          await this.$store.dispatch('deleteShooting', this.editingTheme.shootings[i].id)
+        for(let i = 0; i < this.theme.shootings.length; i++) {
+          await this.$store.dispatch('deleteShooting', this.theme.shootings[i].id)
         }
         await this.$store.dispatch('deleteMetatheme', this.form.id)
         .then(() => {

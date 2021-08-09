@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/urgent-departures",
+      "handler": "urgent-departures.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/urgent-departures/count",
+      "handler": "urgent-departures.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/urgent-departures/:id",
+      "handler": "urgent-departures.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/urgent-departures",
+      "handler": "urgent-departures.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/urgent-departures/:id",
+      "handler": "urgent-departures.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/urgent-departures/:id",
+      "handler": "urgent-departures.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

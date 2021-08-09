@@ -177,21 +177,47 @@ export default {
   },
   methods: {
     handleSubmit(form) {
-      this.$emit('hideCreateUrgentDeparture')
+      this.$refs[form].validate( async (valid) => {
+        if (!valid) {
+          return false
+        } else {
+          try {
+            this.loading = true
+            let formData = {
+              name: this.form.name,
+              date_start: this.moment(this.form.date_start).format(),
+              date_return: this.moment(this.form.date_start).add(4, 'hours').format(),
+              address: this.form.address,
+              metatheme_aether_plans: this.form.metatheme_aether_plans,
+              comment_aether_plans: this.form.comment_aether_plans,
+              metatheme_inclusions: this.form.metatheme_inclusions,
+              comment_inclusions: this.form.comment_inclusions,
+              comment: this.form.comment
+            }
+            await this.$store.dispatch('createUrgentDeparture', formData)
+            .then(async () => {
+              this.$emit('created')
+              this.loading = false
+              this.$message.success('Срочный выезд добавлен')
+            })
+          } catch (e) {
+            this.$message.error('Недостаточно прав для выполнения данной операции')
+            console.log(e)
+          }
+        }
+      })
     }
   }
 }
 </script>
+
 <style lang="scss">
 .urgent-departure-create {
-
   & .form-row {
     display: flex;
-
     & .name, & .address {
       flex: 1;
     }
-
     &:nth-child(3) {
       & .el-form-item {
         width: 33%;
@@ -201,23 +227,18 @@ export default {
       }
     }
   }
-
   & textarea {
     resize: none;
   }
-
   & .comment textarea {
     height: 94px;
   }
-
   & .address textarea {
     height: 70px;
   }
-
   & .dialog-footer {
     display: block;
     text-align: right;
   }
-
 }
 </style>

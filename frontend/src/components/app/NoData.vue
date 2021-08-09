@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="text-align: center;">
     <div>
       <svg viewBox="0 0 79 86" width="150px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <defs>
